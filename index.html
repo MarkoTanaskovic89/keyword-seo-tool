@@ -337,7 +337,7 @@ footer strong{color:#374151;}
         <div class="price-name">Premium</div>
         <div class="price-amount">$5<span style="font-size:14px;font-weight:400;">/mo</span></div>
         <div class="price-features">Unlimited searches<br>Up to 10 keywords at once<br>Cancel anytime</div>
-        <button class="price-btn" onclick="alert('Stripe payment coming in next update! Sign up free for now.')" style="background:#7c3aed;color:#fff;">Get Premium →</button>
+        <button class="price-btn" id="premium-btn" onclick="startCheckout()" style="background:#7c3aed;color:#fff;">Get Premium — $5/mo →</button>
       </div>
       <div class="price-card green">
         <div class="price-name">Pro</div>
@@ -651,6 +651,28 @@ async function doLogin(){
 }
 
 document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+async function startCheckout(){
+  const btn=document.getElementById('premium-btn');
+  if(btn){btn.textContent='Loading...';btn.disabled=true;}
+  try{
+    const email=currentUser?currentUser.email:'';
+    const res=await fetch('/api/stripe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'create_checkout',email})});
+    const data=await res.json();
+    if(data.url) window.location.href=data.url;
+    else alert('Error: '+data.error);
+  }catch(e){alert('Something went wrong. Please try again.');}
+  if(btn){btn.textContent='Get Premium — $5/mo →';btn.disabled=false;}
+}
+
+if(window.location.search.includes('upgraded=true')){
+  if(currentUser){
+    currentUser.plan='premium';
+    localStorage.setItem('kp_user',JSON.stringify(currentUser));
+  }
+  alert('Welcome to Premium! You now have unlimited searches.');
+  window.history.replaceState({},'','/');
+}
 
 const saved=localStorage.getItem('kp_user');
 if(saved){try{const u=JSON.parse(saved);currentUser=u;document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';}catch(e){localStorage.removeItem('kp_user');}}
