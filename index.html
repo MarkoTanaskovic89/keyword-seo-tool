@@ -356,12 +356,13 @@ function renderTable(){
 function sortResults(){const s=document.getElementById('sort-sel').value;if(s==='vol')allResults.sort((a,b)=>b.volume-a.volume);if(s==='cpc')allResults.sort((a,b)=>b.cpc-a.cpc);if(s==='comp')allResults.sort((a,b)=>['LOW','MEDIUM','HIGH'].indexOf(b.competition)-['LOW','MEDIUM','HIGH'].indexOf(a.competition));renderTable();}
 
 function showStats(){
-  const main=allResults[0];
+  const main = allResults.find(r => r.keyword.toLowerCase() === currentKw.toLowerCase()) || allResults[0];
+  const similar = allResults.filter(r => r.keyword.toLowerCase() !== currentKw.toLowerCase());
   const card=document.getElementById('hero-kw-card');
   card.style.display='block';
   const compColor=main.competition==='LOW'?'#15803d':main.competition==='MEDIUM'?'#b45309':'#dc2626';
   const trendColor=main.trend==='rising'?'#15803d':main.trend==='falling'?'#dc2626':'#b45309';
-  card.innerHTML='<div class="hero-kw-title">Main keyword</div><div class="hero-kw-keyword">'+main.keyword+'</div><div class="hero-kw-stats">'+
+  card.innerHTML='<div class="hero-kw-title">Your keyword</div><div class="hero-kw-keyword">'+main.keyword+'</div><div class="hero-kw-stats">'+
     [['Monthly searches',main.volume.toLocaleString(),''],
      ['CPC','$'+main.cpc.toFixed(2),''],
      ['Competition',main.competition,compColor],
@@ -369,6 +370,7 @@ function showStats(){
      ['AI Score',main.score,'color:'+aiColor(main.score)]
     ].map(([l,v,c])=>'<div class="hero-kw-stat"><div class="hero-kw-stat-label">'+l+'</div><div class="hero-kw-stat-value" style="color:'+(c||'#1a1a1a')+'">'+v+'</div></div>').join('')+'</div>';
 
+  allResults = similar;
   document.getElementById('stats-row').style.display='none';
 }
 
@@ -412,7 +414,7 @@ async function doSearch(){
   }catch(err){allResults=genKeywords(kw,country);}
   allResults.sort((a,b)=>b.volume-a.volume);
   document.getElementById('loading').style.display='none';
-  document.getElementById('result-count').textContent='Similar & related keywords ('+(allResults.length-1)+')';
+  document.getElementById('result-count').textContent='Similar & related keywords ('+allResults.length+')';
   showStats();
   document.getElementById('results-section').style.display='block';
   renderTable();
