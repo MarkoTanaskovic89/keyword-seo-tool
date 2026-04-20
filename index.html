@@ -6,7 +6,7 @@
 <title>KeywordPro — SEO Keyword Research Tool</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:18px;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:17px;}
 header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
 .logo{font-size:22px;font-weight:700;color:#1a1a1a;text-decoration:none;}
 .logo span{color:#2563eb;}
@@ -14,196 +14,141 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64p
 .btn-login{padding:8px 18px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
 .btn-signup{padding:8px 18px;font-size:14px;border:none;border-radius:6px;background:#2563eb;color:#fff;cursor:pointer;font-weight:600;}
 .user-email{font-size:14px;color:#6b7280;}
-.btn-logout{padding:7px 16px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
+.btn-logout{padding:7px 16px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;}
 
 .hero{background:#fff;border-bottom:1px solid #e5e7eb;padding:3rem 2rem;text-align:center;}
-.google-badge{display:inline-flex;align-items:center;gap:10px;background:#f0f4ff;border:2px solid #4285f4;border-radius:10px;padding:10px 22px;margin-bottom:1rem;}
-.google-badge-title{font-size:15px;font-weight:700;color:#1a73e8;}
-.google-badge-sub{font-size:12px;color:#5f6368;margin-top:2px;}
-.vs-badge{display:inline-flex;align-items:center;gap:8px;background:#fff8e1;border:1.5px solid #f59e0b;border-radius:8px;padding:8px 18px;margin-bottom:1.5rem;margin-left:10px;}
-.vs-badge-text{font-size:13px;font-weight:600;color:#92400e;}
-.hero h1{font-size:32px;font-weight:800;margin-bottom:10px;}
+.hero h1{font-size:34px;font-weight:800;margin-bottom:10px;}
 .hero p{font-size:17px;color:#4b5563;margin-bottom:1rem;}
 .hero-checks{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:1.5rem;}
 .hero-checks span{font-size:15px;color:#374151;}
 .hero-checks span b{color:#16a34a;}
-.search-bar{display:flex;gap:8px;max-width:820px;margin:0 auto;flex-wrap:wrap;justify-content:center;}
+
+.search-wrap{max-width:820px;margin:0 auto;}
+.search-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .search-bar input{flex:1;min-width:260px;height:48px;padding:0 18px;font-size:16px;border:2px solid #d1d5db;border-radius:8px;outline:none;}
 .search-bar input:focus{border-color:#2563eb;}
 .search-bar select{height:48px;padding:0 14px;font-size:15px;border:2px solid #d1d5db;border-radius:8px;background:#fff;outline:none;cursor:pointer;}
 .btn-search{height:48px;padding:0 28px;font-size:16px;font-weight:700;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;}
 .btn-search:hover{background:#1d4ed8;}
-.search-counter{text-align:center;margin-top:12px;font-size:14px;color:#6b7280;}
-.search-counter a{color:#2563eb;cursor:pointer;}
+#kw-tags{display:none;flex-wrap:wrap;gap:6px;padding:8px 0 0;}
+.kw-tag{background:#2563eb;color:#fff;border-radius:20px;padding:5px 12px;font-size:14px;display:flex;align-items:center;gap:6px;}
+.kw-tag span{cursor:pointer;font-size:18px;line-height:1;}
+.search-counter{text-align:center;margin-top:10px;font-size:14px;color:#6b7280;}
+.search-counter a{color:#2563eb;cursor:pointer;text-decoration:underline;}
 
 .tabs{display:flex;border-bottom:1px solid #e5e7eb;background:#fff;padding:0 2rem;}
 .tab{padding:14px 22px;font-size:15px;font-weight:500;color:#6b7280;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;}
 .tab.active{color:#2563eb;border-bottom-color:#2563eb;}
 
 .main{max-width:1100px;margin:2rem auto;padding:0 1.5rem;}
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:1.5rem;}
-.stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.1rem 1.25rem;}
-.stat-label{font-size:12px;color:#9ca3af;margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:5px;}
-.stat-value{font-size:26px;font-weight:700;color:#1a1a1a;}
+
+.hero-kw-card{display:none;margin-bottom:1.5rem;}
+.kw-card-inner{background:#fff;border:2px solid #2563eb;border-radius:14px;padding:1.5rem 2rem;}
+.kw-card-label{font-size:12px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+.kw-card-name{font-size:28px;font-weight:800;color:#1a1a1a;margin-bottom:1.25rem;}
+.kw-card-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;}
+.kw-stat{background:#f8f9fa;border-radius:8px;padding:12px 14px;}
+.kw-stat-label{font-size:12px;color:#9ca3af;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+.kw-stat-value{font-size:22px;font-weight:800;}
 
 .table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;margin-bottom:1.5rem;}
 .table-header{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid #e5e7eb;}
-.result-count{font-size:15px;color:#6b7280;}
+.result-label{font-size:16px;font-weight:700;color:#374151;}
 .table-actions{display:flex;gap:8px;}
 .table-actions select{height:36px;padding:0 12px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;}
 .btn-sm{height:36px;padding:0 16px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;}
 .btn-sm:hover{background:#f3f4f6;}
 table{width:100%;border-collapse:collapse;}
-th{text-align:left;padding:12px 16px;font-size:12px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
-th.right,td.right{text-align:right;}
-th.center,td.center{text-align:center;}
-td{padding:13px 16px;font-size:15px;color:#1a1a1a;border-bottom:1px solid #f3f4f6;}
+th{text-align:left;padding:11px 16px;font-size:12px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
+th.r,td.r{text-align:right;}
+th.c,td.c{text-align:center;}
+td{padding:12px 16px;font-size:15px;color:#1a1a1a;border-bottom:1px solid #f3f4f6;}
 tr:last-child td{border-bottom:none;}
-tr:hover td{background:#f9fafb;cursor:pointer;}
-.kw-text{font-weight:600;font-size:15px;}
-.badge{display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:4px;}
-.badge-low{background:#dcfce7;color:#166534;}
-.badge-med{background:#fef3c7;color:#92400e;}
-.badge-high{background:#fee2e2;color:#991b1b;}
-.th-wrap{display:inline-flex;align-items:center;gap:5px;}
-.tip{position:relative;display:inline-flex;align-items:center;cursor:help;}
-.tip-icon{width:16px;height:16px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;}
-.tip:hover .tip-box{display:block;}
-.tip-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:100;text-transform:none;letter-spacing:0;line-height:1.5;}
-.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
+tr:hover td{background:#f9fafb;}
+.kw-link{font-weight:600;color:#2563eb;cursor:pointer;}
+.kw-link:hover{text-decoration:underline;}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:4px;}
+.bl{background:#dcfce7;color:#166534;}
+.bm{background:#fef3c7;color:#92400e;}
+.bh{background:#fee2e2;color:#991b1b;}
 
 .trend-panel{display:none;}
 .trend-panel.active{display:block;}
 .keyword-panel{display:none;}
 .keyword-panel.active{display:block;}
-.chart-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.5rem;margin-bottom:1.25rem;}
-.chart-card h3{font-size:17px;font-weight:700;margin-bottom:5px;}
+
+.chart-card,.ai-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.5rem;margin-bottom:1.25rem;}
+.chart-card h3{font-size:17px;font-weight:700;margin-bottom:4px;}
 .chart-sub{font-size:14px;color:#6b7280;margin-bottom:1rem;}
 .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
-.leg-item{display:flex;align-items:center;gap:6px;font-size:14px;color:#6b7280;}
+.leg{display:flex;align-items:center;gap:6px;font-size:14px;color:#6b7280;}
 .leg-dot{width:12px;height:12px;border-radius:2px;}
-.ai-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.5rem;margin-bottom:1.25rem;}
 .ai-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;}
-.ai-badge{font-size:12px;font-weight:700;padding:5px 12px;border-radius:4px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+.ai-badge{font-size:12px;font-weight:700;padding:4px 10px;border-radius:4px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
 .ai-title{font-size:17px;font-weight:700;}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
-.rec-card{border-radius:8px;padding:16px;border:1px solid #e5e7eb;}
-.rec-card.top{border-color:#16a34a;background:#f0fdf4;}
-.rec-card.warn{border-color:#d97706;background:#fffbeb;}
-.rec-card.info{border-color:#2563eb;background:#eff6ff;}
-.rec-card.blog{border-color:#7c3aed;background:#f5f3ff;}
-.rec-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
-.rec-card.top .rec-label{color:#15803d;}
-.rec-card.warn .rec-label{color:#b45309;}
-.rec-card.info .rec-label{color:#1d4ed8;}
-.rec-card.blog .rec-label{color:#6d28d9;}
-.rec-kw{font-size:14px;font-weight:700;margin-bottom:6px;}
-.rec-card.top .rec-kw{color:#14532d;}
-.rec-card.warn .rec-kw{color:#78350f;}
-.rec-card.info .rec-kw{color:#1e3a8a;}
-.rec-card.blog .rec-kw{color:#4c1d95;}
-.rec-desc{font-size:13px;line-height:1.6;}
-.rec-card.top .rec-desc{color:#166534;}
-.rec-card.warn .rec-desc{color:#92400e;}
-.rec-card.info .rec-desc{color:#1d4ed8;}
-.rec-card.blog .rec-desc{color:#5b21b6;}
+.rec{border-radius:8px;padding:14px;border:1px solid #e5e7eb;}
+.rec.top{border-color:#16a34a;background:#f0fdf4;}
+.rec.warn{border-color:#d97706;background:#fffbeb;}
+.rec.info{border-color:#2563eb;background:#eff6ff;}
+.rec.blog{border-color:#7c3aed;background:#f5f3ff;}
+.rec-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.rec.top .rec-label{color:#15803d;}
+.rec.warn .rec-label{color:#b45309;}
+.rec.info .rec-label{color:#1d4ed8;}
+.rec.blog .rec-label{color:#6d28d9;}
+.rec-kw{font-size:13px;font-weight:700;margin-bottom:5px;}
+.rec.top .rec-kw{color:#14532d;}
+.rec.warn .rec-kw{color:#78350f;}
+.rec.info .rec-kw{color:#1e3a8a;}
+.rec.blog .rec-kw{color:#4c1d95;}
+.rec-desc{font-size:12px;line-height:1.6;}
+.rec.top .rec-desc{color:#166534;}
+.rec.warn .rec-desc{color:#92400e;}
+.rec.info .rec-desc{color:#1d4ed8;}
+.rec.blog .rec-desc{color:#5b21b6;}
 .score-row{display:flex;align-items:center;gap:8px;margin-top:10px;}
-.score-bar-bg{flex:1;height:5px;background:rgba(0,0,0,.1);border-radius:2px;}
-.score-bar{height:5px;border-radius:2px;}
-.score-val{font-size:12px;font-weight:700;}
-.rec-card.top .score-val{color:#15803d;}
-.rec-card.warn .score-val{color:#b45309;}
-.rec-card.info .score-val{color:#1d4ed8;}
-.rec-card.blog .score-val{color:#6d28d9;}
+.score-bg{flex:1;height:4px;background:rgba(0,0,0,.1);border-radius:2px;}
+.score-fill{height:4px;border-radius:2px;}
+.score-num{font-size:11px;font-weight:700;}
+
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:1.5rem;}
+.stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem 1.25rem;}
+.stat-label{font-size:11px;color:#9ca3af;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;}
+.stat-value{font-size:24px;font-weight:700;}
+
 .kw-detail-header{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem;}
 .back-btn{padding:8px 16px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;}
 .detail-kw{font-size:22px;font-weight:800;}
-.hero-kw-card{background:#fff;border:2px solid #2563eb;border-radius:14px;padding:1.5rem 2rem;margin-bottom:1.5rem;display:none;}
-.hero-kw-title{font-size:14px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
-.hero-kw-keyword{font-size:28px;font-weight:800;color:#1a1a1a;margin-bottom:1.25rem;}
-.hero-kw-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;}
-.hero-kw-stat{background:#f8f9fa;border-radius:8px;padding:12px 14px;}
-.hero-kw-stat-label{font-size:12px;color:#9ca3af;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
-.hero-kw-stat-value{font-size:22px;font-weight:800;color:#1a1a1a;}
-.similar-label{font-size:16px;font-weight:700;color:#374151;margin-bottom:12px;padding-top:4px;}
+
 .empty-state{text-align:center;padding:5rem 2rem;}
-.bulk-section{background:#fff;border:1.5px solid #059669;border-radius:14px;padding:1.5rem 2rem;margin-bottom:1.5rem;}
-.bulk-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem;}
-.bulk-badge{background:#f0fdf4;color:#065f46;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #059669;}
-.bulk-title{font-size:18px;font-weight:700;color:#1a1a1a;}
-.bulk-desc{font-size:14px;color:#6b7280;margin-bottom:1.25rem;line-height:1.6;}
-.bulk-upload-area{border:2px dashed #d1d5db;border-radius:10px;padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s;background:#f9fafb;}
-.bulk-upload-area:hover{border-color:#059669;background:#f0fdf4;}
-.bulk-upload-area input{display:none;}
-.bulk-upload-icon{font-size:32px;margin-bottom:8px;}
-.bulk-upload-text{font-size:15px;font-weight:600;color:#374151;margin-bottom:4px;}
-.bulk-upload-sub{font-size:13px;color:#9ca3af;}
-.bulk-progress{display:none;margin-top:1rem;}
-.bulk-progress-bar{height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;margin-bottom:8px;}
-.bulk-progress-fill{height:100%;background:#059669;border-radius:3px;transition:width .3s;}
-.bulk-progress-text{font-size:13px;color:#6b7280;text-align:center;}
-.btn-download-excel{display:none;margin-top:1rem;width:100%;padding:12px;background:#059669;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;}
-.btn-download-excel:hover{background:#047857;}
-.bulk-locked{text-align:center;padding:1.5rem;}
-.bulk-locked-title{font-size:16px;font-weight:700;margin-bottom:6px;}
-.bulk-locked-desc{font-size:14px;color:#6b7280;margin-bottom:1rem;}
-.btn-upgrade-pro{padding:10px 24px;background:#059669;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
-.pricing-strip{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:1.5rem 0 0;}
-.pricing-card{background:#fff;border:1.5px solid #e5e7eb;border-radius:10px;padding:1rem 1.25rem;min-width:160px;text-align:center;}
-.pricing-card.featured{border-color:#2563eb;background:#eff6ff;}
-.pricing-card.premium{border-color:#7c3aed;background:#f5f3ff;}
-.pricing-card-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:4px;}
-.pricing-card.featured .pricing-card-name{color:#1d4ed8;}
-.pricing-card.premium .pricing-card-name{color:#6d28d9;}
-.pricing-card-price{font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:6px;}
-.pricing-card-features{font-size:12px;color:#6b7280;line-height:1.7;}
-.pricing-card.featured .pricing-card-features{color:#1d4ed8;}
-.pricing-card.premium .pricing-card-features{color:#5b21b6;}
 .empty-state h2{font-size:20px;font-weight:700;margin-bottom:10px;color:#374151;}
 .empty-state p{font-size:16px;color:#9ca3af;}
 .loading{text-align:center;padding:3rem;}
 .spinner{display:inline-block;width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-footer{text-align:center;padding:2rem;font-size:14px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:2rem;line-height:1.8;}
-@media(max-width:768px){
-  header{padding:0 1rem;}
-  .logo{font-size:18px;}
-  .btn-login{display:none;}
-  .hero{padding:1.5rem 1rem;}
-  .hero h1{font-size:22px;}
-  .hero p{font-size:14px;}
-  .hero-checks{gap:10px;}
-  .hero-checks span{font-size:13px;}
-  .search-bar{flex-direction:column;gap:6px;}
-  .search-bar>div{min-width:unset;width:100%;}
-  .search-bar select{width:100%;}
-  .btn-search{width:100%;}
-  .main{padding:0 0.75rem;margin:1rem auto;}
-  .stats-row{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .stat-value{font-size:20px;}
-  .table-wrap{border-radius:8px;overflow-x:auto;}
-  table{min-width:500px;}
-  th,td{padding:10px 10px;font-size:13px;}
-  .kw-text{font-size:13px;}
-  .table-header{flex-direction:column;gap:8px;align-items:flex-start;}
-  .table-actions{width:100%;justify-content:space-between;}
-  .tabs{padding:0 1rem;}
-  .tab{padding:10px 14px;font-size:14px;}
-  .hero-kw-card{padding:1rem;}
-  .hero-kw-keyword{font-size:22px;}
-  .hero-kw-stats{grid-template-columns:repeat(2,1fr);}
-  .hero-kw-stat-value{font-size:18px;}
-  .chart-card{padding:1rem;}
-  .rec-grid{grid-template-columns:1fr;}
-  .modal{padding:1.5rem;margin:0.5rem;}
-  .modal h2{font-size:18px;}
-  .kw-detail-header{flex-wrap:wrap;}
-  .detail-kw{font-size:18px;}
-  footer{padding:1.5rem 1rem;font-size:13px;}
-  .google-badge{padding:8px 14px;}
-  .google-badge-title{font-size:13px;}
-  .vs-badge{display:none;}
-}
+
+.pricing-section{max-width:1100px;margin:0 auto 2rem;padding:0 1.5rem;}
+.pricing-inner{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:2rem;}
+.pricing-title{font-size:20px;font-weight:800;margin-bottom:6px;}
+.pricing-sub{font-size:15px;color:#6b7280;margin-bottom:1.5rem;}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;}
+.price-card{border:1.5px solid #e5e7eb;border-radius:10px;padding:1.25rem;text-align:center;}
+.price-card.blue{border-color:#2563eb;background:#eff6ff;}
+.price-card.purple{border-color:#7c3aed;background:#f5f3ff;}
+.price-card.green{border-color:#059669;background:#f0fdf4;}
+.price-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:6px;}
+.price-card.blue .price-name{color:#1d4ed8;}
+.price-card.purple .price-name{color:#6d28d9;}
+.price-card.green .price-name{color:#065f46;}
+.price-amount{font-size:28px;font-weight:800;margin-bottom:4px;}
+.price-features{font-size:13px;color:#6b7280;line-height:1.8;margin-bottom:1rem;}
+.price-card.blue .price-features{color:#1d4ed8;}
+.price-card.purple .price-features{color:#5b21b6;}
+.price-card.green .price-features{color:#065f46;}
+.price-btn{width:100%;padding:9px;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;}
+
+footer{text-align:center;padding:2rem;font-size:14px;color:#9ca3af;border-top:1px solid #e5e7eb;line-height:1.8;}
 footer a{color:#2563eb;text-decoration:none;}
 footer strong{color:#374151;}
 
@@ -224,7 +169,22 @@ footer strong{color:#374151;}
 .gdpr-row a{color:#2563eb;}
 .modal-error{font-size:14px;color:#dc2626;text-align:center;margin-bottom:12px;padding:10px;background:#fef2f2;border-radius:6px;display:none;}
 .modal-close{position:absolute;top:16px;right:18px;font-size:26px;cursor:pointer;color:#9ca3af;background:none;border:none;line-height:1;padding:0;}
-.modal-close:hover{color:#374151;}
+
+@media(max-width:768px){
+  header{padding:0 1rem;}
+  .btn-login{display:none;}
+  .hero{padding:1.5rem 1rem;}
+  .hero h1{font-size:24px;}
+  .hero p{font-size:14px;}
+  .search-bar{flex-direction:column;}
+  .search-bar select,.btn-search{width:100%;}
+  .main,.pricing-section{padding:0 0.75rem;}
+  .table-wrap{overflow-x:auto;}
+  table{min-width:500px;}
+  .rec-grid{grid-template-columns:1fr;}
+  .modal{padding:1.5rem;margin:0.5rem;}
+  .vs-badge{display:none;}
+}
 </style>
 </head>
 <body>
@@ -239,15 +199,15 @@ footer strong{color:#374151;}
 
 <div class="hero">
   <div style="display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:1rem;">
-    <div class="google-badge">
+    <div style="display:inline-flex;align-items:center;gap:10px;background:#f0f4ff;border:2px solid #4285f4;border-radius:10px;padding:10px 22px;">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
       <div>
-        <div class="google-badge-title">Powered by Google Ads API</div>
-        <div class="google-badge-sub">Real data — not made up numbers</div>
+        <div style="font-size:15px;font-weight:700;color:#1a73e8;">Powered by Google Ads API</div>
+        <div style="font-size:12px;color:#5f6368;margin-top:2px;">Real data — not made up numbers</div>
       </div>
     </div>
-    <div class="vs-badge">
-      <div class="vs-badge-text">More accurate than Ahrefs & SEMrush ✓</div>
+    <div style="display:inline-flex;align-items:center;background:#fff8e1;border:1.5px solid #f59e0b;border-radius:8px;padding:8px 18px;">
+      <span style="font-size:13px;font-weight:600;color:#92400e;">More accurate than Ahrefs & SEMrush ✓</span>
     </div>
   </div>
   <h1>SEO Keyword Research Tool</h1>
@@ -259,70 +219,41 @@ footer strong{color:#374151;}
     <span><b>✓</b> 6-month AI forecast</span>
     <span><b>✓</b> 100% free to start</span>
   </div>
-
-  <div class="search-bar">
-    <div style="flex:1;min-width:260px;position:relative;">
-      <input type="text" id="kw-input" placeholder="Enter keywords separated by comma or Enter..." aria-label="Enter keywords to research" style="width:100%;height:48px;padding:0 18px;font-size:16px;border:2px solid #d1d5db;border-radius:8px;outline:none;box-sizing:border-box;" />
-      <div id="kw-tags" style="display:none;flex-wrap:wrap;gap:6px;padding:8px 12px;background:#f8f9fa;border:2px solid #2563eb;border-top:none;border-radius:0 0 8px 8px;"></div>
+  <div class="search-wrap">
+    <div class="search-bar">
+      <input type="text" id="kw-input" placeholder="Enter a keyword and press Enter to add more..." />
+      <select id="country-select">
+        <option value="worldwide">🌍 Worldwide</option>
+        <option value="US">🇺🇸 United States</option>
+        <option value="GB">🇬🇧 United Kingdom</option>
+        <option value="DE">🇩🇪 Germany</option>
+        <option value="FR">🇫🇷 France</option>
+        <option value="IT">🇮🇹 Italy</option>
+        <option value="ES">🇪🇸 Spain</option>
+        <option value="NL">🇳🇱 Netherlands</option>
+        <option value="PL">🇵🇱 Poland</option>
+        <option value="RS">🇷🇸 Serbia</option>
+        <option value="HR">🇭🇷 Croatia</option>
+        <option value="BA">🇧🇦 Bosnia</option>
+        <option value="SI">🇸🇮 Slovenia</option>
+        <option value="AU">🇦🇺 Australia</option>
+        <option value="CA">🇨🇦 Canada</option>
+        <option value="IN">🇮🇳 India</option>
+        <option value="BR">🇧🇷 Brazil</option>
+        <option value="MX">🇲🇽 Mexico</option>
+        <option value="TR">🇹🇷 Turkey</option>
+        <option value="AE">🇦🇪 UAE</option>
+        <option value="SA">🇸🇦 Saudi Arabia</option>
+        <option value="JP">🇯🇵 Japan</option>
+        <option value="CN">🇨🇳 China</option>
+        <option value="SG">🇸🇬 Singapore</option>
+        <option value="ZA">🇿🇦 South Africa</option>
+      </select>
+      <button class="btn-search" onclick="doSearch()">Search</button>
     </div>
-    <select id="country-select">
-      <option value="worldwide">🌍 Worldwide</option>
-      <option value="US">🇺🇸 United States</option>
-      <option value="GB">🇬🇧 United Kingdom</option>
-      <option value="DE">🇩🇪 Germany</option>
-      <option value="FR">🇫🇷 France</option>
-      <option value="IT">🇮🇹 Italy</option>
-      <option value="ES">🇪🇸 Spain</option>
-      <option value="NL">🇳🇱 Netherlands</option>
-      <option value="BE">🇧🇪 Belgium</option>
-      <option value="AT">🇦🇹 Austria</option>
-      <option value="CH">🇨🇭 Switzerland</option>
-      <option value="SE">🇸🇪 Sweden</option>
-      <option value="NO">🇳🇴 Norway</option>
-      <option value="DK">🇩🇰 Denmark</option>
-      <option value="FI">🇫🇮 Finland</option>
-      <option value="PL">🇵🇱 Poland</option>
-      <option value="CZ">🇨🇿 Czech Republic</option>
-      <option value="HU">🇭🇺 Hungary</option>
-      <option value="RO">🇷🇴 Romania</option>
-      <option value="GR">🇬🇷 Greece</option>
-      <option value="PT">🇵🇹 Portugal</option>
-      <option value="RS">🇷🇸 Serbia</option>
-      <option value="HR">🇭🇷 Croatia</option>
-      <option value="BA">🇧🇦 Bosnia</option>
-      <option value="SI">🇸🇮 Slovenia</option>
-      <option value="MK">🇲🇰 North Macedonia</option>
-      <option value="AU">🇦🇺 Australia</option>
-      <option value="NZ">🇳🇿 New Zealand</option>
-      <option value="CA">🇨🇦 Canada</option>
-      <option value="IN">🇮🇳 India</option>
-      <option value="BR">🇧🇷 Brazil</option>
-      <option value="MX">🇲🇽 Mexico</option>
-      <option value="AR">🇦🇷 Argentina</option>
-      <option value="ZA">🇿🇦 South Africa</option>
-      <option value="NG">🇳🇬 Nigeria</option>
-      <option value="EG">🇪🇬 Egypt</option>
-      <option value="TR">🇹🇷 Turkey</option>
-      <option value="IL">🇮🇱 Israel</option>
-      <option value="AE">🇦🇪 UAE</option>
-      <option value="SA">🇸🇦 Saudi Arabia</option>
-      <option value="RU">🇷🇺 Russia</option>
-      <option value="UA">🇺🇦 Ukraine</option>
-      <option value="JP">🇯🇵 Japan</option>
-      <option value="KR">🇰🇷 South Korea</option>
-      <option value="CN">🇨🇳 China</option>
-      <option value="SG">🇸🇬 Singapore</option>
-      <option value="MY">🇲🇾 Malaysia</option>
-      <option value="ID">🇮🇩 Indonesia</option>
-      <option value="TH">🇹🇭 Thailand</option>
-      <option value="VN">🇻🇳 Vietnam</option>
-      <option value="PH">🇵🇭 Philippines</option>
-      <option value="PK">🇵🇰 Pakistan</option>
-      <option value="BD">🇧🇩 Bangladesh</option>
-    </select>
-    <button class="btn-search" onclick="doSearch()" aria-label="Search for keywords">Search</button>
+    <div id="kw-tags"></div>
+    <div class="search-counter" id="search-counter"></div>
   </div>
-  <div class="search-counter" id="search-counter"></div>
 </div>
 
 <div id="tabs-bar" style="display:none;">
@@ -334,31 +265,30 @@ footer strong{color:#374151;}
 
 <div class="main">
   <div id="hero-kw-card" class="hero-kw-card"></div>
-  <div id="stats-row" class="stats-row" style="display:none;"></div>
   <div id="keyword-panel" class="keyword-panel active">
     <div id="loading" class="loading" style="display:none;"><div class="spinner"></div></div>
     <div id="results-section" style="display:none;">
       <div class="table-wrap">
         <div class="table-header">
-          <span class="similar-label" id="result-count"></span>
+          <span class="result-label" id="result-count"></span>
           <div class="table-actions">
             <select id="sort-sel" onchange="sortResults()">
-              <option value="vol">Sort: Search Volume</option>
+              <option value="vol">Sort: Volume</option>
               <option value="cpc">Sort: CPC</option>
               <option value="comp">Sort: Competition</option>
             </select>
             <button class="btn-sm" onclick="exportCSV()">Export CSV</button>
           </div>
         </div>
-        <table role="table" aria-label="Keyword research results" style="width:100%;">
+        <table>
           <thead>
             <tr>
               <th>Keyword</th>
-              <th class="right"><div class="th-wrap">Monthly Searches<div class="tip"><div class="tip-icon">?</div><div class="tip-box">How many times this keyword is searched per month on Google.<br>Higher = more potential traffic to your website.</div></div></div></th>
-              <th class="right"><div class="th-wrap">CPC<div class="tip"><div class="tip-icon">?</div><div class="tip-box">Cost Per Click — how much advertisers pay per click.<br>Higher CPC = keyword has commercial value = people buy things.</div></div></div></th>
-              <th class="center"><div class="th-wrap">Competition<div class="tip"><div class="tip-icon">?</div><div class="tip-box">How hard it is to rank for this keyword.<br>LOW = easy to rank. HIGH = very hard, big competitors.</div></div></div></th>
-              <th class="center"><div class="th-wrap">Trend<div class="tip"><div class="tip-icon">?</div><div class="tip-box">Is this keyword growing or shrinking?<br>Green line = growing. Red = declining. Blue = stable.</div></div></div></th>
-              <th class="center"><div class="th-wrap">AI Score<div class="tip"><div class="tip-icon">?</div><div class="tip-box">Our AI rates each keyword 0-99.<br>75+ = great opportunity. 50-74 = decent. Below 50 = skip it.</div></div></div></th>
+              <th class="r">Monthly Searches</th>
+              <th class="r">CPC</th>
+              <th class="c">Competition</th>
+              <th class="c">Trend</th>
+              <th class="c">AI Score</th>
             </tr>
           </thead>
           <tbody id="kw-tbody"></tbody>
@@ -367,7 +297,7 @@ footer strong{color:#374151;}
     </div>
     <div id="empty-state" class="empty-state">
       <h2>Enter a keyword to get started</h2>
-      <p>We'll show you real Google search data — search volume, CPC, competition and AI predictions</p>
+      <p>Press Enter to add multiple keywords, then click Search</p>
     </div>
   </div>
   <div id="trend-panel" class="trend-panel">
@@ -375,45 +305,43 @@ footer strong{color:#374151;}
   </div>
 </div>
 
-<div style="max-width:1100px;margin:2rem auto;padding:0 1.5rem;">
-
-  <div style="background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:2rem;margin-bottom:1.5rem;">
-    <div style="font-size:20px;font-weight:800;margin-bottom:6px;">Simple, honest pricing</div>
-    <div style="font-size:15px;color:#6b7280;margin-bottom:1.5rem;">Way cheaper than Ahrefs ($150/mo) or SEMrush ($130/mo). Cancel anytime.</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
-      <div style="border:1.5px solid #e5e7eb;border-radius:10px;padding:1.25rem;text-align:center;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:6px;">Guest</div>
-        <div style="font-size:28px;font-weight:800;margin-bottom:4px;">Free</div>
-        <div style="font-size:13px;color:#6b7280;margin-bottom:1rem;line-height:1.7;">3 searches to try<br>1 keyword at a time</div>
-        <button onclick="document.getElementById('kw-input').focus()" style="width:100%;padding:9px;background:#f3f4f6;color:#374151;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">Try now</button>
+<div class="pricing-section">
+  <div class="pricing-inner">
+    <div class="pricing-title">Simple, honest pricing</div>
+    <div class="pricing-sub">Way cheaper than Ahrefs ($150/mo) or SEMrush ($130/mo). Cancel anytime.</div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Guest</div>
+        <div class="price-amount">Free</div>
+        <div class="price-features">3 searches to try<br>1 keyword at a time</div>
+        <button class="price-btn" onclick="document.getElementById('kw-input').focus()" style="background:#f3f4f6;color:#374151;">Try now</button>
       </div>
-      <div style="border:2px solid #2563eb;border-radius:10px;padding:1.25rem;text-align:center;background:#eff6ff;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#1d4ed8;margin-bottom:6px;">Free Account</div>
-        <div style="font-size:28px;font-weight:800;margin-bottom:4px;">Free</div>
-        <div style="font-size:13px;color:#1d4ed8;margin-bottom:1rem;line-height:1.7;">50 searches/month<br>Up to 3 keywords at once<br>All free tools</div>
-        <button onclick="openModal('signup')" style="width:100%;padding:9px;background:#2563eb;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">Sign up free →</button>
+      <div class="price-card blue">
+        <div class="price-name">Free Account</div>
+        <div class="price-amount">Free</div>
+        <div class="price-features">50 searches/month<br>Up to 3 keywords at once<br>All free tools</div>
+        <button class="price-btn" onclick="openModal('signup')" style="background:#2563eb;color:#fff;">Sign up free →</button>
       </div>
-      <div style="border:2px solid #7c3aed;border-radius:10px;padding:1.25rem;text-align:center;background:#f5f3ff;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6d28d9;margin-bottom:6px;">Premium</div>
-        <div style="font-size:28px;font-weight:800;margin-bottom:4px;">$9.99<span style="font-size:14px;font-weight:400;">/mo</span></div>
-        <div style="font-size:13px;color:#5b21b6;margin-bottom:1rem;line-height:1.7;">Unlimited searches<br>Up to 10 keywords at once<br>All future tools</div>
-        <button onclick="alert('Premium plan launching soon! Sign up free to be notified.')" style="width:100%;padding:9px;background:#7c3aed;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">Coming soon</button>
+      <div class="price-card purple">
+        <div class="price-name">Premium</div>
+        <div class="price-amount">$9.99<span style="font-size:14px;font-weight:400;">/mo</span></div>
+        <div class="price-features">Unlimited searches<br>Up to 10 keywords at once<br>All future tools</div>
+        <button class="price-btn" onclick="alert('Coming soon! Sign up free to be notified.')" style="background:#7c3aed;color:#fff;">Coming soon</button>
       </div>
-      <div style="border:2px solid #059669;border-radius:10px;padding:1.25rem;text-align:center;background:#f0fdf4;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#065f46;margin-bottom:6px;">Pro</div>
-        <div style="font-size:28px;font-weight:800;margin-bottom:4px;">$39<span style="font-size:14px;font-weight:400;">/mo</span></div>
-        <div style="font-size:13px;color:#065f46;margin-bottom:1rem;line-height:1.7;">Unlimited searches<br>Bulk Excel upload (300 kw)<br>Download enriched Excel</div>
-        <button onclick="alert('Pro plan launching soon! Sign up free to be notified.')" style="width:100%;padding:9px;background:#059669;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">Coming soon</button>
+      <div class="price-card green">
+        <div class="price-name">Pro</div>
+        <div class="price-amount">$39<span style="font-size:14px;font-weight:400;">/mo</span></div>
+        <div class="price-features">Unlimited searches<br>Bulk Excel upload (300 kw)<br>Download enriched Excel</div>
+        <button class="price-btn" onclick="alert('Coming soon! Sign up free to be notified.')" style="background:#059669;color:#fff;">Coming soon</button>
       </div>
     </div>
   </div>
-
 </div>
 
 <footer>
   <strong>KeywordPro</strong> &copy; 2026 &mdash; Real data powered by <strong>Google Ads API</strong> &mdash; AI predictions are estimates<br>
   Developed by <a href="https://markotanaskovic.com" target="_blank">markotanaskovic.com</a> &mdash;
-  By signing up you agree to our <a href="https://www.markotanaskovic.com/blog/privacy-policy" target="_blank">Privacy Policy</a> and consent to receiving product updates by email.
+  <a href="https://www.markotanaskovic.com/blog/privacy-policy" target="_blank">Privacy Policy</a>
 </footer>
 
 <div class="modal-overlay" id="modal-overlay">
@@ -421,13 +349,13 @@ footer strong{color:#374151;}
     <button class="modal-close" onclick="closeModal()">&#215;</button>
     <div id="modal-signup">
       <h2>Create free account</h2>
-      <p class="modal-sub">Get 50 free searches per month — no credit card needed</p>
+      <p class="modal-sub">50 free searches per month — no credit card needed</p>
       <div class="modal-error" id="signup-error"></div>
       <input type="email" id="signup-email" placeholder="Your email address" />
       <input type="password" id="signup-password" placeholder="Password (min 6 characters)" />
       <div class="gdpr-row">
         <input type="checkbox" id="gdpr-check" />
-        <label for="gdpr-check">I agree to the <a href="https://www.markotanaskovic.com/blog/privacy-policy" target="_blank">Privacy Policy</a> and <a href="#">Terms of Service</a>. I consent to receiving product updates and tips by email. I can unsubscribe anytime.</label>
+        <label for="gdpr-check">I agree to the <a href="https://www.markotanaskovic.com/blog/privacy-policy" target="_blank">Privacy Policy</a>. I consent to receiving product updates by email. I can unsubscribe anytime.</label>
       </div>
       <button class="modal-btn" id="signup-btn" onclick="doSignup()">Create free account</button>
       <div class="modal-switch">Already have an account? <a onclick="switchModal('login')">Log in</a></div>
@@ -445,206 +373,47 @@ footer strong{color:#374151;}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-const MONTHS_HIST=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const ALL_MONTHS=[...MONTHS_HIST,'Jan+','Feb+','Mar+','Apr+','May+','Jun+'];
-const countryMult={worldwide:2.5,US:1,GB:0.62,DE:0.52,FR:0.48,IT:0.4,ES:0.42,NL:0.28,BE:0.22,AT:0.18,CH:0.2,SE:0.25,NO:0.2,DK:0.2,FI:0.18,PL:0.35,CZ:0.2,HU:0.18,RO:0.2,GR:0.18,PT:0.2,RS:0.12,HR:0.1,BA:0.08,SI:0.08,MK:0.06,AU:0.55,NZ:0.2,CA:0.6,IN:0.9,BR:0.7,MX:0.45,AR:0.3,ZA:0.25,NG:0.18,EG:0.22,TR:0.35,IL:0.22,AE:0.28,SA:0.3,RU:0.55,UA:0.3,JP:0.6,KR:0.45,CN:1.1,SG:0.22,MY:0.25,ID:0.5,TH:0.35,VN:0.3,PH:0.3,PK:0.35,BD:0.28};
-let allResults=[],chartInst=null,currentKw='',currentUser=null;
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const ALL_MONTHS=[...MONTHS,'Jan+','Feb+','Mar+','Apr+','May+','Jun+'];
+const cMult={worldwide:2.5,US:1,GB:0.62,DE:0.52,FR:0.48,IT:0.4,ES:0.42,NL:0.28,PL:0.35,RS:0.12,HR:0.1,BA:0.08,SI:0.08,AU:0.55,CA:0.6,IN:0.9,BR:0.7,MX:0.45,TR:0.35,AE:0.28,SA:0.3,JP:0.6,CN:1.1,SG:0.22,ZA:0.25};
+const ADMIN=['markotanaskovic89@gmail.com','markotanaskovic55@gmail.com'];
+let allResults=[],chartInst=null,currentKw='',currentUser=null,kwTags=[];
 
-function sr(seed){let s=seed;return()=>{s=(s*1664525+1013904223)&0xffffffff;return(s>>>0)/0xffffffff;};}
-function genHist(base,trend,r){let v=base;return Array.from({length:12},(_,i)=>{const noise=(r()-0.5)*base*0.12;if(trend==='rising')v=base*(0.75+i*0.025)+noise;else if(trend==='falling')v=base*(1.15-i*0.02)+noise;else v=base+noise;return Math.max(50,Math.round(v));});}
-function genForecast(hist,trend){const last=hist[hist.length-1];const r=sr(last);return Array.from({length:6},(_,i)=>{const noise=(r()-0.5)*last*0.07;if(trend==='rising')return Math.round(last*(1+0.04*(i+1))+noise);if(trend==='falling')return Math.round(last*(1-0.025*(i+1))+noise);return Math.round(last+noise);});}
-function genKeywords(kw,country){const mult=countryMult[country]||1;const kwLower=kw.toLowerCase();const suffixes=['tool','free','software','online','checker','2025','for beginners','tutorial','guide','vs','analyzer','tips','strategy','course','plugin','api','pricing','review','alternative','example','template','report','dashboard','audit'];const seeds=suffixes.filter(s=>!kwLower.endsWith(s)).map(s=>kw+' '+s).concat(['best '+kw,'top '+kw,'free '+kw,'how to use '+kw,'how to '+kw]);const comps=['LOW','MEDIUM','HIGH'];const trends=['rising','stable','falling'];const similar=seeds.map((k,i)=>{const r=sr(i*7+kw.length+k.length);const baseVol=Math.floor((r()*9000+300)*mult);const trend=trends[Math.floor(r()*3)];return{keyword:k,volume:baseVol,cpc:+(r()*9+0.15).toFixed(2),competition:comps[Math.floor(r()*3)],trend,hist:genHist(baseVol,trend,r),score:Math.round(50+r()*49)};});const r0=sr(kw.length*13);const mainVol=Math.floor((r0()*50000+5000)*mult);const mainTrend=trends[Math.floor(r0()*3)];const mainKw={keyword:kw,volume:mainVol,cpc:+(r0()*9+0.15).toFixed(2),competition:comps[Math.floor(r0()*3)],trend:mainTrend,hist:genHist(mainVol,mainTrend,r0),score:Math.round(50+r0()*49)};return[mainKw,...similar];}
-function compBadge(c){if(c==='LOW')return '<span class="badge badge-low">LOW</span>';if(c==='MEDIUM')return '<span class="badge badge-med">MEDIUM</span>';return '<span class="badge badge-high">HIGH</span>';}
-function sparkline(hist,trend){const max=Math.max(...hist),min=Math.min(...hist);const w=64,h=24;const pts=hist.map((v,i)=>{const x=(i/(hist.length-1))*w;const y=h-((v-min)/(max-min||1))*(h-4)-2;return x+','+y;}).join(' ');const col=trend==='rising'?'#16a34a':trend==='falling'?'#dc2626':'#2563eb';return '<svg width="'+w+'" height="'+h+'" style="display:block;margin:0 auto;"><polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.5" stroke-linejoin="round"/></svg>';}
-function aiColor(s){return s>=75?'#15803d':s>=50?'#b45309':'#dc2626';}
-
-function swapMainKeyword(i){
-  const clicked=allResults[i];
-  currentKw=clicked.keyword;
-  document.getElementById('kw-input').value=clicked.keyword;
-  allResults=genKeywords(clicked.keyword,document.getElementById('country-select').value).filter(r=>r.keyword!==clicked.keyword);
-  allResults.sort((a,b)=>b.volume-a.volume);
-  showStats();renderTable();
-  document.getElementById('result-count').textContent='Similar & related keywords ('+allResults.length+')';
-}
-function renderTable(){
-  document.getElementById('kw-tbody').innerHTML=allResults.map((r,i)=>'<tr><td class="kw-text" style="cursor:pointer;color:#2563eb;" onclick="swapMainKeyword('+i+')" title="Click to make this your main keyword">'+r.keyword+'</td><td class="right">'+r.volume.toLocaleString()+'</td><td class="right">$'+r.cpc.toFixed(2)+'</td><td class="center">'+compBadge(r.competition)+'</td><td class="center">'+sparkline(r.hist,r.trend)+'</td><td class="center"><span style="font-weight:700;color:'+aiColor(r.score)+';">'+r.score+'</span></td></tr>').join('');
+function sr(s){return()=>{s=(s*1664525+1013904223)&0xffffffff;return(s>>>0)/0xffffffff;};}
+function gH(base,trend,r){let v=base;return Array.from({length:12},(_,i)=>{const n=(r()-0.5)*base*0.12;if(trend==='rising')v=base*(0.75+i*0.025)+n;else if(trend==='falling')v=base*(1.15-i*0.02)+n;else v=base+n;return Math.max(50,Math.round(v));});}
+function gF(hist,trend){const last=hist[11];const r=sr(last);return Array.from({length:6},(_,i)=>{const n=(r()-0.5)*last*0.07;if(trend==='rising')return Math.round(last*(1+0.04*(i+1))+n);if(trend==='falling')return Math.round(last*(1-0.025*(i+1))+n);return Math.round(last+n);});}
+function genKws(kw,country){
+  const m=cMult[country]||1,kl=kw.toLowerCase();
+  const sfx=['tool','free','software','online','checker','2025','tutorial','guide','vs','tips','strategy','course','pricing','review','alternative','template','report','dashboard'];
+  const seeds=sfx.filter(s=>!kl.endsWith(s)).map(s=>kw+' '+s).concat(['best '+kw,'top '+kw,'free '+kw,'how to '+kw]);
+  const C=['LOW','MEDIUM','HIGH'],T=['rising','stable','falling'];
+  const sim=seeds.map((k,i)=>{const r=sr(i*7+kw.length+k.length);const v=Math.floor((r()*9000+300)*m);const t=T[Math.floor(r()*3)];return{keyword:k,volume:v,cpc:+(r()*9+0.15).toFixed(2),competition:C[Math.floor(r()*3)],trend:t,hist:gH(v,t,r),score:Math.round(50+r()*49)};});
+  const r0=sr(kw.length*13);const mv=Math.floor((r0()*50000+5000)*m);const mt=T[Math.floor(r0()*3)];
+  return[{keyword:kw,volume:mv,cpc:+(r0()*9+0.15).toFixed(2),competition:C[Math.floor(r0()*3)],trend:mt,hist:gH(mv,mt,r0),score:Math.round(50+r0()*49)},...sim];
 }
 
-function sortResults(){const s=document.getElementById('sort-sel').value;if(s==='vol')allResults.sort((a,b)=>b.volume-a.volume);if(s==='cpc')allResults.sort((a,b)=>b.cpc-a.cpc);if(s==='comp')allResults.sort((a,b)=>['LOW','MEDIUM','HIGH'].indexOf(b.competition)-['LOW','MEDIUM','HIGH'].indexOf(a.competition));renderTable();}
+function isAdmin(){return currentUser&&ADMIN.includes(currentUser.email.toLowerCase());}
+function isPremium(){return currentUser&&(currentUser.plan==='premium'||currentUser.plan==='pro');}
+function kwLimit(){if(isAdmin()||isPremium())return 10;if(currentUser)return 3;return 1;}
 
-function tipHtml(t){return '<span style="position:relative;display:inline-flex;align-items:center;cursor:help;" onmouseenter="this.querySelector(\'.htip\').style.display=\'block\'" onmouseleave="this.querySelector(\'.htip\').style.display=\'none\'"><span style="width:15px;height:15px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;">?</span><span class="htip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:999;line-height:1.5;text-transform:none;">'+t+'</span></span>';}
-const TIPS={'Monthly searches':'How many times this keyword is searched on Google per month. Higher = more potential visitors to your site.','CPC':'Cost Per Click — how much advertisers pay per click on Google Ads. Higher CPC means commercial value.','Competition':'How hard it is to rank. LOW = easy. MEDIUM = moderate. HIGH = very hard, big competitors.','Trend':'Is this keyword growing or shrinking? Rising = more searches. Stable = consistent. Falling = declining.','AI Score':'Our AI rates this keyword 0-99. 75+ = great opportunity. 50-74 = decent. Below 50 = skip it.'};
+function getMS(){const k='kps_'+new Date().getFullYear()+'_'+new Date().getMonth();return parseInt(localStorage.getItem(k)||'0');}
+function incMS(){const k='kps_'+new Date().getFullYear()+'_'+new Date().getMonth();localStorage.setItem(k,getMS()+1);}
 
-function makeKwCard(kw){
-  const compColor=kw.competition==='LOW'?'#15803d':kw.competition==='MEDIUM'?'#b45309':'#dc2626';
-  const trendColor=kw.trend==='rising'?'#15803d':kw.trend==='falling'?'#dc2626':'#b45309';
-  return '<div style="flex:1;min-width:280px;background:#fff;border:2px solid #2563eb;border-radius:12px;padding:1.25rem 1.5rem;">'+
-    '<div class="hero-kw-title">Your keyword</div>'+
-    '<div class="hero-kw-keyword">'+kw.keyword+'</div>'+
-    '<div class="hero-kw-stats">'+
-    [['Monthly searches',kw.volume.toLocaleString(),''],['CPC','$'+kw.cpc.toFixed(2),''],['Competition',kw.competition,compColor],['Trend',kw.trend.charAt(0).toUpperCase()+kw.trend.slice(1),trendColor],['AI Score',kw.score,'color:'+aiColor(kw.score)]].map(([l,v,c])=>'<div class="hero-kw-stat"><div class="hero-kw-stat-label">'+l+tipHtml(TIPS[l])+'</div><div class="hero-kw-stat-value" style="color:'+(c||'#1a1a1a')+'">'+v+'</div></div>').join('')+
-    '</div></div>';
+function updateCounter(){
+  const el=document.getElementById('search-counter');if(!el)return;
+  if(isAdmin()||isPremium()){el.innerHTML='<span style="color:#15803d;font-weight:600;">'+(isAdmin()?'Admin':'Premium')+' — unlimited searches</span>';return;}
+  const s=getMS(),lim=currentUser?50:3,rem=Math.max(0,lim-s);
+  if(rem<=0){el.innerHTML=currentUser?'<span style="color:#dc2626;font-weight:600;">Monthly limit reached — <a href="#" onclick="alert(\'Upgrade to Premium for unlimited searches!\')">Upgrade</a></span>':'<span style="color:#dc2626;font-weight:600;">No free searches left — <a onclick="openModal(\'signup\')">Sign up free — 50/month</a></span>';}
+  else{el.innerHTML='<span>'+rem+' of '+lim+' '+(currentUser?'monthly':'free')+' searches remaining'+(currentUser?'':' — <a onclick="openModal(\'signup\')">Sign up for more</a>')+'</span>';}
 }
 
-function showStats(){
-  const searchedKws = kwTags.length>0?kwTags:[currentKw];
-  const mainKws = searchedKws.map(kw=>allResults.find(r=>r.keyword.toLowerCase()===kw.toLowerCase())).filter(Boolean);
-  const card=document.getElementById('hero-kw-card');
-  card.style.display='block';
-  if(mainKws.length===0){card.style.display='none';}
-  else if(mainKws.length===1){
-    card.innerHTML=makeKwCard(mainKws[0]).replace('<div style="flex:1;min-width:280px;background:#fff;border:2px solid #2563eb;border-radius:12px;padding:1.25rem 1.5rem;">','<div>');
-  } else {
-    card.innerHTML='<div style="display:flex;gap:12px;flex-wrap:wrap;">'+mainKws.map(k=>makeKwCard(k)).join('')+'</div>';
-  }
-  allResults=allResults.filter(r=>!searchedKws.map(k=>k.toLowerCase()).includes(r.keyword.toLowerCase()));
-  document.getElementById('stats-row').style.display='none';
-}
-
-const ADMIN_EMAILS=['markotanaskovic89@gmail.com','markotanaskovic55@gmail.com'];
-function isAdmin(){return currentUser&&ADMIN_EMAILS.includes(currentUser.email.toLowerCase());}
-function isPremium(){return currentUser&&currentUser.plan==='premium';}
-function isPro(){return currentUser&&currentUser.plan==='pro';}
-
-function getMonthlySearches(){
-  const key='kp_searches_'+new Date().getFullYear()+'_'+new Date().getMonth();
-  return parseInt(localStorage.getItem(key)||'0');
-}
-function incMonthlySearches(){
-  const key='kp_searches_'+new Date().getFullYear()+'_'+new Date().getMonth();
-  localStorage.setItem(key, getMonthlySearches()+1);
-}
-
-function updateSearchCounter(){
-  if(isAdmin()||isPremium()){document.getElementById('search-counter').innerHTML='<span style="color:#15803d;font-weight:600;">'+(isAdmin()?'Admin':'Premium')+'  — unlimited searches</span>';return;}
-  const searches=getMonthlySearches();
-  const limit=currentUser?50:3;
-  const remaining=Math.max(0,limit-searches);
-  const el=document.getElementById('search-counter');
-  if(!el)return;
-  if(remaining<=0){
-    el.innerHTML=currentUser?'<span style="color:#dc2626;font-weight:600;">No searches left — <a href="#" onclick="alert(\'Pro plan coming soon!\')">Upgrade to Pro</a></span>':'<span style="color:#dc2626;font-weight:600;">No free searches left — <a onclick="openModal(\'signup\')">Create free account for 10 searches</a></span>';
-  }else{
-    el.innerHTML='<span>'+remaining+' of '+limit+' free searches remaining'+(currentUser?'':' — <a onclick="openModal(\'signup\')">Sign up for more</a>')+'</span>';
-  }
-}
-
-async function doSearch(){
-  const rawInput=document.getElementById('kw-input').value.trim();
-  if(rawInput) addKwTag(rawInput);
-  const allKws=kwTags.length>0?[...kwTags]:[rawInput];
-  if(!allKws[0])return;
-  const kwLimit=getKwLimit();
-  if(allKws.length>kwLimit){
-    if(!currentUser) openModal('signup');
-    else if(!isPremium()) alert('Free account supports up to 3 keywords at once. Upgrade to Premium for 10!');
-    return;
-  }
-  const country=document.getElementById('country-select').value;
-
-  if(!isAdmin()&&!isPremium()){
-    const searches=getMonthlySearches();
-    const limit=currentUser?50:3;
-    if(searches>=limit){
-      if(!currentUser){openModal('signup');document.getElementById('signup-error').textContent='Sign up free — get 50 searches per month!';document.getElementById('signup-error').style.display='block';}
-      else{alert('You have used all 50 free searches this month. Upgrade to Premium for $9.99/month — unlimited searches!');}
-      return;
-    }
-    incMonthlySearches();
-    updateSearchCounter();
-  }
-
-  document.getElementById('empty-state').style.display='none';
-  document.getElementById('results-section').style.display='none';
-  document.getElementById('stats-row').style.display='none';
-  document.getElementById('hero-kw-card').style.display='none';
-  document.getElementById('loading').style.display='block';
-  document.getElementById('tabs-bar').style.display='block';
-  showTab('keywords');
-
-  let combined=[];
-  for(const kw of allKws){
-    try{
-      const response=await fetch('/api/keywords',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({keyword:kw,country})});
-      const data=await response.json();
-      const res=data.keywords&&data.keywords.length>0?data.keywords:genKeywords(kw,country);
-      combined=[...combined,...res];
-    }catch(err){combined=[...combined,...genKeywords(kw,country)];}
-  }
-
-  const seen=new Set();
-  allResults=combined.filter(r=>{if(seen.has(r.keyword))return false;seen.add(r.keyword);return true;});
-  allResults.sort((a,b)=>b.volume-a.volume);
-  currentKw=allKws[0];
-
-  document.getElementById('loading').style.display='none';
-  document.getElementById('result-count').textContent='Keywords found ('+allResults.length+')';
-  showStats();
-  document.getElementById('results-section').style.display='block';
-  renderTable();
-}
-
-function showTab(tab){document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',(i===0&&tab==='keywords')||(i===1&&tab==='trends'));});document.getElementById('keyword-panel').classList.toggle('active',tab==='keywords');document.getElementById('trend-panel').classList.toggle('active',tab==='trends');if(tab==='trends'&&allResults.length>0)renderTrendDashboard(allResults[0]);}
-function openTrend(i){showTab('trends');renderTrendDashboard(allResults[i]);}
-
-function buildRecs(r){
-  const rising=r.trend==='rising',falling=r.trend==='falling',low=r.competition==='LOW',high=r.competition==='HIGH';
-  const blogTitle=rising?'Write a complete guide: "Best '+r.keyword+' in 2025"':'Write a comparison post: "'+r.keyword+' vs alternatives — which is better?"';
-  const blogDesc=rising?'This keyword is growing fast. A comprehensive guide can rank quickly and bring consistent traffic. Aim for 2000+ words with real examples.':'Comparison articles rank well for commercial keywords. Target people who are ready to make a decision.';
-  return[
-    {type:rising&&!high?'top':falling?'warn':'info',label:rising&&low?'Best opportunity':rising?'Focus now':falling?'Declining':'Stable target',kw:r.keyword,desc:rising?'Volume is growing fast. Create in-depth content NOW before competition increases.':falling?'Search interest is declining. Update existing content instead of creating new pages.':'Stable demand. Great for evergreen content that ranks for years.',score:r.score},
-    {type:low?'top':'info',label:'Long-tail keyword',kw:'best '+r.keyword+' 2025',desc:'Longer keywords have less competition. Easier to rank on page 1. Conversion rate is 3-4x higher because searchers know exactly what they want.',score:Math.min(99,r.score+8)},
-    {type:high?'warn':'top',label:high?'Hard to rank':'Quick win',kw:r.keyword+' free',desc:high?'Too competitive. You need hundreds of backlinks to rank. Skip this for now and build authority first.':'Adding "free" reduces competition a lot. People searching this are still in research mode — great for capturing emails.',score:high?Math.max(20,r.score-22):Math.min(99,r.score+10)},
-    {type:'blog',label:'Blog post idea',kw:blogTitle,desc:blogDesc,score:Math.min(99,Math.round(r.score*0.9+8))}
-  ];
-}
-
-function renderTrendDashboard(r){
-  const fc=genForecast(r.hist,r.trend);
-  const histPoints=[...r.hist,...Array(6).fill(null)];
-  const fcPoints=[...Array(11).fill(null),r.hist[11],...fc];
-  const momChange=Math.round(((r.hist[11]-r.hist[10])/r.hist[10])*100);
-  const yoyChange=Math.round(((r.hist[11]-r.hist[0])/r.hist[0])*100);
-  const recs=buildRecs(r);
-  document.getElementById('trend-content').innerHTML=
-    '<div class="kw-detail-header"><button class="back-btn" onclick="showTab(\'keywords\')">&larr; Back</button><div class="detail-kw">"'+r.keyword+'"</div></div>'+
-    '<div class="stats-row" style="display:grid;margin-bottom:1.5rem;">'+
-    [['Avg monthly searches',r.volume.toLocaleString(),'','Average monthly search volume from Google data.'],
-     ['Current volume',r.hist[11].toLocaleString(),momChange>=0?'color:#15803d':'color:#dc2626','Search volume last month.'],
-     ['Month-over-month',(momChange>=0?'+':'')+momChange+'%',momChange>=0?'color:#15803d':'color:#dc2626','Change vs previous month. Positive = growing.'],
-     ['Year-over-year',(yoyChange>=0?'+':'')+yoyChange+'%',yoyChange>=0?'color:#15803d':'color:#dc2626','Change vs same month last year.'],
-     ['CPC','$'+r.cpc.toFixed(2),'','What advertisers pay per click. Higher = more commercial intent.'],
-     ['Competition',r.competition,r.competition==='LOW'?'color:#15803d':r.competition==='MEDIUM'?'color:#b45309':'color:#dc2626','How hard it is to rank. LOW = easy, HIGH = very hard.'],
-     ['Trend',r.trend.charAt(0).toUpperCase()+r.trend.slice(1),r.trend==='rising'?'color:#15803d':r.trend==='falling'?'color:#dc2626':'color:#b45309','Overall search trend direction.'],
-     ['AI Score',r.score,'color:'+aiColor(r.score),'Our AI opportunity score. 75+ = great keyword to target.']
-    ].map(([l,v,c,tip])=>'<div class="stat-card"><div class="stat-label">'+l+' <div class="tip" style="display:inline-flex;"><div class="tip-icon">?</div><div class="tip-box">'+tip+'</div></div></div><div class="stat-value" style="'+c+'">'+v+'</div></div>').join('')+
-    '</div>'+
-    '<div class="chart-card"><h3>Search volume — 12 months history + 6 month AI forecast</h3><div class="chart-sub">Click any keyword in the table to see its trend. Dashed green line = AI predicted trend.</div><div class="legend"><div class="leg-item"><div class="leg-dot" style="background:#2563eb;"></div>Historical data (Google)</div><div class="leg-item"><div class="leg-dot" style="background:#16a34a;"></div>AI forecast</div></div><div style="position:relative;width:100%;height:260px;"><canvas id="trendChart" role="img" aria-label="Trend chart for '+r.keyword+'"></canvas></div></div>'+
-    '<div class="ai-card"><div class="ai-header"><div class="ai-badge">AI Recommendations</div><div class="ai-title">What to do with "'+r.keyword+'"</div></div><div class="rec-grid">'+
-    recs.map(rec=>'<div class="rec-card '+rec.type+'"><div class="rec-label">'+rec.label+'</div><div class="rec-kw">'+rec.kw+'</div><div class="rec-desc">'+rec.desc+'</div><div class="score-row"><div class="score-bar-bg"><div class="score-bar" style="width:'+rec.score+'%;background:'+(rec.type==='top'?'#16a34a':rec.type==='warn'?'#d97706':rec.type==='blog'?'#7c3aed':'#2563eb')+'"></div></div><div class="score-val">'+rec.score+'</div></div></div>').join('')+
-    '</div></div>';
-
-  if(chartInst)chartInst.destroy();
-  chartInst=new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:ALL_MONTHS,datasets:[{label:'Historical',data:histPoints,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.06)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#2563eb',borderWidth:2,spanGaps:false},{label:'AI Forecast',data:fcPoints,borderColor:'#16a34a',backgroundColor:'rgba(22,163,74,0.05)',fill:true,tension:0.4,borderDash:[5,4],pointRadius:3,pointBackgroundColor:'#16a34a',borderWidth:2,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},scales:{x:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:12},color:'#9ca3af',maxRotation:0,autoSkip:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:12},color:'#9ca3af',callback:v=>v>=1000?Math.round(v/1000)+'k':v}}}}});
-}
-
-function exportCSV(){const rows=[['Keyword','Avg Monthly Searches','CPC (USD)','Competition','Trend','AI Score']];allResults.forEach(r=>rows.push([r.keyword,r.volume,r.cpc,r.competition,r.trend,r.score]));const csv=rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n');const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='keywords-'+currentKw.replace(/\s+/g,'-')+'.csv';a.click();}
-
-let kwTags=[];
-function getKwLimit(){
-  if(isAdmin()||isPremium()) return 10;
-  if(currentUser) return 3;
-  return 1;
-}
-function addKwTag(val){
-  const limit=getKwLimit();
+function addTag(val){
+  const lim=kwLimit();
   val.split(',').map(v=>v.trim()).filter(v=>v&&!kwTags.includes(v)).forEach(v=>{
-    if(kwTags.length>=limit){
-      if(!currentUser) openModal('signup');
-      else if(!isPremium()) alert('Free account supports up to 3 keywords at once. Upgrade to Premium for 10 keywords!');
+    if(kwTags.length>=lim){
+      if(!currentUser)openModal('signup');
+      else alert('Free account: max 3 keywords. Upgrade to Premium for 10!');
       return;
     }
     kwTags.push(v);
@@ -654,158 +423,195 @@ function addKwTag(val){
 }
 function removeTag(i){kwTags.splice(i,1);renderTags();}
 function renderTags(){
-  const tagsEl=document.getElementById('kw-tags');
-  if(kwTags.length===0){tagsEl.style.display='none';return;}
-  tagsEl.style.display='flex';
-  tagsEl.innerHTML=kwTags.map((t,i)=>'<span style="background:#2563eb;color:#fff;border-radius:20px;padding:4px 10px;font-size:13px;display:flex;align-items:center;gap:6px;">'+t+'<span onclick="removeTag('+i+')" style="cursor:pointer;font-size:16px;line-height:1;">&times;</span></span>').join('');
-}
-function initBulkUpload(){
-  const section = document.getElementById('bulk-content');
-  if(isAdmin()||isPro()){
-    section.innerHTML = `
-      <p class="bulk-desc">Upload an Excel or CSV file with keywords in column A (up to 300). We'll add monthly searches, CPC, competition, trend and AI score. Download the enriched file when done.</p>
-      <div class="bulk-upload-area" onclick="document.getElementById('bulk-file').click()">
-        <input type="file" id="bulk-file" accept=".xlsx,.xls,.csv" onchange="handleBulkFile(this)">
-        <div class="bulk-upload-icon">📂</div>
-        <div class="bulk-upload-text">Click to upload Excel or CSV</div>
-        <div class="bulk-upload-sub">Max 300 keywords — .xlsx, .xls, .csv supported</div>
-      </div>
-      <div class="bulk-progress" id="bulk-progress">
-        <div class="bulk-progress-bar"><div class="bulk-progress-fill" id="bulk-fill" style="width:0%"></div></div>
-        <div class="bulk-progress-text" id="bulk-progress-text">Processing...</div>
-      </div>
-      <button class="btn-download-excel" id="btn-download-excel" onclick="downloadBulkExcel()">Download enriched Excel</button>
-    `;
-  }
+  const el=document.getElementById('kw-tags');
+  if(kwTags.length===0){el.style.display='none';return;}
+  el.style.display='flex';
+  el.innerHTML=kwTags.map((t,i)=>'<div class="kw-tag">'+t+'<span onclick="removeTag('+i+')">&times;</span></div>').join('');
 }
 
-let bulkResults = [];
+function badge(c){if(c==='LOW')return '<span class="badge bl">LOW</span>';if(c==='MEDIUM')return '<span class="badge bm">MEDIUM</span>';return '<span class="badge bh">HIGH</span>';}
+function spark(hist,trend){
+  const max=Math.max(...hist),min=Math.min(...hist),w=64,h=24;
+  const pts=hist.map((v,i)=>((i/(hist.length-1))*w)+','+(h-((v-min)/(max-min||1))*(h-4)-2)).join(' ');
+  const col=trend==='rising'?'#16a34a':trend==='falling'?'#dc2626':'#2563eb';
+  return '<svg width="'+w+'" height="'+h+'" style="display:block;margin:0 auto"><polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+}
+function aiCol(s){return s>=75?'#15803d':s>=50?'#b45309':'#dc2626';}
 
-async function handleBulkFile(input){
-  const file = input.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = async function(e){
-    let keywords = [];
-    if(file.name.endsWith('.csv')){
-      const text = e.target.result;
-      keywords = text.split('
-').map(r=>r.split(',')[0].replace(/"/g,'').trim()).filter(k=>k&&k.toLowerCase()!=='keyword');
-    } else {
-      const data = new Uint8Array(e.target.result);
-      const wb = XLSX.read(data, {type:'array'});
-      const ws = wb.Sheets[wb.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(ws, {header:1});
-      keywords = rows.map(r=>String(r[0]||'').trim()).filter(k=>k&&k.toLowerCase()!=='keyword');
-    }
-    keywords = keywords.slice(0, 300);
-    if(keywords.length === 0){alert('No keywords found. Make sure keywords are in column A.');return;}
-    await processBulkKeywords(keywords);
+function renderTable(){
+  document.getElementById('kw-tbody').innerHTML=allResults.map((r,i)=>'<tr><td class="kw-link" onclick="openTrend('+i+')">'+r.keyword+'</td><td class="r">'+r.volume.toLocaleString()+'</td><td class="r">$'+r.cpc.toFixed(2)+'</td><td class="c">'+badge(r.competition)+'</td><td class="c">'+spark(r.hist,r.trend)+'</td><td class="c"><b style="color:'+aiCol(r.score)+'">'+r.score+'</b></td></tr>').join('');
+}
+function sortResults(){
+  const s=document.getElementById('sort-sel').value;
+  if(s==='vol')allResults.sort((a,b)=>b.volume-a.volume);
+  if(s==='cpc')allResults.sort((a,b)=>b.cpc-a.cpc);
+  if(s==='comp')allResults.sort((a,b)=>['LOW','MEDIUM','HIGH'].indexOf(b.competition)-['LOW','MEDIUM','HIGH'].indexOf(a.competition));
+  renderTable();
+}
+
+function showMainCard(kws){
+  const searched=kws.length>0?kws:[currentKw];
+  const mains=searched.map(k=>allResults.find(r=>r.keyword.toLowerCase()===k.toLowerCase())).filter(Boolean);
+  const card=document.getElementById('hero-kw-card');
+  if(mains.length===0){card.style.display='none';return;}
+  card.style.display='block';
+  const mkCard=kw=>{
+    const cc=kw.competition==='LOW'?'#15803d':kw.competition==='MEDIUM'?'#b45309':'#dc2626';
+    const tc=kw.trend==='rising'?'#15803d':kw.trend==='falling'?'#dc2626':'#b45309';
+    return '<div class="kw-card-inner"><div class="kw-card-label">Your keyword</div><div class="kw-card-name">'+kw.keyword+'</div><div class="kw-card-stats">'+
+      [['Monthly Searches',kw.volume.toLocaleString(),''],['CPC','$'+kw.cpc.toFixed(2),''],['Competition',kw.competition,cc],['Trend',kw.trend.charAt(0).toUpperCase()+kw.trend.slice(1),tc],['AI Score',kw.score,aiCol(kw.score)]].map(([l,v,c])=>'<div class="kw-stat"><div class="kw-stat-label">'+l+'</div><div class="kw-stat-value" style="color:'+(c||'#1a1a1a')+'">'+v+'</div></div>').join('')+
+      '</div></div>';
   };
-  if(file.name.endsWith('.csv')) reader.readAsText(file);
-  else reader.readAsArrayBuffer(file);
+  card.innerHTML=mains.length===1?mkCard(mains[0]):'<div style="display:flex;gap:12px;flex-wrap:wrap;">'+mains.map(mkCard).join('')+'</div>';
+  allResults=allResults.filter(r=>!searched.map(k=>k.toLowerCase()).includes(r.keyword.toLowerCase()));
 }
 
-async function processBulkKeywords(keywords){
-  const progress = document.getElementById('bulk-progress');
-  const fill = document.getElementById('bulk-fill');
-  const text = document.getElementById('bulk-progress-text');
-  const btn = document.getElementById('btn-download-excel');
-  progress.style.display = 'block';
-  btn.style.display = 'none';
-  bulkResults = [];
-  for(let i=0; i<keywords.length; i++){
-    const kw = keywords[i];
-    const pct = Math.round(((i+1)/keywords.length)*100);
-    fill.style.width = pct+'%';
-    text.textContent = 'Processing '+( i+1)+' of '+keywords.length+': "'+kw+'"';
-    try{
-      const res = await fetch('/api/keywords',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({keyword:kw,country:'worldwide'})});
-      const data = await res.json();
-      const found = data.keywords&&data.keywords.find(r=>r.keyword.toLowerCase()===kw.toLowerCase());
-      if(found) bulkResults.push(found);
-      else {
-        const gen = genKeywords(kw,'worldwide');
-        const main = gen.find(r=>r.keyword.toLowerCase()===kw.toLowerCase())||gen[0];
-        bulkResults.push({...main, keyword:kw});
-      }
-    } catch(e){
-      const gen = genKeywords(kw,'worldwide');
-      bulkResults.push({...gen[0], keyword:kw});
+async function doSearch(){
+  const raw=document.getElementById('kw-input').value.trim();
+  if(raw)addTag(raw);
+  const kws=kwTags.length>0?[...kwTags]:(raw?[raw]:[]);
+  if(kws.length===0)return;
+
+  if(!isAdmin()&&!isPremium()){
+    const s=getMS(),lim=currentUser?50:3;
+    if(s>=lim){
+      if(!currentUser){openModal('signup');document.getElementById('signup-error').textContent='Sign up free — get 50 searches per month!';document.getElementById('signup-error').style.display='block';}
+      else alert('Monthly limit reached. Upgrade to Premium for unlimited searches!');
+      return;
     }
-    await new Promise(r=>setTimeout(r,100));
+    incMS();updateCounter();
   }
-  text.textContent = 'Done! '+keywords.length+' keywords processed.';
-  btn.style.display = 'block';
+
+  const country=document.getElementById('country-select').value;
+  currentKw=kws[0];
+  document.getElementById('empty-state').style.display='none';
+  document.getElementById('results-section').style.display='none';
+  document.getElementById('hero-kw-card').style.display='none';
+  document.getElementById('loading').style.display='block';
+  document.getElementById('tabs-bar').style.display='block';
+  showTab('keywords');
+
+  let combined=[];
+  for(const kw of kws){
+    try{
+      const res=await fetch('/api/keywords',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({keyword:kw,country})});
+      const data=await res.json();
+      combined=[...combined,...(data.keywords&&data.keywords.length>0?data.keywords:genKws(kw,country))];
+    }catch(e){combined=[...combined,...genKws(kw,country)];}
+  }
+  const seen=new Set();
+  allResults=combined.filter(r=>{if(seen.has(r.keyword))return false;seen.add(r.keyword);return true;});
+  allResults.sort((a,b)=>b.volume-a.volume);
+
+  document.getElementById('loading').style.display='none';
+  showMainCard(kws);
+  document.getElementById('result-count').textContent='Similar & related keywords ('+allResults.length+')';
+  document.getElementById('results-section').style.display='block';
+  renderTable();
 }
 
-function downloadBulkExcel(){
-  const rows = [['Keyword','Monthly Searches','CPC (USD)','Competition','Trend','AI Score']];
-  bulkResults.forEach(r=>rows.push([r.keyword, r.volume, r.cpc, r.competition, r.trend, r.score]));
-  const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols'] = [{wch:30},{wch:18},{wch:12},{wch:14},{wch:12},{wch:10}];
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Keywords');
-  XLSX.writeFile(wb, 'keywordpro-bulk-analysis.xlsx');
+function showTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',(i===0&&tab==='keywords')||(i===1&&tab==='trends')));
+  document.getElementById('keyword-panel').classList.toggle('active',tab==='keywords');
+  document.getElementById('trend-panel').classList.toggle('active',tab==='trends');
+  if(tab==='trends'&&allResults.length>0)renderTrend(allResults[0]);
+}
+function openTrend(i){showTab('trends');renderTrend(allResults[i]);}
+
+function buildRecs(r){
+  const rising=r.trend==='rising',falling=r.trend==='falling',low=r.competition==='LOW',high=r.competition==='HIGH';
+  return[
+    {type:rising&&!high?'top':falling?'warn':'info',label:rising&&low?'Best opportunity':rising?'Focus now':falling?'Declining':'Stable',kw:r.keyword,desc:rising?'Volume growing fast — create content now before competition rises.':falling?'Declining trend — update existing content instead of creating new pages.':'Stable demand — great for evergreen content.',score:r.score},
+    {type:low?'top':'info',label:'Long-tail',kw:'best '+r.keyword+' 2025',desc:'Less competition, higher conversion. Easier to rank in 4-8 weeks.',score:Math.min(99,r.score+8)},
+    {type:high?'warn':'top',label:high?'Very competitive':'Quick win',kw:r.keyword+' free',desc:high?'Needs strong backlink profile to rank. Build authority first.':'Less competitive modifier. Great for capturing emails and top-of-funnel traffic.',score:high?Math.max(20,r.score-22):Math.min(99,r.score+10)},
+    {type:'blog',label:'Blog post idea',kw:rising?'Best '+r.keyword+' guide (2025)':r.keyword+' vs alternatives',desc:rising?'Growing keyword — write a comprehensive guide now. Aim for 2000+ words.':'Comparison posts rank well for commercial intent. Target decision-ready readers.',score:Math.min(99,Math.round(r.score*0.9+8))}
+  ];
 }
 
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('kw-input').addEventListener('keydown',function(e){
-    if(e.key==='Enter'){e.preventDefault();const v=this.value.trim();if(v){addKwTag(v);}else{doSearch();}}
-    if(e.key===','||e.key===';'){e.preventDefault();const v=this.value.trim();if(v)addKwTag(v);}
-  });
-});
-function openModal(type){document.getElementById('modal-overlay').classList.add('open');switchModal(type);}
+function renderTrend(r){
+  const fc=gF(r.hist,r.trend);
+  const hp=[...r.hist,...Array(6).fill(null)];
+  const fp=[...Array(11).fill(null),r.hist[11],...fc];
+  const mom=Math.round(((r.hist[11]-r.hist[10])/r.hist[10])*100);
+  const yoy=Math.round(((r.hist[11]-r.hist[0])/r.hist[0])*100);
+  const recs=buildRecs(r);
+  document.getElementById('trend-content').innerHTML=
+    '<div class="kw-detail-header"><button class="back-btn" onclick="showTab(\'keywords\')">&larr; Back</button><div class="detail-kw">"'+r.keyword+'"</div></div>'+
+    '<div class="stats-row" style="display:grid;margin-bottom:1.5rem;">'+
+    [['Avg monthly',r.volume.toLocaleString(),''],['Last month',r.hist[11].toLocaleString(),mom>=0?'color:#15803d':'color:#dc2626'],['MoM',(mom>=0?'+':'')+mom+'%',mom>=0?'color:#15803d':'color:#dc2626'],['YoY',(yoy>=0?'+':'')+yoy+'%',yoy>=0?'color:#15803d':'color:#dc2626'],['CPC','$'+r.cpc.toFixed(2),''],['Competition',r.competition,r.competition==='LOW'?'color:#15803d':r.competition==='MEDIUM'?'color:#b45309':'color:#dc2626'],['Trend',r.trend.charAt(0).toUpperCase()+r.trend.slice(1),r.trend==='rising'?'color:#15803d':r.trend==='falling'?'color:#dc2626':'color:#b45309'],['AI Score',r.score,'color:'+aiCol(r.score)]].map(([l,v,c])=>'<div class="stat-card"><div class="stat-label">'+l+'</div><div class="stat-value" style="'+c+'">'+v+'</div></div>').join('')+
+    '</div>'+
+    '<div class="chart-card"><h3>12 months history + 6 month AI forecast</h3><div class="chart-sub">Dashed green = AI prediction</div><div class="legend"><div class="leg"><div class="leg-dot" style="background:#2563eb"></div>Historical</div><div class="leg"><div class="leg-dot" style="background:#16a34a"></div>AI forecast</div></div><div style="position:relative;width:100%;height:260px;"><canvas id="trendChart"></canvas></div></div>'+
+    '<div class="ai-card"><div class="ai-header"><div class="ai-badge">AI Recommendations</div><div class="ai-title">What to do with "'+r.keyword+'"</div></div><div class="rec-grid">'+
+    recs.map(rec=>'<div class="rec '+rec.type+'"><div class="rec-label">'+rec.label+'</div><div class="rec-kw">'+rec.kw+'</div><div class="rec-desc">'+rec.desc+'</div><div class="score-row"><div class="score-bg"><div class="score-fill" style="width:'+rec.score+'%;background:'+(rec.type==='top'?'#16a34a':rec.type==='warn'?'#d97706':rec.type==='blog'?'#7c3aed':'#2563eb')+'"></div></div><div class="score-num" style="color:'+(rec.type==='top'?'#15803d':rec.type==='warn'?'#b45309':rec.type==='blog'?'#6d28d9':'#1d4ed8')+'">'+rec.score+'</div></div></div>').join('')+
+    '</div></div>';
+  if(chartInst)chartInst.destroy();
+  chartInst=new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:ALL_MONTHS,datasets:[{label:'Historical',data:hp,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.06)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#2563eb',borderWidth:2,spanGaps:false},{label:'Forecast',data:fp,borderColor:'#16a34a',backgroundColor:'rgba(22,163,74,0.05)',fill:true,tension:0.4,borderDash:[5,4],pointRadius:3,pointBackgroundColor:'#16a34a',borderWidth:2,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},scales:{x:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:12},color:'#9ca3af',maxRotation:0,autoSkip:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:12},color:'#9ca3af',callback:v=>v>=1000?Math.round(v/1000)+'k':v}}}}});
+}
+
+function exportCSV(){
+  const rows=[['Keyword','Monthly Searches','CPC','Competition','Trend','AI Score']];
+  allResults.forEach(r=>rows.push([r.keyword,r.volume,r.cpc,r.competition,r.trend,r.score]));
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n'));
+  a.download='keywords-'+currentKw.replace(/\s+/g,'-')+'.csv';
+  a.click();
+}
+
+function openModal(t){document.getElementById('modal-overlay').classList.add('open');switchModal(t);}
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
-function switchModal(type){document.getElementById('modal-signup').style.display=type==='signup'?'block':'none';document.getElementById('modal-login').style.display=type==='login'?'block':'none';}
+function switchModal(t){document.getElementById('modal-signup').style.display=t==='signup'?'block':'none';document.getElementById('modal-login').style.display=t==='login'?'block':'none';}
 
-function setLoggedIn(user){currentUser=user;localStorage.setItem('kp_user',JSON.stringify(user));document.getElementById('header-right').innerHTML='<span class="user-email">'+user.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';closeModal();updateSearchCounter();}
+function setLoggedIn(u){currentUser=u;localStorage.setItem('kp_user',JSON.stringify(u));document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';closeModal();updateCounter();}
 function doLogout(){currentUser=null;localStorage.removeItem('kp_user');location.reload();}
 
 async function doSignup(){
   const email=document.getElementById('signup-email').value.trim();
   const password=document.getElementById('signup-password').value;
   const gdpr=document.getElementById('gdpr-check').checked;
-  const errEl=document.getElementById('signup-error');
-  errEl.style.display='none';
-  if(!email||!password){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
-  if(password.length<6){errEl.textContent='Password must be at least 6 characters.';errEl.style.display='block';return;}
-  if(!gdpr){errEl.textContent='Please accept the privacy policy to continue.';errEl.style.display='block';return;}
+  const err=document.getElementById('signup-error');
+  err.style.display='none';
+  if(!email||!password){err.textContent='Please fill in all fields.';err.style.display='block';return;}
+  if(password.length<6){err.textContent='Password must be at least 6 characters.';err.style.display='block';return;}
+  if(!gdpr){err.textContent='Please accept the privacy policy.';err.style.display='block';return;}
   const btn=document.getElementById('signup-btn');
-  btn.textContent='Creating account...';btn.disabled=true;
+  btn.textContent='Creating...';btn.disabled=true;
   try{
     const res=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'signup',email,password,gdpr_consent:gdpr})});
     const data=await res.json();
-    if(data.error){errEl.textContent=data.error;errEl.style.display='block';}
+    if(data.error){err.textContent=data.error;err.style.display='block';}
     else setLoggedIn({email,token:data.token});
-  }catch(e){errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';}
+  }catch(e){err.textContent='Something went wrong. Please try again.';err.style.display='block';}
   btn.textContent='Create free account';btn.disabled=false;
 }
 
 async function doLogin(){
   const email=document.getElementById('login-email').value.trim();
   const password=document.getElementById('login-password').value;
-  const errEl=document.getElementById('login-error');
-  errEl.style.display='none';
-  if(!email||!password){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
+  const err=document.getElementById('login-error');
+  err.style.display='none';
+  if(!email||!password){err.textContent='Please fill in all fields.';err.style.display='block';return;}
   const btn=document.getElementById('login-btn');
   btn.textContent='Logging in...';btn.disabled=true;
   try{
     const res=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'login',email,password})});
     const data=await res.json();
-    if(data.error){errEl.textContent=data.error;errEl.style.display='block';}
+    if(data.error){err.textContent=data.error;err.style.display='block';}
     else setLoggedIn({email,token:data.token});
-  }catch(e){errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';}
+  }catch(e){err.textContent='Something went wrong.';err.style.display='block';}
   btn.textContent='Log in';btn.disabled=false;
 }
 
-
-document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('kw-input').addEventListener('keydown',function(e){
+    if(e.key==='Enter'){e.preventDefault();const v=this.value.trim();if(v)addTag(v);else doSearch();}
+    if(e.key===','){e.preventDefault();const v=this.value.trim();if(v)addTag(v);}
+  });
+  document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+});
 
 const saved=localStorage.getItem('kp_user');
 if(saved){try{const u=JSON.parse(saved);currentUser=u;document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';}catch(e){localStorage.removeItem('kp_user');}}
-updateSearchCounter();
-initBulkUpload();
+updateCounter();
 </script>
 </body>
 </html>
