@@ -367,28 +367,32 @@ function renderTable(){
 
 function sortResults(){const s=document.getElementById('sort-sel').value;if(s==='vol')allResults.sort((a,b)=>b.volume-a.volume);if(s==='cpc')allResults.sort((a,b)=>b.cpc-a.cpc);if(s==='comp')allResults.sort((a,b)=>['LOW','MEDIUM','HIGH'].indexOf(b.competition)-['LOW','MEDIUM','HIGH'].indexOf(a.competition));renderTable();}
 
+function tipHtml(t){return '<span style="position:relative;display:inline-flex;align-items:center;cursor:help;" onmouseenter="this.querySelector(\'.htip\').style.display=\'block\'" onmouseleave="this.querySelector(\'.htip\').style.display=\'none\'"><span style="width:15px;height:15px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;">?</span><span class="htip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:999;line-height:1.5;text-transform:none;">'+t+'</span></span>';}
+const TIPS={'Monthly searches':'How many times this keyword is searched on Google per month. Higher = more potential visitors to your site.','CPC':'Cost Per Click — how much advertisers pay per click on Google Ads. Higher CPC means commercial value.','Competition':'How hard it is to rank. LOW = easy. MEDIUM = moderate. HIGH = very hard, big competitors.','Trend':'Is this keyword growing or shrinking? Rising = more searches. Stable = consistent. Falling = declining.','AI Score':'Our AI rates this keyword 0-99. 75+ = great opportunity. 50-74 = decent. Below 50 = skip it.'};
+
+function makeKwCard(kw){
+  const compColor=kw.competition==='LOW'?'#15803d':kw.competition==='MEDIUM'?'#b45309':'#dc2626';
+  const trendColor=kw.trend==='rising'?'#15803d':kw.trend==='falling'?'#dc2626':'#b45309';
+  return '<div style="flex:1;min-width:280px;background:#fff;border:2px solid #2563eb;border-radius:12px;padding:1.25rem 1.5rem;">'+
+    '<div class="hero-kw-title">Your keyword</div>'+
+    '<div class="hero-kw-keyword">'+kw.keyword+'</div>'+
+    '<div class="hero-kw-stats">'+
+    [['Monthly searches',kw.volume.toLocaleString(),''],['CPC','$'+kw.cpc.toFixed(2),''],['Competition',kw.competition,compColor],['Trend',kw.trend.charAt(0).toUpperCase()+kw.trend.slice(1),trendColor],['AI Score',kw.score,'color:'+aiColor(kw.score)]].map(([l,v,c])=>'<div class="hero-kw-stat"><div class="hero-kw-stat-label">'+l+tipHtml(TIPS[l])+'</div><div class="hero-kw-stat-value" style="color:'+(c||'#1a1a1a')+'">'+v+'</div></div>').join('')+
+    '</div></div>';
+}
+
 function showStats(){
-  const main = allResults.find(r => r.keyword.toLowerCase() === currentKw.toLowerCase()) || allResults[0];
-  const similar = allResults.filter(r => r.keyword.toLowerCase() !== currentKw.toLowerCase());
+  const searchedKws = kwTags.length>0?kwTags:[currentKw];
+  const mainKws = searchedKws.map(kw=>allResults.find(r=>r.keyword.toLowerCase()===kw.toLowerCase())).filter(Boolean);
   const card=document.getElementById('hero-kw-card');
   card.style.display='block';
-  const compColor=main.competition==='LOW'?'#15803d':main.competition==='MEDIUM'?'#b45309':'#dc2626';
-  const trendColor=main.trend==='rising'?'#15803d':main.trend==='falling'?'#dc2626':'#b45309';
-  const tips={'Monthly searches':'How many times this keyword is searched on Google per month. Higher = more potential visitors to your site.',
-    'CPC':'Cost Per Click — how much advertisers pay per click on Google Ads. Higher CPC means the keyword has commercial value and people buy things.',
-    'Competition':'How hard it is to rank for this keyword on Google. LOW = easy to rank. MEDIUM = moderate effort needed. HIGH = very hard, big competitors.',
-    'Trend':'Is this keyword growing or shrinking over time? Rising = more people searching. Stable = consistent. Falling = losing interest.',
-    'AI Score':'Our AI rates this keyword from 0 to 99. 75+ = great opportunity to target. 50-74 = decent. Below 50 = skip it or wait.'};
-  function tipHtml(t){return '<span style="position:relative;display:inline-flex;align-items:center;cursor:help;" onmouseenter="this.querySelector(\'.htip\').style.display=\'block\'" onmouseleave="this.querySelector(\'.htip\').style.display=\'none\'"><span style="width:15px;height:15px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;">?</span><span class="htip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:999;line-height:1.5;text-transform:none;">'+t+'</span></span>';}
-  card.innerHTML='<div class="hero-kw-title">Your keyword</div><div class="hero-kw-keyword">'+main.keyword+'</div><div class="hero-kw-stats">'+
-    [['Monthly searches',main.volume.toLocaleString(),''],
-     ['CPC','$'+main.cpc.toFixed(2),''],
-     ['Competition',main.competition,compColor],
-     ['Trend',main.trend.charAt(0).toUpperCase()+main.trend.slice(1),trendColor],
-     ['AI Score',main.score,'color:'+aiColor(main.score)]
-    ].map(([l,v,c])=>'<div class="hero-kw-stat"><div class="hero-kw-stat-label">'+l+tipHtml(tips[l])+'</div><div class="hero-kw-stat-value" style="color:'+(c||'#1a1a1a')+'">'+v+'</div></div>').join('')+'</div>';
-
-  allResults = similar;
+  if(mainKws.length===0){card.style.display='none';}
+  else if(mainKws.length===1){
+    card.innerHTML=makeKwCard(mainKws[0]).replace('<div style="flex:1;min-width:280px;background:#fff;border:2px solid #2563eb;border-radius:12px;padding:1.25rem 1.5rem;">','<div>');
+  } else {
+    card.innerHTML='<div style="display:flex;gap:12px;flex-wrap:wrap;">'+mainKws.map(k=>makeKwCard(k)).join('')+'</div>';
+  }
+  allResults=allResults.filter(r=>!searchedKws.map(k=>k.toLowerCase()).includes(r.keyword.toLowerCase()));
   document.getElementById('stats-row').style.display='none';
 }
 
