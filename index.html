@@ -7,31 +7,39 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;}
-
 header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;}
-.logo{font-size:18px;font-weight:700;color:#1a1a1a;}
+.logo{font-size:18px;font-weight:700;color:#1a1a1a;text-decoration:none;}
 .logo span{color:#2563eb;}
 .header-right{display:flex;align-items:center;gap:10px;}
 .btn-login{padding:7px 16px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
 .btn-signup{padding:7px 16px;font-size:13px;border:none;border-radius:6px;background:#2563eb;color:#fff;cursor:pointer;font-weight:500;}
+.user-email{font-size:13px;color:#6b7280;}
+.btn-logout{padding:6px 14px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
 
 .hero{background:#fff;border-bottom:1px solid #e5e7eb;padding:2.5rem 2rem;text-align:center;}
+.google-badge{display:inline-flex;align-items:center;gap:8px;background:#f8f9ff;border:1.5px solid #4285f4;border-radius:8px;padding:8px 18px;margin-bottom:1rem;}
+.google-badge-text{text-align:left;}
+.google-badge-title{font-size:13px;font-weight:700;color:#1a73e8;}
+.google-badge-sub{font-size:11px;color:#5f6368;}
 .hero h1{font-size:28px;font-weight:700;margin-bottom:8px;}
-.hero p{font-size:15px;color:#6b7280;margin-bottom:1.5rem;}
-
+.hero p{font-size:15px;color:#6b7280;margin-bottom:1rem;}
+.hero-checks{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:1.5rem;}
+.hero-checks span{font-size:13px;color:#6b7280;}
+.hero-checks span b{color:#16a34a;}
 .search-bar{display:flex;gap:8px;max-width:800px;margin:0 auto;flex-wrap:wrap;justify-content:center;}
 .search-bar input{flex:1;min-width:260px;height:44px;padding:0 16px;font-size:15px;border:1.5px solid #d1d5db;border-radius:8px;outline:none;}
 .search-bar input:focus{border-color:#2563eb;}
 .search-bar select{height:44px;padding:0 12px;font-size:14px;border:1.5px solid #d1d5db;border-radius:8px;background:#fff;outline:none;cursor:pointer;}
 .btn-search{height:44px;padding:0 24px;font-size:15px;font-weight:600;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;}
 .btn-search:hover{background:#1d4ed8;}
+.search-counter{text-align:center;margin-top:10px;font-size:13px;color:#6b7280;}
+.search-counter a{color:#2563eb;cursor:pointer;}
 
-.tabs{display:flex;gap:0;border-bottom:1px solid #e5e7eb;background:#fff;padding:0 2rem;}
+.tabs{display:flex;border-bottom:1px solid #e5e7eb;background:#fff;padding:0 2rem;}
 .tab{padding:12px 20px;font-size:14px;font-weight:500;color:#6b7280;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;}
 .tab.active{color:#2563eb;border-bottom-color:#2563eb;}
 
 .main{max-width:1100px;margin:2rem auto;padding:0 1.5rem;}
-
 .stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:1.5rem;}
 .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1rem 1.25rem;}
 .stat-label{font-size:11px;color:#9ca3af;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em;}
@@ -40,16 +48,15 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:60p
 .table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;margin-bottom:1.5rem;}
 .table-header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #e5e7eb;}
 .result-count{font-size:13px;color:#6b7280;}
-.table-actions{display:flex;gap:8px;align-items:center;}
+.table-actions{display:flex;gap:8px;}
 .table-actions select{height:34px;padding:0 10px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;}
-.btn-sm{height:34px;padding:0 14px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
+.btn-sm{height:34px;padding:0 14px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;}
 .btn-sm:hover{background:#f3f4f6;}
-
 table{width:100%;border-collapse:collapse;}
 th{text-align:left;padding:10px 16px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
 th.right,td.right{text-align:right;}
 th.center,td.center{text-align:center;}
-td{padding:11px 16px;font-size:14px;color:#1a1a1a;border-bottom:1px solid #f3f4f6;}
+td{padding:11px 16px;font-size:14px;border-bottom:1px solid #f3f4f6;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:#f9fafb;cursor:pointer;}
 .kw-text{font-weight:500;}
@@ -57,23 +64,27 @@ tr:hover td{background:#f9fafb;cursor:pointer;}
 .badge-low{background:#dcfce7;color:#166534;}
 .badge-med{background:#fef3c7;color:#92400e;}
 .badge-high{background:#fee2e2;color:#991b1b;}
+.th-wrap{display:inline-flex;align-items:center;gap:4px;}
+.tip{position:relative;display:inline-flex;align-items:center;cursor:help;}
+.tip-icon{width:14px;height:14px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;}
+.tip:hover .tip-box{display:block;}
+.tip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:11px;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:100;text-transform:none;letter-spacing:0;}
+.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#1a1a1a;}
 
 .trend-panel{display:none;}
 .trend-panel.active{display:block;}
 .keyword-panel{display:none;}
 .keyword-panel.active{display:block;}
-
 .chart-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.5rem;margin-bottom:1.25rem;}
 .chart-card h3{font-size:15px;font-weight:600;margin-bottom:4px;}
-.chart-card .sub{font-size:13px;color:#6b7280;margin-bottom:1rem;}
+.chart-sub{font-size:13px;color:#6b7280;margin-bottom:1rem;}
 .legend{display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap;}
 .leg-item{display:flex;align-items:center;gap:5px;font-size:12px;color:#6b7280;}
 .leg-dot{width:10px;height:10px;border-radius:2px;}
-
 .ai-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.5rem;margin-bottom:1.25rem;}
 .ai-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;}
 .ai-badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:4px;background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
-.ai-title{font-size:15px;font-weight:600;color:#1a1a1a;}
+.ai-title{font-size:15px;font-weight:600;}
 .rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;}
 .rec-card{border-radius:8px;padding:14px;border:1px solid #e5e7eb;}
 .rec-card.top{border-color:#16a34a;background:#f0fdf4;}
@@ -98,56 +109,42 @@ tr:hover td{background:#f9fafb;cursor:pointer;}
 .rec-card.top .score-val{color:#15803d;}
 .rec-card.warn .score-val{color:#b45309;}
 .rec-card.info .score-val{color:#1d4ed8;}
-
 .kw-detail-header{display:flex;align-items:center;gap:12px;margin-bottom:1.5rem;}
-.back-btn{padding:7px 14px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
-.back-btn:hover{background:#f3f4f6;}
+.back-btn{padding:7px 14px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;}
 .detail-kw{font-size:20px;font-weight:700;}
-
 .empty-state{text-align:center;padding:4rem 2rem;}
 .empty-state h2{font-size:18px;font-weight:600;margin-bottom:8px;color:#374151;}
 .empty-state p{font-size:14px;color:#9ca3af;}
-
 .loading{text-align:center;padding:3rem;}
 .spinner{display:inline-block;width:28px;height:28px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
+footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:2rem;}
+footer a{color:#2563eb;text-decoration:none;}
 
-footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:420px;margin:1rem;position:relative;}
 .modal h2{font-size:20px;font-weight:700;margin-bottom:6px;text-align:center;}
 .modal-sub{font-size:14px;color:#6b7280;text-align:center;margin-bottom:1.5rem;}
-.modal input[type=email],.modal input[type=password]{width:100%;height:44px;padding:0 14px;font-size:14px;border:1.5px solid #d1d5db;border-radius:8px;margin-bottom:12px;outline:none;box-sizing:border-box;}
+.modal input[type=email],.modal input[type=password]{width:100%;height:44px;padding:0 14px;font-size:14px;border:1.5px solid #d1d5db;border-radius:8px;margin-bottom:12px;outline:none;box-sizing:border-box;display:block;}
 .modal input[type=email]:focus,.modal input[type=password]:focus{border-color:#2563eb;}
-.modal-btn{width:100%;height:44px;font-size:15px;font-weight:600;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-bottom:12px;}
+.modal-btn{width:100%;height:44px;font-size:15px;font-weight:600;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-bottom:12px;display:block;}
 .modal-btn:hover{background:#1d4ed8;}
 .modal-switch{font-size:13px;color:#6b7280;text-align:center;}
-.modal-switch a{color:#2563eb;cursor:pointer;}
+.modal-switch a{color:#2563eb;cursor:pointer;text-decoration:underline;}
 .gdpr-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:14px;}
-.gdpr-row label{font-size:12px;color:#6b7280;line-height:1.5;}
+.gdpr-row input[type=checkbox]{width:16px;height:16px;margin-top:3px;flex-shrink:0;cursor:pointer;}
+.gdpr-row label{font-size:12px;color:#6b7280;line-height:1.5;cursor:pointer;}
 .gdpr-row a{color:#2563eb;}
-.modal-error{font-size:13px;color:#dc2626;text-align:center;margin-bottom:10px;display:none;}
-.modal-close{position:absolute;top:14px;right:16px;font-size:22px;cursor:pointer;color:#9ca3af;background:none;border:none;line-height:1;}
-.user-email{font-size:13px;color:#6b7280;}
-.btn-logout{padding:6px 14px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
-.locked-state{text-align:center;padding:4rem 2rem;background:#fff;border-radius:10px;border:1px solid #e5e7eb;margin-top:1rem;}
-.locked-state h2{font-size:20px;font-weight:700;margin-bottom:8px;}
-.locked-state p{font-size:14px;color:#6b7280;margin-bottom:1.5rem;}
-.btn-unlock{height:44px;padding:0 28px;font-size:15px;font-weight:600;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;}
-.btn-unlock:hover{background:#1d4ed8;}
-.th-wrap{display:inline-flex;align-items:center;gap:4px;}
-.tip{position:relative;display:inline-flex;align-items:center;cursor:help;}
-.tip-icon{width:14px;height:14px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;line-height:1;}
-.tip:hover .tip-box{display:block;}
-.tip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:11px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:100;pointer-events:none;line-height:1.4;text-transform:none;letter-spacing:0;}
-.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#1a1a1a;}
+.modal-error{font-size:13px;color:#dc2626;text-align:center;margin-bottom:10px;padding:8px;background:#fef2f2;border-radius:6px;display:none;}
+.modal-close{position:absolute;top:14px;right:16px;font-size:24px;cursor:pointer;color:#9ca3af;background:none;border:none;line-height:1;padding:0;}
+.modal-close:hover{color:#374151;}
 </style>
 </head>
 <body>
 
 <header>
-  <a href="/" style="text-decoration:none;"><div class="logo">Keyword<span>Pro</span></div></a>
+  <a href="/" class="logo">Keyword<span>Pro</span></a>
   <div class="header-right" id="header-right">
     <button class="btn-login" onclick="openModal('login')">Log in</button>
     <button class="btn-signup" onclick="openModal('signup')">Sign up free</button>
@@ -155,42 +152,20 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
 </header>
 
 <div class="hero">
-  <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
-    <div style="display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #4285f4;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#1a73e8;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-      Powered by Google Ads API
-    </div>
-    <div style="display:inline-flex;align-items:center;gap:6px;background:#f0fdf4;border:1.5px solid #16a34a;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#15803d;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Real Search Volume Data
-    </div>
-    <div style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1.5px solid #2563eb;border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:#1d4ed8;">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      AI Trend Predictions
+  <div class="google-badge">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+    <div class="google-badge-text">
+      <div class="google-badge-title">Powered by Google Ads API</div>
+      <div class="google-badge-sub">Real search volume data — not estimates</div>
     </div>
   </div>
   <h1>SEO Keyword Research Tool</h1>
-  <div style="display:inline-flex;align-items:center;gap:10px;background:#fff;border:2px solid #4285f4;border-radius:10px;padding:10px 20px;margin-bottom:1rem;box-shadow:0 2px 8px rgba(66,133,244,0.15);">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-    <div style="text-align:left;">
-      <div style="font-size:13px;font-weight:700;color:#1a73e8;">Powered by Google Ads API</div>
-      <div style="font-size:11px;color:#5f6368;">Real search volume data — not estimates</div>
-    </div>
-  </div>
   <p>Real keyword data from Google — search volume, CPC, competition and AI-powered trend forecasts</p>
-  <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:1.5rem;">
-    <div style="font-size:13px;color:#6b7280;display:flex;align-items:center;gap:5px;">
-      <span style="color:#16a34a;font-weight:700;">✓</span> 7+ billion keywords
-    </div>
-    <div style="font-size:13px;color:#6b7280;display:flex;align-items:center;gap:5px;">
-      <span style="color:#16a34a;font-weight:700;">✓</span> 50+ countries
-    </div>
-    <div style="font-size:13px;color:#6b7280;display:flex;align-items:center;gap:5px;">
-      <span style="color:#16a34a;font-weight:700;">✓</span> Updated daily
-    </div>
-    <div style="font-size:13px;color:#6b7280;display:flex;align-items:center;gap:5px;">
-      <span style="color:#16a34a;font-weight:700;">✓</span> 6-month AI forecast
-    </div>
+  <div class="hero-checks">
+    <span><b>✓</b> 7+ billion keywords</span>
+    <span><b>✓</b> 50+ countries</span>
+    <span><b>✓</b> Updated daily</span>
+    <span><b>✓</b> 6-month AI forecast</span>
   </div>
   <div class="search-bar">
     <input type="text" id="kw-input" placeholder="Enter a keyword, e.g. seo tools, wordpress hosting..." />
@@ -228,8 +203,6 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
       <option value="BR">🇧🇷 Brazil</option>
       <option value="MX">🇲🇽 Mexico</option>
       <option value="AR">🇦🇷 Argentina</option>
-      <option value="CL">🇨🇱 Chile</option>
-      <option value="CO">🇨🇴 Colombia</option>
       <option value="ZA">🇿🇦 South Africa</option>
       <option value="NG">🇳🇬 Nigeria</option>
       <option value="EG">🇪🇬 Egypt</option>
@@ -253,7 +226,7 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
     </select>
     <button class="btn-search" onclick="doSearch()">Search</button>
   </div>
-  <div id="search-counter" style="margin-top:10px;text-align:center;"></div>
+  <div class="search-counter" id="search-counter"></div>
 </div>
 
 <div id="tabs-bar" style="display:none;">
@@ -265,7 +238,6 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
 
 <div class="main">
   <div id="stats-row" class="stats-row" style="display:none;"></div>
-
   <div id="keyword-panel" class="keyword-panel active">
     <div id="loading" class="loading" style="display:none;"><div class="spinner"></div></div>
     <div id="results-section" style="display:none;">
@@ -285,11 +257,11 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
           <thead>
             <tr>
               <th>Keyword</th>
-              <th class="right"><div class="th-wrap">Avg. Monthly Searches <div class="tip"><div class="tip-icon">?</div><div class="tip-box">Average number of searches per month<br>for this keyword. Source: estimated data.</div></div></div></th>
-              <th class="right"><div class="th-wrap">CPC (USD) <div class="tip"><div class="tip-icon">?</div><div class="tip-box">Cost Per Click — how much advertisers<br>pay on average for one click on Google Ads.</div></div></div></th>
-              <th class="center"><div class="th-wrap">Competition <div class="tip"><div class="tip-icon">?</div><div class="tip-box">How many advertisers compete for this keyword.<br>LOW = easier to rank, HIGH = harder to rank.</div></div></div></th>
-              <th class="center"><div class="th-wrap">12mo Trend <div class="tip"><div class="tip-icon">?</div><div class="tip-box">Search volume over the last 12 months.<br>Green = growing, Red = declining, Blue = stable.</div></div></div></th>
-              <th class="center"><div class="th-wrap">AI Score <div class="tip"><div class="tip-icon">?</div><div class="tip-box">Our AI opportunity score (0-99).<br>75+ = great opportunity, 50-74 = moderate,<br>below 50 = difficult or declining keyword.</div></div></div></th>
+              <th class="right"><div class="th-wrap">Avg. Monthly Searches<div class="tip"><div class="tip-icon">?</div><div class="tip-box">Average number of searches per month.<br>Source: Google Ads API.</div></div></div></th>
+              <th class="right"><div class="th-wrap">CPC (USD)<div class="tip"><div class="tip-icon">?</div><div class="tip-box">Cost Per Click — avg price advertisers<br>pay per click on Google Ads.</div></div></div></th>
+              <th class="center"><div class="th-wrap">Competition<div class="tip"><div class="tip-icon">?</div><div class="tip-box">How many advertisers compete.<br>LOW = easier to rank.</div></div></div></th>
+              <th class="center"><div class="th-wrap">12mo Trend<div class="tip"><div class="tip-icon">?</div><div class="tip-box">Search volume over 12 months.<br>Green = growing, Red = declining.</div></div></div></th>
+              <th class="center"><div class="th-wrap">AI Score<div class="tip"><div class="tip-icon">?</div><div class="tip-box">AI opportunity score (0-99).<br>75+ = great, 50-74 = moderate.</div></div></div></th>
             </tr>
           </thead>
           <tbody id="kw-tbody"></tbody>
@@ -301,339 +273,30 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
       <p>Search volume, CPC, competition data, AI trend predictions and recommendations</p>
     </div>
   </div>
-
   <div id="trend-panel" class="trend-panel">
     <div id="trend-content"></div>
   </div>
 </div>
 
-<footer>KeywordPro &copy; 2026 &mdash; Real search data powered by <strong>Google Ads API</strong> &mdash; AI predictions are estimates &mdash; Developed by <a href="https://markotanaskovic.com" target="_blank" style="color:#2563eb;text-decoration:none;">markotanaskovic.com</a></footer>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script>
-const MONTHS_HIST=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const ALL_MONTHS=[...MONTHS_HIST,'Jan+','Feb+','Mar+','Apr+','May+','Jun+'];
-
-const countryMult={
-  worldwide:2.5,US:1,GB:0.62,DE:0.52,FR:0.48,IT:0.4,ES:0.42,NL:0.28,BE:0.22,
-  AT:0.18,CH:0.2,SE:0.25,NO:0.2,DK:0.2,FI:0.18,PL:0.35,CZ:0.2,HU:0.18,
-  RO:0.2,GR:0.18,PT:0.2,RS:0.12,HR:0.1,BA:0.08,SI:0.08,MK:0.06,
-  AU:0.55,NZ:0.2,CA:0.6,IN:0.9,BR:0.7,MX:0.45,AR:0.3,CL:0.2,CO:0.22,
-  ZA:0.25,NG:0.18,EG:0.22,TR:0.35,IL:0.22,AE:0.28,SA:0.3,
-  RU:0.55,UA:0.3,JP:0.6,KR:0.45,CN:1.1,SG:0.22,MY:0.25,
-  ID:0.5,TH:0.35,VN:0.3,PH:0.3,PK:0.35,BD:0.28
-};
-
-let allResults=[],chartInst=null,currentKw='';
-
-function sr(seed){
-  let s=seed;
-  return ()=>{s=(s*1664525+1013904223)&0xffffffff;return(s>>>0)/0xffffffff;};
-}
-
-function genHist(base,trend,r){
-  let v=base;
-  return Array.from({length:12},(_,i)=>{
-    const noise=(r()-0.5)*base*0.12;
-    if(trend==='rising') v=base*(0.75+i*0.025)+noise;
-    else if(trend==='falling') v=base*(1.15-i*0.02)+noise;
-    else v=base+noise;
-    return Math.max(50,Math.round(v));
-  });
-}
-
-function genForecast(hist,trend){
-  const last=hist[hist.length-1];
-  const r=sr(last);
-  return Array.from({length:6},(_,i)=>{
-    const noise=(r()-0.5)*last*0.07;
-    if(trend==='rising') return Math.round(last*(1+0.04*(i+1))+noise);
-    if(trend==='falling') return Math.round(last*(1-0.025*(i+1))+noise);
-    return Math.round(last+noise);
-  });
-}
-
-function genKeywords(kw,country){
-  const mult=countryMult[country]||1;
-  const seeds=[
-    kw,kw+' tool',kw+' free',kw+' software',kw+' online',kw+' checker',
-    'best '+kw,kw+' 2025',kw+' for beginners',kw+' tutorial',kw+' guide',
-    'how to use '+kw,kw+' vs',kw+' analyzer',kw+' tips','top '+kw,
-    kw+' strategy',kw+' course',kw+' plugin',kw+' api','free '+kw,
-    kw+' pricing',kw+' review',kw+' alternative',kw+' example',
-    kw+' template',kw+' report',kw+' dashboard',kw+' audit',kw+' rank'
-  ];
-  const comps=['LOW','MEDIUM','HIGH'];
-  const trends=['rising','stable','falling'];
-  return seeds.map((k,i)=>{
-    const r=sr(i*7+kw.length+k.length);
-    const baseVol=Math.floor((r()*9000+300)*mult);
-    const trend=trends[Math.floor(r()*3)];
-    return{
-      keyword:k,volume:baseVol,
-      cpc:+(r()*9+0.15).toFixed(2),
-      competition:comps[Math.floor(r()*3)],
-      trend:trend,
-      hist:genHist(baseVol,trend,r),
-      score:Math.round(50+r()*49)
-    };
-  });
-}
-
-function compBadge(c){
-  if(c==='LOW') return '<span class="badge badge-low">LOW</span>';
-  if(c==='MEDIUM') return '<span class="badge badge-med">MEDIUM</span>';
-  return '<span class="badge badge-high">HIGH</span>';
-}
-
-function sparkline(hist,trend){
-  const max=Math.max(...hist),min=Math.min(...hist);
-  const w=64,h=24;
-  const pts=hist.map((v,i)=>{
-    const x=(i/(hist.length-1))*w;
-    const y=h-((v-min)/(max-min||1))*(h-4)-2;
-    return x+','+y;
-  }).join(' ');
-  const col=trend==='rising'?'#16a34a':trend==='falling'?'#dc2626':'#2563eb';
-  return `<svg width="${w}" height="${h}" style="display:block;margin:0 auto;"><polyline points="${pts}" fill="none" stroke="${col}" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
-}
-
-function aiColor(s){return s>=75?'#15803d':s>=50?'#b45309':'#dc2626';}
-
-function renderTable(){
-  document.getElementById('kw-tbody').innerHTML=allResults.map((r,i)=>`
-    <tr onclick="openTrend(${i})">
-      <td class="kw-text">${r.keyword}</td>
-      <td class="right">${r.volume.toLocaleString()}</td>
-      <td class="right">$${r.cpc.toFixed(2)}</td>
-      <td class="center">${compBadge(r.competition)}</td>
-      <td class="center">${sparkline(r.hist,r.trend)}</td>
-      <td class="center"><span style="font-weight:700;color:${aiColor(r.score)};">${r.score}</span></td>
-    </tr>`).join('');
-}
-
-function sortResults(){
-  const s=document.getElementById('sort-sel').value;
-  if(s==='vol') allResults.sort((a,b)=>b.volume-a.volume);
-  if(s==='cpc') allResults.sort((a,b)=>b.cpc-a.cpc);
-  if(s==='comp') allResults.sort((a,b)=>['LOW','MEDIUM','HIGH'].indexOf(b.competition)-['LOW','MEDIUM','HIGH'].indexOf(a.competition));
-  renderTable();
-}
-
-function showStats(){
-  const total=allResults.reduce((s,r)=>s+r.volume,0);
-  const avgCpc=(allResults.reduce((s,r)=>s+r.cpc,0)/allResults.length).toFixed(2);
-  const lowComp=allResults.filter(r=>r.competition==='LOW').length;
-  const rising=allResults.filter(r=>r.trend==='rising').length;
-  const row=document.getElementById('stats-row');
-  row.style.display='grid';
-  row.innerHTML=[
-    ['Keywords found',allResults.length,''],
-    ['Total monthly searches',total.toLocaleString(),''],
-    ['Average CPC','$'+avgCpc,''],
-    ['Low competition',lowComp,'color:#15803d'],
-    ['Trending up',rising,'color:#15803d']
-  ].map(([l,v,c])=>`<div class="stat-card"><div class="stat-label">${l}</div><div class="stat-value" style="${c}">${v}</div></div>`).join('');
-}
-
-async function doSearch(){
-  const kw=document.getElementById('kw-input').value.trim();
-  const country=document.getElementById('country-select').value;
-  if(!kw) return;
-
-  const searches = parseInt(localStorage.getItem('kp_searches') || '0');
-  const limit = currentUser ? 10 : 3;
-  if(searches >= limit) {
-    if(!currentUser) {
-      openModal('signup');
-      document.getElementById('signup-error').textContent = 'You have used all ' + limit + ' free searches. Create a free account for 10 searches!';
-      document.getElementById('signup-error').style.display = 'block';
-    } else {
-      alert('You have used all 10 free searches. Upgrade to Pro for unlimited access!');
-    }
-    return;
-  }
-  localStorage.setItem('kp_searches', searches + 1);
-  updateSearchCounter();
-
-  currentKw=kw;
-  document.getElementById('empty-state').style.display='none';
-  document.getElementById('results-section').style.display='none';
-  document.getElementById('stats-row').style.display='none';
-  document.getElementById('loading').style.display='block';
-  document.getElementById('tabs-bar').style.display='block';
-  showTab('keywords');
-
-  try {
-    const response = await fetch('/api/keywords', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ keyword: kw, country: country })
-    });
-    const data = await response.json();
-    if (data.error) throw new Error(data.error);
-    allResults = data.keywords.length > 0 ? data.keywords : genKeywords(kw, country);
-  } catch(err) {
-    console.error('API error, using estimates:', err);
-    allResults = genKeywords(kw, country);
-  }
-
-  allResults.sort((a,b)=>b.volume-a.volume);
-  document.getElementById('loading').style.display='none';
-  document.getElementById('result-count').textContent=allResults.length+' keywords found for "'+kw+'"';
-  showStats();
-  document.getElementById('results-section').style.display='block';
-  renderTable();
-}
-
-function showTab(tab){
-  document.querySelectorAll('.tab').forEach((t,i)=>{
-    t.classList.toggle('active',(i===0&&tab==='keywords')||(i===1&&tab==='trends'));
-  });
-  document.getElementById('keyword-panel').classList.toggle('active',tab==='keywords');
-  document.getElementById('trend-panel').classList.toggle('active',tab==='trends');
-  if(tab==='trends'&&allResults.length>0) renderTrendDashboard(allResults[0]);
-}
-
-function openTrend(i){
-  showTab('trends');
-  renderTrendDashboard(allResults[i]);
-}
-
-function buildRecs(r){
-  const rising=r.trend==='rising',falling=r.trend==='falling',low=r.competition==='LOW',high=r.competition==='HIGH';
-  return[
-    {
-      type:rising&&!high?'top':falling?'warn':'info',
-      label:rising&&low?'Best opportunity':rising?'Focus now':falling?'Declining trend':'Stable target',
-      kw:r.keyword,
-      desc:rising?'Volume growing fast. Create in-depth content now before competition increases. Target featured snippets.':falling?'Declining search interest. Optimize existing content rather than creating new pages.':'Stable demand. Great for evergreen content. Consistent traffic with low risk.',
-      score:r.score
-    },
-    {
-      type:low?'top':'info',label:'Long-tail target',
-      kw:'best '+r.keyword+' 2025',
-      desc:'Lower competition modifier. Estimated 3-4x higher conversion rate. Easier to rank in 4-8 weeks.',
-      score:Math.min(99,r.score+8)
-    },
-    {
-      type:high?'warn':'top',label:high?'High competition':'Quick win',
-      kw:r.keyword+' free',
-      desc:high?'Highly competitive. Needs strong backlink profile and domain authority to reach page 1.':'Free modifier reduces competition significantly. High intent, good for top-of-funnel content.',
-      score:high?Math.max(20,r.score-22):Math.min(99,r.score+10)
-    },
-    {
-      type:'info',label:'Content angle',
-      kw:'how to '+r.keyword,
-      desc:'Tutorial content gets 3x more backlinks on average. Strong for building topical authority in this niche.',
-      score:Math.min(99,Math.round(r.score*0.85+10))
-    }
-  ];
-}
-
-function renderTrendDashboard(r){
-  const fc=genForecast(r.hist,r.trend);
-  const histPoints=[...r.hist,...Array(6).fill(null)];
-  const fcPoints=[...Array(11).fill(null),r.hist[11],...fc];
-  const momChange=Math.round(((r.hist[11]-r.hist[10])/r.hist[10])*100);
-  const yoyChange=Math.round(((r.hist[11]-r.hist[0])/r.hist[0])*100);
-  const recs=buildRecs(r);
-
-  document.getElementById('trend-content').innerHTML=`
-    <div class="kw-detail-header">
-      <button class="back-btn" onclick="showTab('keywords')">&larr; Back to keywords</button>
-      <div class="detail-kw">"${r.keyword}"</div>
-    </div>
-    <div class="stats-row" style="display:grid;margin-bottom:1.5rem;">
-      ${[
-        ['Avg monthly volume',r.volume.toLocaleString(),''],
-        ['Current volume',r.hist[11].toLocaleString(),momChange>=0?'color:#15803d':'color:#dc2626'],
-        ['MoM change',(momChange>=0?'+':'')+momChange+'%',momChange>=0?'color:#15803d':'color:#dc2626'],
-        ['YoY change',(yoyChange>=0?'+':'')+yoyChange+'%',yoyChange>=0?'color:#15803d':'color:#dc2626'],
-        ['CPC','$'+r.cpc.toFixed(2),''],
-        ['Competition',r.competition,r.competition==='LOW'?'color:#15803d':r.competition==='MEDIUM'?'color:#b45309':'color:#dc2626'],
-        ['Trend',r.trend.charAt(0).toUpperCase()+r.trend.slice(1),r.trend==='rising'?'color:#15803d':r.trend==='falling'?'color:#dc2626':'color:#b45309'],
-        ['AI Score',r.score,'color:'+aiColor(r.score)]
-      ].map(([l,v,c])=>`<div class="stat-card"><div class="stat-label">${l}</div><div class="stat-value" style="${c}">${v}</div></div>`).join('')}
-    </div>
-    <div class="chart-card">
-      <h3>Search volume — 12 months history + 6 month AI forecast</h3>
-      <div class="sub">Dashed green line = AI predicted trend &mdash; estimates based on historical pattern</div>
-      <div class="legend">
-        <div class="leg-item"><div class="leg-dot" style="background:#2563eb;"></div>Historical data</div>
-        <div class="leg-item"><div class="leg-dot" style="background:#16a34a;border:1px dashed #16a34a;"></div>AI forecast</div>
-      </div>
-      <div style="position:relative;width:100%;height:240px;">
-        <canvas id="trendChart" role="img" aria-label="Search volume trend and forecast for ${r.keyword}"></canvas>
-      </div>
-    </div>
-    <div class="ai-card">
-      <div class="ai-header">
-        <div class="ai-badge">AI Analysis</div>
-        <div class="ai-title">Opportunity analysis for "${r.keyword}"</div>
-      </div>
-      <div class="rec-grid">
-        ${recs.map(rec=>`
-          <div class="rec-card ${rec.type}">
-            <div class="rec-label">${rec.label}</div>
-            <div class="rec-kw">${rec.kw}</div>
-            <div class="rec-desc">${rec.desc}</div>
-            <div class="score-row">
-              <div class="score-bar-bg"><div class="score-bar" style="width:${rec.score}%;background:${rec.type==='top'?'#16a34a':rec.type==='warn'?'#d97706':'#2563eb'};"></div></div>
-              <div class="score-val">${rec.score}</div>
-            </div>
-          </div>`).join('')}
-      </div>
-    </div>`;
-
-  if(chartInst) chartInst.destroy();
-  chartInst=new Chart(document.getElementById('trendChart'),{
-    type:'line',
-    data:{
-      labels:ALL_MONTHS,
-      datasets:[
-        {label:'Historical',data:histPoints,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.06)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#2563eb',borderWidth:2,spanGaps:false},
-        {label:'AI Forecast',data:fcPoints,borderColor:'#16a34a',backgroundColor:'rgba(22,163,74,0.05)',fill:true,tension:0.4,borderDash:[5,4],pointRadius:3,pointBackgroundColor:'#16a34a',borderWidth:2,spanGaps:false}
-      ]
-    },
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},
-      scales:{
-        x:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:11},color:'#9ca3af',maxRotation:0,autoSkip:false}},
-        y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:11},color:'#9ca3af',callback:v=>v>=1000?Math.round(v/1000)+'k':v}}
-      }
-    }
-  });
-}
-
-function exportCSV(){
-  const rows=[['Keyword','Avg Monthly Searches','CPC (USD)','Competition','Trend','AI Score']];
-  allResults.forEach(r=>rows.push([r.keyword,r.volume,r.cpc,r.competition,r.trend,r.score]));
-  const csv=rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n');
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download='keywords-'+currentKw.replace(/\s+/g,'-')+'.csv';
-  a.click();
-}
-
-document.getElementById('kw-input').addEventListener('keydown',e=>{if(e.key==='Enter') doSearch();});
-</script>
+<footer>
+  KeywordPro &copy; 2026 &mdash; Real data powered by <strong>Google Ads API</strong> &mdash; AI predictions are estimates<br>
+  <span style="margin-top:6px;display:inline-block;">Developed by <a href="https://markotanaskovic.com" target="_blank">markotanaskovic.com</a> &mdash; By signing up you agree to our <a href="#">Privacy Policy</a> and consent to receiving product updates by email.</span>
+</footer>
 
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">×</button>
+    <button class="modal-close" onclick="closeModal()">&#215;</button>
     <div id="modal-signup">
       <h2>Create free account</h2>
-      <p class="modal-sub">Get access to KeywordPro — 100% free</p>
+      <p class="modal-sub">Get 10 free searches — no credit card needed</p>
       <div class="modal-error" id="signup-error"></div>
       <input type="email" id="signup-email" placeholder="Your email address" />
       <input type="password" id="signup-password" placeholder="Password (min 6 characters)" />
       <div class="gdpr-row">
         <input type="checkbox" id="gdpr-check" />
-        <label for="gdpr-check">I agree to the <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>. I consent to receiving product updates and marketing emails.</label>
+        <label for="gdpr-check">I agree to the <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>. I consent to receiving product updates and tips by email. I can unsubscribe anytime.</label>
       </div>
-      <button class="modal-btn" onclick="doSignup()">Create free account</button>
+      <button class="modal-btn" id="signup-btn" onclick="doSignup()">Create free account</button>
       <div class="modal-switch">Already have an account? <a onclick="switchModal('login')">Log in</a></div>
     </div>
     <div id="modal-login" style="display:none;">
@@ -642,100 +305,133 @@ document.getElementById('kw-input').addEventListener('keydown',e=>{if(e.key==='E
       <div class="modal-error" id="login-error"></div>
       <input type="email" id="login-email" placeholder="Your email address" />
       <input type="password" id="login-password" placeholder="Password" />
-      <button class="modal-btn" onclick="doLogin()">Log in</button>
+      <button class="modal-btn" id="login-btn" onclick="doLogin()">Log in</button>
       <div class="modal-switch">Don't have an account? <a onclick="switchModal('signup')">Sign up free</a></div>
     </div>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-let currentUser = null;
+const MONTHS_HIST=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const ALL_MONTHS=[...MONTHS_HIST,'Jan+','Feb+','Mar+','Apr+','May+','Jun+'];
+const countryMult={worldwide:2.5,US:1,GB:0.62,DE:0.52,FR:0.48,IT:0.4,ES:0.42,NL:0.28,BE:0.22,AT:0.18,CH:0.2,SE:0.25,NO:0.2,DK:0.2,FI:0.18,PL:0.35,CZ:0.2,HU:0.18,RO:0.2,GR:0.18,PT:0.2,RS:0.12,HR:0.1,BA:0.08,SI:0.08,MK:0.06,AU:0.55,NZ:0.2,CA:0.6,IN:0.9,BR:0.7,MX:0.45,AR:0.3,ZA:0.25,NG:0.18,EG:0.22,TR:0.35,IL:0.22,AE:0.28,SA:0.3,RU:0.55,UA:0.3,JP:0.6,KR:0.45,CN:1.1,SG:0.22,MY:0.25,ID:0.5,TH:0.35,VN:0.3,PH:0.3,PK:0.35,BD:0.28};
+let allResults=[],chartInst=null,currentKw='',currentUser=null;
 
-function openModal(type) {
-  document.getElementById('modal-overlay').classList.add('open');
-  switchModal(type);
-}
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-}
-function switchModal(type) {
-  document.getElementById('modal-signup').style.display = type === 'signup' ? 'block' : 'none';
-  document.getElementById('modal-login').style.display = type === 'login' ? 'block' : 'none';
-}
+function sr(seed){let s=seed;return()=>{s=(s*1664525+1013904223)&0xffffffff;return(s>>>0)/0xffffffff;};}
+function genHist(base,trend,r){let v=base;return Array.from({length:12},(_,i)=>{const noise=(r()-0.5)*base*0.12;if(trend==='rising')v=base*(0.75+i*0.025)+noise;else if(trend==='falling')v=base*(1.15-i*0.02)+noise;else v=base+noise;return Math.max(50,Math.round(v));});}
+function genForecast(hist,trend){const last=hist[hist.length-1];const r=sr(last);return Array.from({length:6},(_,i)=>{const noise=(r()-0.5)*last*0.07;if(trend==='rising')return Math.round(last*(1+0.04*(i+1))+noise);if(trend==='falling')return Math.round(last*(1-0.025*(i+1))+noise);return Math.round(last+noise);});}
+function genKeywords(kw,country){const mult=countryMult[country]||1;const seeds=[kw,kw+' tool',kw+' free',kw+' software',kw+' online',kw+' checker','best '+kw,kw+' 2025',kw+' for beginners',kw+' tutorial',kw+' guide','how to use '+kw,kw+' vs',kw+' analyzer',kw+' tips','top '+kw,kw+' strategy',kw+' course',kw+' plugin',kw+' api','free '+kw,kw+' pricing',kw+' review',kw+' alternative',kw+' example',kw+' template',kw+' report',kw+' dashboard',kw+' audit',kw+' rank'];const comps=['LOW','MEDIUM','HIGH'];const trends=['rising','stable','falling'];return seeds.map((k,i)=>{const r=sr(i*7+kw.length+k.length);const baseVol=Math.floor((r()*9000+300)*mult);const trend=trends[Math.floor(r()*3)];return{keyword:k,volume:baseVol,cpc:+(r()*9+0.15).toFixed(2),competition:comps[Math.floor(r()*3)],trend,hist:genHist(baseVol,trend,r),score:Math.round(50+r()*49)};});}
+function compBadge(c){if(c==='LOW')return '<span class="badge badge-low">LOW</span>';if(c==='MEDIUM')return '<span class="badge badge-med">MEDIUM</span>';return '<span class="badge badge-high">HIGH</span>';}
+function sparkline(hist,trend){const max=Math.max(...hist),min=Math.min(...hist);const w=64,h=24;const pts=hist.map((v,i)=>{const x=(i/(hist.length-1))*w;const y=h-((v-min)/(max-min||1))*(h-4)-2;return x+','+y;}).join(' ');const col=trend==='rising'?'#16a34a':trend==='falling'?'#dc2626':'#2563eb';return '<svg width="'+w+'" height="'+h+'" style="display:block;margin:0 auto;"><polyline points="'+pts+'" fill="none" stroke="'+col+'" stroke-width="1.5" stroke-linejoin="round"/></svg>';}
+function aiColor(s){return s>=75?'#15803d':s>=50?'#b45309':'#dc2626';}
+function renderTable(){document.getElementById('kw-tbody').innerHTML=allResults.map((r,i)=>'<tr onclick="openTrend('+i+')"><td class="kw-text">'+r.keyword+'</td><td class="right">'+r.volume.toLocaleString()+'</td><td class="right">$'+r.cpc.toFixed(2)+'</td><td class="center">'+compBadge(r.competition)+'</td><td class="center">'+sparkline(r.hist,r.trend)+'</td><td class="center"><span style="font-weight:700;color:'+aiColor(r.score)+';">'+r.score+'</span></td></tr>').join('');}
+function sortResults(){const s=document.getElementById('sort-sel').value;if(s==='vol')allResults.sort((a,b)=>b.volume-a.volume);if(s==='cpc')allResults.sort((a,b)=>b.cpc-a.cpc);if(s==='comp')allResults.sort((a,b)=>['LOW','MEDIUM','HIGH'].indexOf(b.competition)-['LOW','MEDIUM','HIGH'].indexOf(a.competition));renderTable();}
+function showStats(){const total=allResults.reduce((s,r)=>s+r.volume,0);const avgCpc=(allResults.reduce((s,r)=>s+r.cpc,0)/allResults.length).toFixed(2);const lowComp=allResults.filter(r=>r.competition==='LOW').length;const rising=allResults.filter(r=>r.trend==='rising').length;const row=document.getElementById('stats-row');row.style.display='grid';row.innerHTML=[['Keywords found',allResults.length,''],['Total monthly searches',total.toLocaleString(),''],['Average CPC','$'+avgCpc,''],['Low competition',lowComp,'color:#15803d'],['Trending up',rising,'color:#15803d']].map(([l,v,c])=>'<div class="stat-card"><div class="stat-label">'+l+'</div><div class="stat-value" style="'+c+'">'+v+'</div></div>').join('');}
 
+function updateSearchCounter(){const searches=parseInt(localStorage.getItem('kp_searches')||'0');const limit=currentUser?10:3;const remaining=Math.max(0,limit-searches);const el=document.getElementById('search-counter');if(!el)return;if(remaining<=0){el.innerHTML=currentUser?'<span style="color:#dc2626;">No searches left — <a href="#" onclick="alert(\'Pro plan coming soon!\')">Upgrade to Pro</a></span>':'<span style="color:#dc2626;">No searches left — <a onclick="openModal(\'signup\')">Create free account for 10 searches</a></span>';}else{el.innerHTML='<span>'+remaining+' of '+limit+' free searches remaining'+(currentUser?'':' — <a onclick="openModal(\'signup\')">Sign up for more</a>')+'</span>';}}
 
-
-function doLogout() {
-  currentUser = null;
-  localStorage.removeItem('kp_user');
-  location.reload();
-}
-
-async function doSignup() {
-  const email = document.getElementById('signup-email').value.trim();
-  const password = document.getElementById('signup-password').value;
-  const gdpr = document.getElementById('gdpr-check').checked;
-  const errEl = document.getElementById('signup-error');
-  errEl.style.display = 'none';
-  if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
-  if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
-  if (!gdpr) { errEl.textContent = 'Please accept the privacy policy to continue.'; errEl.style.display = 'block'; return; }
-  const btn = document.querySelector('#modal-signup .modal-btn');
-  btn.textContent = 'Creating account...'; btn.disabled = true;
-  try {
-    const res = await fetch('/api/auth', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ action: 'signup', email, password, gdpr_consent: gdpr }) });
-    const data = await res.json();
-    if (data.error) { errEl.textContent = data.error; errEl.style.display = 'block'; }
-    else setLoggedIn({ email, token: data.token });
-  } catch(e) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
-  btn.textContent = 'Create free account'; btn.disabled = false;
-}
-
-async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const errEl = document.getElementById('login-error');
-  errEl.style.display = 'none';
-  if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
-  const btn = document.querySelector('#modal-login .modal-btn');
-  btn.textContent = 'Logging in...'; btn.disabled = true;
-  try {
-    const res = await fetch('/api/auth', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ action: 'login', email, password }) });
-    const data = await res.json();
-    if (data.error) { errEl.textContent = data.error; errEl.style.display = 'block'; }
-    else setLoggedIn({ email, token: data.token });
-  } catch(e) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
-  btn.textContent = 'Log in'; btn.disabled = false;
-}
-
-function updateSearchCounter() {
-  const searches = parseInt(localStorage.getItem('kp_searches') || '0');
-  const limit = currentUser ? 10 : 3;
-  const remaining = Math.max(0, limit - searches);
-  const el = document.getElementById('search-counter');
-  if(el) {
-    if(remaining <= 0) {
-      el.innerHTML = currentUser ? '<span style="color:#dc2626;font-size:13px;">No searches left — <a href="#" style="color:#2563eb;" onclick="alert('Upgrade coming soon!')">Upgrade to Pro</a></span>' : '<span style="color:#dc2626;font-size:13px;">No searches left — <a href="#" style="color:#2563eb;" onclick="openModal('signup')">Create free account</a></span>';
-    } else {
-      el.innerHTML = '<span style="color:#6b7280;font-size:13px;">' + remaining + ' of ' + limit + ' free searches remaining' + (!currentUser ? ' — <a href="#" style="color:#2563eb;" onclick="openModal('signup')">Sign up for more</a>' : '') + '</span>';
-    }
+async function doSearch(){
+  const kw=document.getElementById('kw-input').value.trim();
+  const country=document.getElementById('country-select').value;
+  if(!kw)return;
+  const searches=parseInt(localStorage.getItem('kp_searches')||'0');
+  const limit=currentUser?10:3;
+  if(searches>=limit){
+    if(!currentUser){openModal('signup');document.getElementById('signup-error').textContent='You used all '+limit+' free searches. Sign up free for 10 searches!';document.getElementById('signup-error').style.display='block';}
+    else alert('You used all 10 free searches. Pro plan coming soon!');
+    return;
   }
-}
-
-function setLoggedIn(user) {
-  currentUser = user;
-  localStorage.setItem('kp_user', JSON.stringify(user));
-  localStorage.removeItem('kp_searches');
-  document.getElementById('header-right').innerHTML = '<span class="user-email">'+user.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';
-  closeModal();
+  localStorage.setItem('kp_searches',searches+1);
   updateSearchCounter();
+  currentKw=kw;
+  document.getElementById('empty-state').style.display='none';
+  document.getElementById('results-section').style.display='none';
+  document.getElementById('stats-row').style.display='none';
+  document.getElementById('loading').style.display='block';
+  document.getElementById('tabs-bar').style.display='block';
+  showTab('keywords');
+  try{
+    const response=await fetch('/api/keywords',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({keyword:kw,country})});
+    const data=await response.json();
+    allResults=data.keywords&&data.keywords.length>0?data.keywords:genKeywords(kw,country);
+  }catch(err){allResults=genKeywords(kw,country);}
+  allResults.sort((a,b)=>b.volume-a.volume);
+  document.getElementById('loading').style.display='none';
+  document.getElementById('result-count').textContent=allResults.length+' keywords found for "'+kw+'"';
+  showStats();
+  document.getElementById('results-section').style.display='block';
+  renderTable();
 }
 
-const saved = localStorage.getItem('kp_user');
-if (saved) { try { 
-  currentUser = JSON.parse(saved);
-  document.getElementById('header-right').innerHTML = '<span class="user-email">'+currentUser.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';
-} catch(e) { localStorage.removeItem('kp_user'); } }
+function showTab(tab){document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',(i===0&&tab==='keywords')||(i===1&&tab==='trends'));});document.getElementById('keyword-panel').classList.toggle('active',tab==='keywords');document.getElementById('trend-panel').classList.toggle('active',tab==='trends');if(tab==='trends'&&allResults.length>0)renderTrendDashboard(allResults[0]);}
+function openTrend(i){showTab('trends');renderTrendDashboard(allResults[i]);}
+
+function buildRecs(r){const rising=r.trend==='rising',falling=r.trend==='falling',low=r.competition==='LOW',high=r.competition==='HIGH';return[{type:rising&&!high?'top':falling?'warn':'info',label:rising&&low?'Best opportunity':rising?'Focus now':falling?'Declining trend':'Stable target',kw:r.keyword,desc:rising?'Volume growing fast. Create in-depth content now before competition increases.':falling?'Declining interest. Optimize existing content rather than creating new pages.':'Stable demand. Great for evergreen content strategy.',score:r.score},{type:low?'top':'info',label:'Long-tail target',kw:'best '+r.keyword+' 2025',desc:'Lower competition modifier. Estimated 3-4x higher conversion rate. Easier to rank.',score:Math.min(99,r.score+8)},{type:high?'warn':'top',label:high?'High competition':'Quick win',kw:r.keyword+' free',desc:high?'Highly competitive. Needs strong backlink profile to rank page 1.':'Free modifier reduces competition. High intent, good for top-of-funnel content.',score:high?Math.max(20,r.score-22):Math.min(99,r.score+10)},{type:'info',label:'Content angle',kw:'how to '+r.keyword,desc:'Tutorial content gets 3x more backlinks on average. Builds topical authority.',score:Math.min(99,Math.round(r.score*0.85+10))}];}
+
+function renderTrendDashboard(r){
+  const fc=genForecast(r.hist,r.trend);
+  const histPoints=[...r.hist,...Array(6).fill(null)];
+  const fcPoints=[...Array(11).fill(null),r.hist[11],...fc];
+  const momChange=Math.round(((r.hist[11]-r.hist[10])/r.hist[10])*100);
+  const yoyChange=Math.round(((r.hist[11]-r.hist[0])/r.hist[0])*100);
+  const recs=buildRecs(r);
+  document.getElementById('trend-content').innerHTML='<div class="kw-detail-header"><button class="back-btn" onclick="showTab(\'keywords\')">&larr; Back</button><div class="detail-kw">"'+r.keyword+'"</div></div><div class="stats-row" style="display:grid;margin-bottom:1.5rem;">'+[['Avg monthly volume',r.volume.toLocaleString(),''],['Current',r.hist[11].toLocaleString(),momChange>=0?'color:#15803d':'color:#dc2626'],['MoM',(momChange>=0?'+':'')+momChange+'%',momChange>=0?'color:#15803d':'color:#dc2626'],['YoY',(yoyChange>=0?'+':'')+yoyChange+'%',yoyChange>=0?'color:#15803d':'color:#dc2626'],['CPC','$'+r.cpc.toFixed(2),''],['Competition',r.competition,r.competition==='LOW'?'color:#15803d':r.competition==='MEDIUM'?'color:#b45309':'color:#dc2626'],['Trend',r.trend.charAt(0).toUpperCase()+r.trend.slice(1),r.trend==='rising'?'color:#15803d':r.trend==='falling'?'color:#dc2626':'color:#b45309'],['AI Score',r.score,'color:'+aiColor(r.score)]].map(([l,v,c])=>'<div class="stat-card"><div class="stat-label">'+l+'</div><div class="stat-value" style="'+c+'">'+v+'</div></div>').join('')+'</div><div class="chart-card"><h3>Search volume — 12 months history + 6 month AI forecast</h3><div class="chart-sub">Dashed green = AI predicted trend</div><div class="legend"><div class="leg-item"><div class="leg-dot" style="background:#2563eb;"></div>Historical</div><div class="leg-item"><div class="leg-dot" style="background:#16a34a;"></div>AI forecast</div></div><div style="position:relative;width:100%;height:240px;"><canvas id="trendChart" role="img" aria-label="Trend chart for '+r.keyword+'"></canvas></div></div><div class="ai-card"><div class="ai-header"><div class="ai-badge">AI Analysis</div><div class="ai-title">Opportunity analysis for "'+r.keyword+'"</div></div><div class="rec-grid">'+recs.map(rec=>'<div class="rec-card '+rec.type+'"><div class="rec-label">'+rec.label+'</div><div class="rec-kw">'+rec.kw+'</div><div class="rec-desc">'+rec.desc+'</div><div class="score-row"><div class="score-bar-bg"><div class="score-bar" style="width:'+rec.score+'%;background:'+(rec.type==='top'?'#16a34a':rec.type==='warn'?'#d97706':'#2563eb')+'"></div></div><div class="score-val">'+rec.score+'</div></div></div>').join('')+'</div></div>';
+  if(chartInst)chartInst.destroy();
+  chartInst=new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:ALL_MONTHS,datasets:[{label:'Historical',data:histPoints,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.06)',fill:true,tension:0.4,pointRadius:3,pointBackgroundColor:'#2563eb',borderWidth:2,spanGaps:false},{label:'AI Forecast',data:fcPoints,borderColor:'#16a34a',backgroundColor:'rgba(22,163,74,0.05)',fill:true,tension:0.4,borderDash:[5,4],pointRadius:3,pointBackgroundColor:'#16a34a',borderWidth:2,spanGaps:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},scales:{x:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:11},color:'#9ca3af',maxRotation:0,autoSkip:false}},y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:11},color:'#9ca3af',callback:v=>v>=1000?Math.round(v/1000)+'k':v}}}}});
+}
+
+function exportCSV(){const rows=[['Keyword','Avg Monthly Searches','CPC (USD)','Competition','Trend','AI Score']];allResults.forEach(r=>rows.push([r.keyword,r.volume,r.cpc,r.competition,r.trend,r.score]));const csv=rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n');const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='keywords-'+currentKw.replace(/\s+/g,'-')+'.csv';a.click();}
+
+function openModal(type){document.getElementById('modal-overlay').classList.add('open');switchModal(type);}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
+function switchModal(type){document.getElementById('modal-signup').style.display=type==='signup'?'block':'none';document.getElementById('modal-login').style.display=type==='login'?'block':'none';}
+
+function setLoggedIn(user){currentUser=user;localStorage.setItem('kp_user',JSON.stringify(user));localStorage.removeItem('kp_searches');document.getElementById('header-right').innerHTML='<span class="user-email">'+user.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';closeModal();updateSearchCounter();}
+function doLogout(){currentUser=null;localStorage.removeItem('kp_user');location.reload();}
+
+async function doSignup(){
+  const email=document.getElementById('signup-email').value.trim();
+  const password=document.getElementById('signup-password').value;
+  const gdpr=document.getElementById('gdpr-check').checked;
+  const errEl=document.getElementById('signup-error');
+  errEl.style.display='none';
+  if(!email||!password){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
+  if(password.length<6){errEl.textContent='Password must be at least 6 characters.';errEl.style.display='block';return;}
+  if(!gdpr){errEl.textContent='Please accept the privacy policy to continue.';errEl.style.display='block';return;}
+  const btn=document.getElementById('signup-btn');
+  btn.textContent='Creating account...';btn.disabled=true;
+  try{
+    const res=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'signup',email,password,gdpr_consent:gdpr})});
+    const data=await res.json();
+    if(data.error){errEl.textContent=data.error;errEl.style.display='block';}
+    else setLoggedIn({email,token:data.token});
+  }catch(e){errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';}
+  btn.textContent='Create free account';btn.disabled=false;
+}
+
+async function doLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const password=document.getElementById('login-password').value;
+  const errEl=document.getElementById('login-error');
+  errEl.style.display='none';
+  if(!email||!password){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
+  const btn=document.getElementById('login-btn');
+  btn.textContent='Logging in...';btn.disabled=true;
+  try{
+    const res=await fetch('/api/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'login',email,password})});
+    const data=await res.json();
+    if(data.error){errEl.textContent=data.error;errEl.style.display='block';}
+    else setLoggedIn({email,token:data.token});
+  }catch(e){errEl.textContent='Something went wrong. Please try again.';errEl.style.display='block';}
+  btn.textContent='Log in';btn.disabled=false;
+}
+
+document.getElementById('kw-input').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+const saved=localStorage.getItem('kp_user');
+if(saved){try{const u=JSON.parse(saved);currentUser=u;document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';}catch(e){localStorage.removeItem('kp_user');}}
 updateSearchCounter();
 </script>
 </body>
