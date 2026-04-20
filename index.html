@@ -113,6 +113,29 @@ tr:hover td{background:#f9fafb;cursor:pointer;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:2rem;width:100%;max-width:420px;margin:1rem;position:relative;}
+.modal h2{font-size:20px;font-weight:700;margin-bottom:6px;text-align:center;}
+.modal-sub{font-size:14px;color:#6b7280;text-align:center;margin-bottom:1.5rem;}
+.modal input[type=email],.modal input[type=password]{width:100%;height:44px;padding:0 14px;font-size:14px;border:1.5px solid #d1d5db;border-radius:8px;margin-bottom:12px;outline:none;box-sizing:border-box;}
+.modal input[type=email]:focus,.modal input[type=password]:focus{border-color:#2563eb;}
+.modal-btn{width:100%;height:44px;font-size:15px;font-weight:600;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;margin-bottom:12px;}
+.modal-btn:hover{background:#1d4ed8;}
+.modal-switch{font-size:13px;color:#6b7280;text-align:center;}
+.modal-switch a{color:#2563eb;cursor:pointer;}
+.gdpr-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:14px;}
+.gdpr-row label{font-size:12px;color:#6b7280;line-height:1.5;}
+.gdpr-row a{color:#2563eb;}
+.modal-error{font-size:13px;color:#dc2626;text-align:center;margin-bottom:10px;display:none;}
+.modal-close{position:absolute;top:14px;right:16px;font-size:22px;cursor:pointer;color:#9ca3af;background:none;border:none;line-height:1;}
+.user-email{font-size:13px;color:#6b7280;}
+.btn-logout{padding:6px 14px;font-size:13px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
+.locked-state{text-align:center;padding:4rem 2rem;background:#fff;border-radius:10px;border:1px solid #e5e7eb;margin-top:1rem;}
+.locked-state h2{font-size:20px;font-weight:700;margin-bottom:8px;}
+.locked-state p{font-size:14px;color:#6b7280;margin-bottom:1.5rem;}
+.btn-unlock{height:44px;padding:0 28px;font-size:15px;font-weight:600;background:#2563eb;color:#fff;border:none;border-radius:8px;cursor:pointer;}
+.btn-unlock:hover{background:#1d4ed8;}
 .th-wrap{display:inline-flex;align-items:center;gap:4px;}
 .tip{position:relative;display:inline-flex;align-items:center;cursor:help;}
 .tip-icon{width:14px;height:14px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;line-height:1;}
@@ -125,9 +148,9 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
 
 <header>
   <div class="logo">Keyword<span>Pro</span></div>
-  <div class="header-right">
-    <button class="btn-login">Log in</button>
-    <button class="btn-signup">Sign up free</button>
+  <div class="header-right" id="header-right">
+    <button class="btn-login" onclick="openModal('login')">Log in</button>
+    <button class="btn-signup" onclick="openModal('signup')">Sign up free</button>
   </div>
 </header>
 
@@ -571,6 +594,103 @@ function exportCSV(){
 }
 
 document.getElementById('kw-input').addEventListener('keydown',e=>{if(e.key==='Enter') doSearch();});
+</script>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&#times;</button>
+    <div id="modal-signup">
+      <h2>Create free account</h2>
+      <p class="modal-sub">Get access to KeywordPro — 100% free</p>
+      <div class="modal-error" id="signup-error"></div>
+      <input type="email" id="signup-email" placeholder="Your email address" />
+      <input type="password" id="signup-password" placeholder="Password (min 6 characters)" />
+      <div class="gdpr-row">
+        <input type="checkbox" id="gdpr-check" />
+        <label for="gdpr-check">I agree to the <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>. I consent to receiving product updates and marketing emails.</label>
+      </div>
+      <button class="modal-btn" onclick="doSignup()">Create free account</button>
+      <div class="modal-switch">Already have an account? <a onclick="switchModal('login')">Log in</a></div>
+    </div>
+    <div id="modal-login" style="display:none;">
+      <h2>Welcome back</h2>
+      <p class="modal-sub">Log in to your KeywordPro account</p>
+      <div class="modal-error" id="login-error"></div>
+      <input type="email" id="login-email" placeholder="Your email address" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <button class="modal-btn" onclick="doLogin()">Log in</button>
+      <div class="modal-switch">Don't have an account? <a onclick="switchModal('signup')">Sign up free</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentUser = null;
+
+function openModal(type) {
+  document.getElementById('modal-overlay').classList.add('open');
+  switchModal(type);
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+function switchModal(type) {
+  document.getElementById('modal-signup').style.display = type === 'signup' ? 'block' : 'none';
+  document.getElementById('modal-login').style.display = type === 'login' ? 'block' : 'none';
+}
+
+function setLoggedIn(user) {
+  currentUser = user;
+  localStorage.setItem('kp_user', JSON.stringify(user));
+  document.getElementById('header-right').innerHTML = '<span class="user-email">'+user.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';
+  closeModal();
+}
+
+function doLogout() {
+  currentUser = null;
+  localStorage.removeItem('kp_user');
+  location.reload();
+}
+
+async function doSignup() {
+  const email = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  const gdpr = document.getElementById('gdpr-check').checked;
+  const errEl = document.getElementById('signup-error');
+  errEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
+  if (password.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display = 'block'; return; }
+  if (!gdpr) { errEl.textContent = 'Please accept the privacy policy to continue.'; errEl.style.display = 'block'; return; }
+  const btn = document.querySelector('#modal-signup .modal-btn');
+  btn.textContent = 'Creating account...'; btn.disabled = true;
+  try {
+    const res = await fetch('/api/auth', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ action: 'signup', email, password, gdpr_consent: gdpr }) });
+    const data = await res.json();
+    if (data.error) { errEl.textContent = data.error; errEl.style.display = 'block'; }
+    else setLoggedIn({ email, token: data.token });
+  } catch(e) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
+  btn.textContent = 'Create free account'; btn.disabled = false;
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+  if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; return; }
+  const btn = document.querySelector('#modal-login .modal-btn');
+  btn.textContent = 'Logging in...'; btn.disabled = true;
+  try {
+    const res = await fetch('/api/auth', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ action: 'login', email, password }) });
+    const data = await res.json();
+    if (data.error) { errEl.textContent = data.error; errEl.style.display = 'block'; }
+    else setLoggedIn({ email, token: data.token });
+  } catch(e) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
+  btn.textContent = 'Log in'; btn.disabled = false;
+}
+
+const saved = localStorage.getItem('kp_user');
+if (saved) { try { setLoggedIn(JSON.parse(saved)); } catch(e) { localStorage.removeItem('kp_user'); } }
 </script>
 </body>
 </html>
