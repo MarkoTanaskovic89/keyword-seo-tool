@@ -113,6 +113,12 @@ tr:hover td{background:#f9fafb;cursor:pointer;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
 footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
+.th-wrap{display:inline-flex;align-items:center;gap:4px;}
+.tip{position:relative;display:inline-flex;align-items:center;cursor:help;}
+.tip-icon{width:14px;height:14px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;line-height:1;}
+.tip:hover .tip-box{display:block;}
+.tip-box{display:none;position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:11px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:100;pointer-events:none;line-height:1.4;text-transform:none;letter-spacing:0;}
+.tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:#1a1a1a;}
 </style>
 </head>
 <body>
@@ -220,11 +226,11 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
           <thead>
             <tr>
               <th>Keyword</th>
-              <th class="right">Avg. Monthly Searches</th>
-              <th class="right">CPC (USD)</th>
-              <th class="center">Competition</th>
-              <th class="center">12mo Trend</th>
-              <th class="center">AI Score</th>
+              <th class="right"><div class="th-wrap">Avg. Monthly Searches <div class="tip"><div class="tip-icon">?</div><div class="tip-box">Average number of searches per month<br>for this keyword. Source: estimated data.</div></div></div></th>
+              <th class="right"><div class="th-wrap">CPC (USD) <div class="tip"><div class="tip-icon">?</div><div class="tip-box">Cost Per Click — how much advertisers<br>pay on average for one click on Google Ads.</div></div></div></th>
+              <th class="center"><div class="th-wrap">Competition <div class="tip"><div class="tip-icon">?</div><div class="tip-box">How many advertisers compete for this keyword.<br>LOW = easier to rank, HIGH = harder to rank.</div></div></div></th>
+              <th class="center"><div class="th-wrap">12mo Trend <div class="tip"><div class="tip-icon">?</div><div class="tip-box">Search volume over the last 12 months.<br>Green = growing, Red = declining, Blue = stable.</div></div></div></th>
+              <th class="center"><div class="th-wrap">AI Score <div class="tip"><div class="tip-icon">?</div><div class="tip-box">Our AI opportunity score (0-99).<br>75+ = great opportunity, 50-74 = moderate,<br>below 50 = difficult or declining keyword.</div></div></div></th>
             </tr>
           </thead>
           <tbody id="kw-tbody"></tbody>
@@ -242,7 +248,7 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
   </div>
 </div>
 
-<footer>KeywordPro &copy; 2025 &mdash; Powered by Google Ads API &mdash; AI predictions are estimates</footer>
+<footer>KeywordPro &copy; 2026 &mdash; Data is estimated &mdash; Connect Google Ads API for real data</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
@@ -371,7 +377,7 @@ function showStats(){
   ].map(([l,v,c])=>`<div class="stat-card"><div class="stat-label">${l}</div><div class="stat-value" style="${c}">${v}</div></div>`).join('');
 }
 
-function doSearch(){
+async function doSearch(){
   const kw=document.getElementById('kw-input').value.trim();
   const country=document.getElementById('country-select').value;
   if(!kw) return;
@@ -382,14 +388,27 @@ function doSearch(){
   document.getElementById('loading').style.display='block';
   document.getElementById('tabs-bar').style.display='block';
   showTab('keywords');
-  setTimeout(()=>{
-    allResults=genKeywords(kw,country).sort((a,b)=>b.volume-a.volume);
-    document.getElementById('loading').style.display='none';
-    document.getElementById('result-count').textContent=allResults.length+' keywords found for "'+kw+'"';
-    showStats();
-    document.getElementById('results-section').style.display='block';
-    renderTable();
-  },800);
+
+  try {
+    const response = await fetch('/api/keywords', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ keyword: kw, country: country })
+    });
+    const data = await response.json();
+    if (data.error) throw new Error(data.error);
+    allResults = data.keywords.length > 0 ? data.keywords : genKeywords(kw, country);
+  } catch(err) {
+    console.error('API error, using estimates:', err);
+    allResults = genKeywords(kw, country);
+  }
+
+  allResults.sort((a,b)=>b.volume-a.volume);
+  document.getElementById('loading').style.display='none';
+  document.getElementById('result-count').textContent=allResults.length+' keywords found for "'+kw+'"';
+  showStats();
+  document.getElementById('results-section').style.display='block';
+  renderTable();
 }
 
 function showTab(tab){
