@@ -221,7 +221,7 @@ footer strong{color:#374151;}
   </div>
   <div class="search-wrap">
     <div class="search-bar">
-      <input type="text" id="kw-input" placeholder="Enter a keyword and press Enter to add more..." />
+      <input type="text" id="kw-input" placeholder="Enter a keyword and press Enter to add more..." onkeydown="if(event.key==='Enter'){event.preventDefault();var v=this.value.trim();if(v)addTag(v);else doSearch();} if(event.key===','){event.preventDefault();var v=this.value.trim();if(v)addTag(v);}" />
       <select id="country-select">
         <option value="worldwide">🌍 Worldwide</option>
         <option value="US">🇺🇸 United States</option>
@@ -601,13 +601,7 @@ async function doLogin(){
   btn.textContent='Log in';btn.disabled=false;
 }
 
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('kw-input').addEventListener('keydown',function(e){
-    if(e.key==='Enter'){e.preventDefault();const v=this.value.trim();if(v)addTag(v);else doSearch();}
-    if(e.key===','){e.preventDefault();const v=this.value.trim();if(v)addTag(v);}
-  });
-  document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
-});
+document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
 const saved=localStorage.getItem('kp_user');
 if(saved){try{const u=JSON.parse(saved);currentUser=u;document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';}catch(e){localStorage.removeItem('kp_user');}}
