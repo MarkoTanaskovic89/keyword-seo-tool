@@ -127,12 +127,83 @@ tr:hover td{background:#f9fafb;cursor:pointer;}
 .hero-kw-stat-value{font-size:22px;font-weight:800;color:#1a1a1a;}
 .similar-label{font-size:16px;font-weight:700;color:#374151;margin-bottom:12px;padding-top:4px;}
 .empty-state{text-align:center;padding:5rem 2rem;}
+.bulk-section{background:#fff;border:1.5px solid #059669;border-radius:14px;padding:1.5rem 2rem;margin-bottom:1.5rem;}
+.bulk-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem;}
+.bulk-badge{background:#f0fdf4;color:#065f46;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #059669;}
+.bulk-title{font-size:18px;font-weight:700;color:#1a1a1a;}
+.bulk-desc{font-size:14px;color:#6b7280;margin-bottom:1.25rem;line-height:1.6;}
+.bulk-upload-area{border:2px dashed #d1d5db;border-radius:10px;padding:2rem;text-align:center;cursor:pointer;transition:border-color .2s;background:#f9fafb;}
+.bulk-upload-area:hover{border-color:#059669;background:#f0fdf4;}
+.bulk-upload-area input{display:none;}
+.bulk-upload-icon{font-size:32px;margin-bottom:8px;}
+.bulk-upload-text{font-size:15px;font-weight:600;color:#374151;margin-bottom:4px;}
+.bulk-upload-sub{font-size:13px;color:#9ca3af;}
+.bulk-progress{display:none;margin-top:1rem;}
+.bulk-progress-bar{height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;margin-bottom:8px;}
+.bulk-progress-fill{height:100%;background:#059669;border-radius:3px;transition:width .3s;}
+.bulk-progress-text{font-size:13px;color:#6b7280;text-align:center;}
+.btn-download-excel{display:none;margin-top:1rem;width:100%;padding:12px;background:#059669;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;}
+.btn-download-excel:hover{background:#047857;}
+.bulk-locked{text-align:center;padding:1.5rem;}
+.bulk-locked-title{font-size:16px;font-weight:700;margin-bottom:6px;}
+.bulk-locked-desc{font-size:14px;color:#6b7280;margin-bottom:1rem;}
+.btn-upgrade-pro{padding:10px 24px;background:#059669;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
+.pricing-strip{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:1.5rem 0 0;}
+.pricing-card{background:#fff;border:1.5px solid #e5e7eb;border-radius:10px;padding:1rem 1.25rem;min-width:160px;text-align:center;}
+.pricing-card.featured{border-color:#2563eb;background:#eff6ff;}
+.pricing-card.premium{border-color:#7c3aed;background:#f5f3ff;}
+.pricing-card-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:4px;}
+.pricing-card.featured .pricing-card-name{color:#1d4ed8;}
+.pricing-card.premium .pricing-card-name{color:#6d28d9;}
+.pricing-card-price{font-size:22px;font-weight:800;color:#1a1a1a;margin-bottom:6px;}
+.pricing-card-features{font-size:12px;color:#6b7280;line-height:1.7;}
+.pricing-card.featured .pricing-card-features{color:#1d4ed8;}
+.pricing-card.premium .pricing-card-features{color:#5b21b6;}
 .empty-state h2{font-size:20px;font-weight:700;margin-bottom:10px;color:#374151;}
 .empty-state p{font-size:16px;color:#9ca3af;}
 .loading{text-align:center;padding:3rem;}
 .spinner{display:inline-block;width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 footer{text-align:center;padding:2rem;font-size:14px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:2rem;line-height:1.8;}
+@media(max-width:768px){
+  header{padding:0 1rem;}
+  .logo{font-size:18px;}
+  .btn-login{display:none;}
+  .hero{padding:1.5rem 1rem;}
+  .hero h1{font-size:22px;}
+  .hero p{font-size:14px;}
+  .hero-checks{gap:10px;}
+  .hero-checks span{font-size:13px;}
+  .search-bar{flex-direction:column;gap:6px;}
+  .search-bar>div{min-width:unset;width:100%;}
+  .search-bar select{width:100%;}
+  .btn-search{width:100%;}
+  .main{padding:0 0.75rem;margin:1rem auto;}
+  .stats-row{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .stat-value{font-size:20px;}
+  .table-wrap{border-radius:8px;overflow-x:auto;}
+  table{min-width:500px;}
+  th,td{padding:10px 10px;font-size:13px;}
+  .kw-text{font-size:13px;}
+  .table-header{flex-direction:column;gap:8px;align-items:flex-start;}
+  .table-actions{width:100%;justify-content:space-between;}
+  .tabs{padding:0 1rem;}
+  .tab{padding:10px 14px;font-size:14px;}
+  .hero-kw-card{padding:1rem;}
+  .hero-kw-keyword{font-size:22px;}
+  .hero-kw-stats{grid-template-columns:repeat(2,1fr);}
+  .hero-kw-stat-value{font-size:18px;}
+  .chart-card{padding:1rem;}
+  .rec-grid{grid-template-columns:1fr;}
+  .modal{padding:1.5rem;margin:0.5rem;}
+  .modal h2{font-size:18px;}
+  .kw-detail-header{flex-wrap:wrap;}
+  .detail-kw{font-size:18px;}
+  footer{padding:1.5rem 1rem;font-size:13px;}
+  .google-badge{padding:8px 14px;}
+  .google-badge-title{font-size:13px;}
+  .vs-badge{display:none;}
+}
 footer a{color:#2563eb;text-decoration:none;}
 footer strong{color:#374151;}
 
@@ -188,6 +259,29 @@ footer strong{color:#374151;}
     <span><b>✓</b> 6-month AI forecast</span>
     <span><b>✓</b> 100% free to start</span>
   </div>
+  <div class="pricing-strip">
+    <div class="pricing-card">
+      <div class="pricing-card-name">Guest</div>
+      <div class="pricing-card-price">Free</div>
+      <div class="pricing-card-features">3 searches<br>1 keyword at a time</div>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-card-name">Free Account</div>
+      <div class="pricing-card-price">Free</div>
+      <div class="pricing-card-features">50 searches/month<br>Up to 3 keywords at once</div>
+    </div>
+    <div class="pricing-card premium">
+      <div class="pricing-card-name">Premium</div>
+      <div class="pricing-card-price">$9.99<span style="font-size:13px;font-weight:400;">/mo</span></div>
+      <div class="pricing-card-features">Unlimited searches<br>Up to 10 keywords at once</div>
+    </div>
+    <div class="pricing-card" style="border-color:#059669;background:#f0fdf4;">
+      <div class="pricing-card-name" style="color:#065f46;">Pro</div>
+      <div class="pricing-card-price">$39<span style="font-size:13px;font-weight:400;">/mo</span></div>
+      <div class="pricing-card-features" style="color:#065f46;">Unlimited searches<br>Bulk Excel upload (300 kw)<br>Download enriched Excel</div>
+    </div>
+  </div>
+  <div style="margin-top:1.5rem;"></div>
   <div class="search-bar">
     <div style="flex:1;min-width:260px;position:relative;">
       <input type="text" id="kw-input" placeholder="Enter keywords separated by comma or Enter..." aria-label="Enter keywords to research" style="width:100%;height:48px;padding:0 18px;font-size:16px;border:2px solid #d1d5db;border-radius:8px;outline:none;box-sizing:border-box;" />
@@ -253,6 +347,20 @@ footer strong{color:#374151;}
   <div class="search-counter" id="search-counter"></div>
 </div>
 
+<div id="bulk-section" class="bulk-section" style="max-width:1100px;margin:1.5rem auto 0;padding:1.5rem 2rem;">
+  <div class="bulk-header">
+    <span class="bulk-badge">PRO FEATURE</span>
+    <div class="bulk-title">Bulk Keyword Analysis</div>
+  </div>
+  <div id="bulk-content">
+    <div class="bulk-locked">
+      <div class="bulk-locked-title">Upload up to 300 keywords at once</div>
+      <div class="bulk-locked-desc">Upload an Excel file with your keywords — we'll add monthly search volume, CPC, competition, trend and AI score for each one. Download the enriched file instantly.</div>
+      <button class="btn-upgrade-pro" onclick="alert('Pro plan launching soon! $39/month. Sign up free to be notified when it launches.')">Upgrade to Pro — $39/mo</button>
+    </div>
+  </div>
+</div>
+
 <div id="tabs-bar" style="display:none;">
   <div class="tabs">
     <div class="tab active" onclick="showTab('keywords')">Keywords</div>
@@ -278,7 +386,7 @@ footer strong{color:#374151;}
             <button class="btn-sm" onclick="exportCSV()">Export CSV</button>
           </div>
         </div>
-        <table role="table" aria-label="Keyword research results">
+        <table role="table" aria-label="Keyword research results" style="width:100%;">
           <thead>
             <tr>
               <th>Keyword</th>
@@ -314,7 +422,7 @@ footer strong{color:#374151;}
     <button class="modal-close" onclick="closeModal()">&#215;</button>
     <div id="modal-signup">
       <h2>Create free account</h2>
-      <p class="modal-sub">Get 10 free searches — no credit card needed</p>
+      <p class="modal-sub">Get 50 free searches per month — no credit card needed</p>
       <div class="modal-error" id="signup-error"></div>
       <input type="email" id="signup-email" placeholder="Your email address" />
       <input type="password" id="signup-password" placeholder="Password (min 6 characters)" />
@@ -338,6 +446,7 @@ footer strong{color:#374151;}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 const MONTHS_HIST=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const ALL_MONTHS=[...MONTHS_HIST,'Jan+','Feb+','Mar+','Apr+','May+','Jun+'];
@@ -398,11 +507,22 @@ function showStats(){
 
 const ADMIN_EMAILS=['markotanaskovic89@gmail.com','markotanaskovic55@gmail.com'];
 function isAdmin(){return currentUser&&ADMIN_EMAILS.includes(currentUser.email.toLowerCase());}
+function isPremium(){return currentUser&&currentUser.plan==='premium';}
+function isPro(){return currentUser&&currentUser.plan==='pro';}
+
+function getMonthlySearches(){
+  const key='kp_searches_'+new Date().getFullYear()+'_'+new Date().getMonth();
+  return parseInt(localStorage.getItem(key)||'0');
+}
+function incMonthlySearches(){
+  const key='kp_searches_'+new Date().getFullYear()+'_'+new Date().getMonth();
+  localStorage.setItem(key, getMonthlySearches()+1);
+}
 
 function updateSearchCounter(){
-  if(isAdmin()){document.getElementById('search-counter').innerHTML='<span style="color:#15803d;font-weight:600;">Admin — unlimited searches</span>';return;}
-  const searches=parseInt(localStorage.getItem('kp_searches')||'0');
-  const limit=currentUser?10:3;
+  if(isAdmin()||isPremium()){document.getElementById('search-counter').innerHTML='<span style="color:#15803d;font-weight:600;">'+(isAdmin()?'Admin':'Premium')+'  — unlimited searches</span>';return;}
+  const searches=getMonthlySearches();
+  const limit=currentUser?50:3;
   const remaining=Math.max(0,limit-searches);
   const el=document.getElementById('search-counter');
   if(!el)return;
@@ -418,17 +538,23 @@ async function doSearch(){
   if(rawInput) addKwTag(rawInput);
   const allKws=kwTags.length>0?[...kwTags]:[rawInput];
   if(!allKws[0])return;
+  const kwLimit=getKwLimit();
+  if(allKws.length>kwLimit){
+    if(!currentUser) openModal('signup');
+    else if(!isPremium()) alert('Free account supports up to 3 keywords at once. Upgrade to Premium for 10!');
+    return;
+  }
   const country=document.getElementById('country-select').value;
 
-  if(!isAdmin()){
-    const searches=parseInt(localStorage.getItem('kp_searches')||'0');
-    const limit=currentUser?10:3;
+  if(!isAdmin()&&!isPremium()){
+    const searches=getMonthlySearches();
+    const limit=currentUser?50:3;
     if(searches>=limit){
-      if(!currentUser){openModal('signup');document.getElementById('signup-error').textContent='You used all '+limit+' free searches. Sign up free for 10 searches!';document.getElementById('signup-error').style.display='block';}
-      else alert('You used all 10 free searches. Pro plan coming soon!');
+      if(!currentUser){openModal('signup');document.getElementById('signup-error').textContent='Sign up free — get 50 searches per month!';document.getElementById('signup-error').style.display='block';}
+      else{alert('You have used all 50 free searches this month. Upgrade to Premium for $9.99/month — unlimited searches!');}
       return;
     }
-    localStorage.setItem('kp_searches',searches+1);
+    incMonthlySearches();
     updateSearchCounter();
   }
 
@@ -509,8 +635,21 @@ function renderTrendDashboard(r){
 function exportCSV(){const rows=[['Keyword','Avg Monthly Searches','CPC (USD)','Competition','Trend','AI Score']];allResults.forEach(r=>rows.push([r.keyword,r.volume,r.cpc,r.competition,r.trend,r.score]));const csv=rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n');const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='keywords-'+currentKw.replace(/\s+/g,'-')+'.csv';a.click();}
 
 let kwTags=[];
+function getKwLimit(){
+  if(isAdmin()||isPremium()) return 10;
+  if(currentUser) return 3;
+  return 1;
+}
 function addKwTag(val){
-  val.split(',').map(v=>v.trim()).filter(v=>v&&!kwTags.includes(v)).forEach(v=>{kwTags.push(v);});
+  const limit=getKwLimit();
+  val.split(',').map(v=>v.trim()).filter(v=>v&&!kwTags.includes(v)).forEach(v=>{
+    if(kwTags.length>=limit){
+      if(!currentUser) openModal('signup');
+      else if(!isPremium()) alert('Free account supports up to 3 keywords at once. Upgrade to Premium for 10 keywords!');
+      return;
+    }
+    kwTags.push(v);
+  });
   renderTags();
   document.getElementById('kw-input').value='';
 }
@@ -521,6 +660,96 @@ function renderTags(){
   tagsEl.style.display='flex';
   tagsEl.innerHTML=kwTags.map((t,i)=>'<span style="background:#2563eb;color:#fff;border-radius:20px;padding:4px 10px;font-size:13px;display:flex;align-items:center;gap:6px;">'+t+'<span onclick="removeTag('+i+')" style="cursor:pointer;font-size:16px;line-height:1;">&times;</span></span>').join('');
 }
+function initBulkUpload(){
+  const section = document.getElementById('bulk-content');
+  if(isAdmin()||isPro()){
+    section.innerHTML = `
+      <p class="bulk-desc">Upload an Excel or CSV file with keywords in column A (up to 300). We'll add monthly searches, CPC, competition, trend and AI score. Download the enriched file when done.</p>
+      <div class="bulk-upload-area" onclick="document.getElementById('bulk-file').click()">
+        <input type="file" id="bulk-file" accept=".xlsx,.xls,.csv" onchange="handleBulkFile(this)">
+        <div class="bulk-upload-icon">📂</div>
+        <div class="bulk-upload-text">Click to upload Excel or CSV</div>
+        <div class="bulk-upload-sub">Max 300 keywords — .xlsx, .xls, .csv supported</div>
+      </div>
+      <div class="bulk-progress" id="bulk-progress">
+        <div class="bulk-progress-bar"><div class="bulk-progress-fill" id="bulk-fill" style="width:0%"></div></div>
+        <div class="bulk-progress-text" id="bulk-progress-text">Processing...</div>
+      </div>
+      <button class="btn-download-excel" id="btn-download-excel" onclick="downloadBulkExcel()">Download enriched Excel</button>
+    `;
+  }
+}
+
+let bulkResults = [];
+
+async function handleBulkFile(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async function(e){
+    let keywords = [];
+    if(file.name.endsWith('.csv')){
+      const text = e.target.result;
+      keywords = text.split('
+').map(r=>r.split(',')[0].replace(/"/g,'').trim()).filter(k=>k&&k.toLowerCase()!=='keyword');
+    } else {
+      const data = new Uint8Array(e.target.result);
+      const wb = XLSX.read(data, {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(ws, {header:1});
+      keywords = rows.map(r=>String(r[0]||'').trim()).filter(k=>k&&k.toLowerCase()!=='keyword');
+    }
+    keywords = keywords.slice(0, 300);
+    if(keywords.length === 0){alert('No keywords found. Make sure keywords are in column A.');return;}
+    await processBulkKeywords(keywords);
+  };
+  if(file.name.endsWith('.csv')) reader.readAsText(file);
+  else reader.readAsArrayBuffer(file);
+}
+
+async function processBulkKeywords(keywords){
+  const progress = document.getElementById('bulk-progress');
+  const fill = document.getElementById('bulk-fill');
+  const text = document.getElementById('bulk-progress-text');
+  const btn = document.getElementById('btn-download-excel');
+  progress.style.display = 'block';
+  btn.style.display = 'none';
+  bulkResults = [];
+  for(let i=0; i<keywords.length; i++){
+    const kw = keywords[i];
+    const pct = Math.round(((i+1)/keywords.length)*100);
+    fill.style.width = pct+'%';
+    text.textContent = 'Processing '+( i+1)+' of '+keywords.length+': "'+kw+'"';
+    try{
+      const res = await fetch('/api/keywords',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({keyword:kw,country:'worldwide'})});
+      const data = await res.json();
+      const found = data.keywords&&data.keywords.find(r=>r.keyword.toLowerCase()===kw.toLowerCase());
+      if(found) bulkResults.push(found);
+      else {
+        const gen = genKeywords(kw,'worldwide');
+        const main = gen.find(r=>r.keyword.toLowerCase()===kw.toLowerCase())||gen[0];
+        bulkResults.push({...main, keyword:kw});
+      }
+    } catch(e){
+      const gen = genKeywords(kw,'worldwide');
+      bulkResults.push({...gen[0], keyword:kw});
+    }
+    await new Promise(r=>setTimeout(r,100));
+  }
+  text.textContent = 'Done! '+keywords.length+' keywords processed.';
+  btn.style.display = 'block';
+}
+
+function downloadBulkExcel(){
+  const rows = [['Keyword','Monthly Searches','CPC (USD)','Competition','Trend','AI Score']];
+  bulkResults.forEach(r=>rows.push([r.keyword, r.volume, r.cpc, r.competition, r.trend, r.score]));
+  const ws = XLSX.utils.aoa_to_sheet(rows);
+  ws['!cols'] = [{wch:30},{wch:18},{wch:12},{wch:14},{wch:12},{wch:10}];
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Keywords');
+  XLSX.writeFile(wb, 'keywordpro-bulk-analysis.xlsx');
+}
+
 document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('kw-input').addEventListener('keydown',function(e){
     if(e.key==='Enter'){e.preventDefault();const v=this.value.trim();if(v){addKwTag(v);}else{doSearch();}}
@@ -531,7 +760,7 @@ function openModal(type){document.getElementById('modal-overlay').classList.add(
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
 function switchModal(type){document.getElementById('modal-signup').style.display=type==='signup'?'block':'none';document.getElementById('modal-login').style.display=type==='login'?'block':'none';}
 
-function setLoggedIn(user){currentUser=user;localStorage.setItem('kp_user',JSON.stringify(user));localStorage.removeItem('kp_searches');document.getElementById('header-right').innerHTML='<span class="user-email">'+user.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';closeModal();updateSearchCounter();}
+function setLoggedIn(user){currentUser=user;localStorage.setItem('kp_user',JSON.stringify(user));document.getElementById('header-right').innerHTML='<span class="user-email">'+user.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';closeModal();updateSearchCounter();}
 function doLogout(){currentUser=null;localStorage.removeItem('kp_user');location.reload();}
 
 async function doSignup(){
@@ -577,6 +806,7 @@ document.getElementById('modal-overlay').addEventListener('click',function(e){if
 const saved=localStorage.getItem('kp_user');
 if(saved){try{const u=JSON.parse(saved);currentUser=u;document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';}catch(e){localStorage.removeItem('kp_user');}}
 updateSearchCounter();
+initBulkUpload();
 </script>
 </body>
 </html>
