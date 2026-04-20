@@ -147,7 +147,7 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
 <body>
 
 <header>
-  <div class="logo">Keyword<span>Pro</span></div>
+  <a href="/" style="text-decoration:none;"><div class="logo">Keyword<span>Pro</span></div></a>
   <div class="header-right" id="header-right">
     <button class="btn-login" onclick="openModal('login')">Log in</button>
     <button class="btn-signup" onclick="openModal('signup')">Sign up free</button>
@@ -170,6 +170,13 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
     </div>
   </div>
   <h1>SEO Keyword Research Tool</h1>
+  <div style="display:inline-flex;align-items:center;gap:10px;background:#fff;border:2px solid #4285f4;border-radius:10px;padding:10px 20px;margin-bottom:1rem;box-shadow:0 2px 8px rgba(66,133,244,0.15);">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+    <div style="text-align:left;">
+      <div style="font-size:13px;font-weight:700;color:#1a73e8;">Powered by Google Ads API</div>
+      <div style="font-size:11px;color:#5f6368;">Real search volume data — not estimates</div>
+    </div>
+  </div>
   <p>Real keyword data from Google — search volume, CPC, competition and AI-powered trend forecasts</p>
   <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:1.5rem;">
     <div style="font-size:13px;color:#6b7280;display:flex;align-items:center;gap:5px;">
@@ -246,6 +253,7 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
     </select>
     <button class="btn-search" onclick="doSearch()">Search</button>
   </div>
+  <div id="search-counter" style="margin-top:10px;text-align:center;"></div>
 </div>
 
 <div id="tabs-bar" style="display:none;">
@@ -299,7 +307,7 @@ footer{text-align:center;padding:2rem;font-size:13px;color:#9ca3af;}
   </div>
 </div>
 
-<footer>KeywordPro &copy; 2026 &mdash; Real data powered by Google Ads API &mdash; AI predictions are estimates</footer>
+<footer>KeywordPro &copy; 2026 &mdash; Real search data powered by <strong>Google Ads API</strong> &mdash; AI predictions are estimates &mdash; Developed by <a href="https://markotanaskovic.com" target="_blank" style="color:#2563eb;text-decoration:none;">markotanaskovic.com</a></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
@@ -432,6 +440,22 @@ async function doSearch(){
   const kw=document.getElementById('kw-input').value.trim();
   const country=document.getElementById('country-select').value;
   if(!kw) return;
+
+  const searches = parseInt(localStorage.getItem('kp_searches') || '0');
+  const limit = currentUser ? 10 : 3;
+  if(searches >= limit) {
+    if(!currentUser) {
+      openModal('signup');
+      document.getElementById('signup-error').textContent = 'You have used all ' + limit + ' free searches. Create a free account for 10 searches!';
+      document.getElementById('signup-error').style.display = 'block';
+    } else {
+      alert('You have used all 10 free searches. Upgrade to Pro for unlimited access!');
+    }
+    return;
+  }
+  localStorage.setItem('kp_searches', searches + 1);
+  updateSearchCounter();
+
   currentKw=kw;
   document.getElementById('empty-state').style.display='none';
   document.getElementById('results-section').style.display='none';
@@ -598,7 +622,7 @@ document.getElementById('kw-input').addEventListener('keydown',e=>{if(e.key==='E
 
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
-    <button class="modal-close" onclick="closeModal()">&#times;</button>
+    <button class="modal-close" onclick="closeModal()">×</button>
     <div id="modal-signup">
       <h2>Create free account</h2>
       <p class="modal-sub">Get access to KeywordPro — 100% free</p>
@@ -639,12 +663,7 @@ function switchModal(type) {
   document.getElementById('modal-login').style.display = type === 'login' ? 'block' : 'none';
 }
 
-function setLoggedIn(user) {
-  currentUser = user;
-  localStorage.setItem('kp_user', JSON.stringify(user));
-  document.getElementById('header-right').innerHTML = '<span class="user-email">'+user.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';
-  closeModal();
-}
+
 
 function doLogout() {
   currentUser = null;
@@ -689,8 +708,35 @@ async function doLogin() {
   btn.textContent = 'Log in'; btn.disabled = false;
 }
 
+function updateSearchCounter() {
+  const searches = parseInt(localStorage.getItem('kp_searches') || '0');
+  const limit = currentUser ? 10 : 3;
+  const remaining = Math.max(0, limit - searches);
+  const el = document.getElementById('search-counter');
+  if(el) {
+    if(remaining <= 0) {
+      el.innerHTML = currentUser ? '<span style="color:#dc2626;font-size:13px;">No searches left — <a href="#" style="color:#2563eb;" onclick="alert('Upgrade coming soon!')">Upgrade to Pro</a></span>' : '<span style="color:#dc2626;font-size:13px;">No searches left — <a href="#" style="color:#2563eb;" onclick="openModal('signup')">Create free account</a></span>';
+    } else {
+      el.innerHTML = '<span style="color:#6b7280;font-size:13px;">' + remaining + ' of ' + limit + ' free searches remaining' + (!currentUser ? ' — <a href="#" style="color:#2563eb;" onclick="openModal('signup')">Sign up for more</a>' : '') + '</span>';
+    }
+  }
+}
+
+function setLoggedIn(user) {
+  currentUser = user;
+  localStorage.setItem('kp_user', JSON.stringify(user));
+  localStorage.removeItem('kp_searches');
+  document.getElementById('header-right').innerHTML = '<span class="user-email">'+user.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';
+  closeModal();
+  updateSearchCounter();
+}
+
 const saved = localStorage.getItem('kp_user');
-if (saved) { try { setLoggedIn(JSON.parse(saved)); } catch(e) { localStorage.removeItem('kp_user'); } }
+if (saved) { try { 
+  currentUser = JSON.parse(saved);
+  document.getElementById('header-right').innerHTML = '<span class="user-email">'+currentUser.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';
+} catch(e) { localStorage.removeItem('kp_user'); } }
+updateSearchCounter();
 </script>
 </body>
 </html>
