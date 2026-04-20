@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -26,7 +26,6 @@ export default async function handler(req, res) {
       });
 
       const authData = await authRes.json();
-
       if (authData.error) {
         return res.status(400).json({ error: authData.error.message || authData.error });
       }
@@ -67,16 +66,11 @@ export default async function handler(req, res) {
       });
 
       const authData = await authRes.json();
-
       if (authData.error) {
         return res.status(400).json({ error: 'Invalid email or password.' });
       }
 
-      return res.status(200).json({
-        success: true,
-        token: authData.access_token,
-        user: { email }
-      });
+      return res.status(200).json({ success: true, token: authData.access_token, user: { email } });
     }
 
     return res.status(400).json({ error: 'Invalid action' });
