@@ -8,7 +8,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:17px;}
 header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
-.logo{font-size:22px;font-weight:7a00;color:#1a1a1a;text-decoration:none;}
+.logo{font-size:22px;font-weight:700;color:#1a1a1a;text-decoration:none;}
 .logo span{color:#2563eb;}
 .header-right{display:flex;align-items:center;gap:10px;}
 .btn-login{padding:8px 18px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
@@ -578,7 +578,16 @@ function renderTrend(r){
   document.getElementById('trend-content').innerHTML=
     '<div class="kw-detail-header"><button class="back-btn" onclick="showTab(\'keywords\')">&larr; Back</button><div class="detail-kw">"'+r.keyword+'"</div></div>'+
     '<div class="stats-row" style="display:grid;margin-bottom:1.5rem;">'+
-    [['Avg monthly',r.volume.toLocaleString(),''],['Last month',r.hist[11].toLocaleString(),mom>=0?'color:#15803d':'color:#dc2626'],['MoM',(mom>=0?'+':'')+mom+'%',mom>=0?'color:#15803d':'color:#dc2626'],['YoY',(yoy>=0?'+':'')+yoy+'%',yoy>=0?'color:#15803d':'color:#dc2626'],['CPC','$'+r.cpc.toFixed(2),''],['Competition',r.competition,r.competition==='LOW'?'color:#15803d':r.competition==='MEDIUM'?'color:#b45309':'color:#dc2626'],['Trend',r.trend.charAt(0).toUpperCase()+r.trend.slice(1),r.trend==='rising'?'color:#15803d':r.trend==='falling'?'color:#dc2626':'color:#b45309'],['AI Score',r.score,'color:'+aiCol(r.score)]].map(([l,v,c])=>'<div class="stat-card"><div class="stat-label">'+l+'</div><div class="stat-value" style="'+c+'">'+v+'</div></div>').join('')+
+    [
+      ['Avg monthly',r.volume.toLocaleString(),'','Average monthly searches over the last 12 months. This is your baseline traffic estimate.'],
+      ['Last month',r.hist[11].toLocaleString(),mom>=0?'color:#15803d':'color:#dc2626','How many times this keyword was searched last month specifically.'],
+      ['MoM',(mom>=0?'+':'')+mom+'%',mom>=0?'color:#15803d':'color:#dc2626','Month-over-month change. Positive = growing. Negative = declining.'],
+      ['YoY',(yoy>=0?'+':'')+yoy+'%',yoy>=0?'color:#15803d':'color:#dc2626','Year-over-year change vs same month last year. Good indicator of long-term trend.'],
+      ['CPC','$'+r.cpc.toFixed(2),'','Cost Per Click on Google Ads. Higher = advertisers pay more = keyword has commercial value = people are buying things.'],
+      ['Competition',r.competition,r.competition==='LOW'?'color:#15803d':r.competition==='MEDIUM'?'color:#b45309':'color:#dc2626','How hard it is to rank on Google. LOW = you can rank without many backlinks. HIGH = very hard, big brands dominate.'],
+      ['Trend',r.trend.charAt(0).toUpperCase()+r.trend.slice(1),r.trend==='rising'?'color:#15803d':r.trend==='falling'?'color:#dc2626':'color:#b45309','Overall search trend. Rising = more people searching over time. Falling = losing popularity. Stable = consistent.'],
+      ['AI Score',r.score,'color:'+aiCol(r.score),'Our AI rates this keyword 0-99 based on volume, competition and trend combined. 75+ = great opportunity. Below 50 = skip it.']
+    ].map(([l,v,c,tip])=>'<div class="stat-card"><div class="stat-label">'+l+' <span class="tt">?<span class="tt-box">'+tip+'</span></span></div><div class="stat-value" style="'+c+'">'+v+'</div></div>').join('')+
     '</div>'+
     '<div class="chart-card"><h3>12 months history + 6 month AI forecast</h3><div class="chart-sub">Dashed green = AI prediction</div><div class="legend"><div class="leg"><div class="leg-dot" style="background:#2563eb"></div>Historical</div><div class="leg"><div class="leg-dot" style="background:#16a34a"></div>AI forecast</div></div><div style="position:relative;width:100%;height:260px;"><canvas id="trendChart"></canvas></div></div>'+
     '<div class="ai-card"><div class="ai-header"><div class="ai-badge">AI Recommendations</div><div class="ai-title">What to do with "'+r.keyword+'"</div></div><div class="rec-grid">'+
