@@ -6,7 +6,7 @@
 <title>KeywordPro — SEO Keyword Research Tool</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:16px;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:18px;}
 header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
 .logo{font-size:22px;font-weight:700;color:#1a1a1a;text-decoration:none;}
 .logo span{color:#2563eb;}
@@ -118,6 +118,14 @@ tr:hover td{background:#f9fafb;cursor:pointer;}
 .kw-detail-header{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem;}
 .back-btn{padding:8px 16px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;}
 .detail-kw{font-size:22px;font-weight:800;}
+.hero-kw-card{background:#fff;border:2px solid #2563eb;border-radius:14px;padding:1.5rem 2rem;margin-bottom:1.5rem;display:none;}
+.hero-kw-title{font-size:14px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.hero-kw-keyword{font-size:28px;font-weight:800;color:#1a1a1a;margin-bottom:1.25rem;}
+.hero-kw-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;}
+.hero-kw-stat{background:#f8f9fa;border-radius:8px;padding:12px 14px;}
+.hero-kw-stat-label{font-size:12px;color:#9ca3af;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;}
+.hero-kw-stat-value{font-size:22px;font-weight:800;color:#1a1a1a;}
+.similar-label{font-size:16px;font-weight:700;color:#374151;margin-bottom:12px;padding-top:4px;}
 .empty-state{text-align:center;padding:5rem 2rem;}
 .empty-state h2{font-size:20px;font-weight:700;margin-bottom:10px;color:#374151;}
 .empty-state p{font-size:16px;color:#9ca3af;}
@@ -250,13 +258,14 @@ footer strong{color:#374151;}
 </div>
 
 <div class="main">
+  <div id="hero-kw-card" class="hero-kw-card"></div>
   <div id="stats-row" class="stats-row" style="display:none;"></div>
   <div id="keyword-panel" class="keyword-panel active">
     <div id="loading" class="loading" style="display:none;"><div class="spinner"></div></div>
     <div id="results-section" style="display:none;">
       <div class="table-wrap">
         <div class="table-header">
-          <span class="result-count" id="result-count"></span>
+          <span class="similar-label" id="result-count"></span>
           <div class="table-actions">
             <select id="sort-sel" onchange="sortResults()">
               <option value="vol">Sort: Search Volume</option>
@@ -347,19 +356,20 @@ function renderTable(){
 function sortResults(){const s=document.getElementById('sort-sel').value;if(s==='vol')allResults.sort((a,b)=>b.volume-a.volume);if(s==='cpc')allResults.sort((a,b)=>b.cpc-a.cpc);if(s==='comp')allResults.sort((a,b)=>['LOW','MEDIUM','HIGH'].indexOf(b.competition)-['LOW','MEDIUM','HIGH'].indexOf(a.competition));renderTable();}
 
 function showStats(){
-  const total=allResults.reduce((s,r)=>s+r.volume,0);
-  const avgCpc=(allResults.reduce((s,r)=>s+r.cpc,0)/allResults.length).toFixed(2);
-  const lowComp=allResults.filter(r=>r.competition==='LOW').length;
-  const rising=allResults.filter(r=>r.trend==='rising').length;
-  const row=document.getElementById('stats-row');
-  row.style.display='grid';
-  row.innerHTML=[
-    ['Keywords found',allResults.length,'','How many keyword ideas we found for your search.'],
-    ['Total monthly searches',total.toLocaleString(),'','Combined monthly searches for all keywords found.'],
-    ['Average CPC','$'+avgCpc,'','Average cost per click across all keywords. Higher = more valuable niche.'],
-    ['Low competition',lowComp,'color:#15803d','Keywords that are easier to rank for. Focus on these first!'],
-    ['Trending up',rising,'color:#15803d','Keywords growing in popularity. Get in early before competition rises.']
-  ].map(([l,v,c,tip])=>'<div class="stat-card"><div class="stat-label">'+l+' <div class="tip" style="display:inline-flex;"><div class="tip-icon">?</div><div class="tip-box">'+tip+'</div></div></div><div class="stat-value" style="'+c+'">'+v+'</div></div>').join('');
+  const main=allResults[0];
+  const card=document.getElementById('hero-kw-card');
+  card.style.display='block';
+  const compColor=main.competition==='LOW'?'#15803d':main.competition==='MEDIUM'?'#b45309':'#dc2626';
+  const trendColor=main.trend==='rising'?'#15803d':main.trend==='falling'?'#dc2626':'#b45309';
+  card.innerHTML='<div class="hero-kw-title">Main keyword</div><div class="hero-kw-keyword">'+main.keyword+'</div><div class="hero-kw-stats">'+
+    [['Monthly searches',main.volume.toLocaleString(),''],
+     ['CPC','$'+main.cpc.toFixed(2),''],
+     ['Competition',main.competition,compColor],
+     ['Trend',main.trend.charAt(0).toUpperCase()+main.trend.slice(1),trendColor],
+     ['AI Score',main.score,'color:'+aiColor(main.score)]
+    ].map(([l,v,c])=>'<div class="hero-kw-stat"><div class="hero-kw-stat-label">'+l+'</div><div class="hero-kw-stat-value" style="color:'+(c||'#1a1a1a')+'">'+v+'</div></div>').join('')+'</div>';
+
+  document.getElementById('stats-row').style.display='none';
 }
 
 function updateSearchCounter(){
@@ -402,7 +412,7 @@ async function doSearch(){
   }catch(err){allResults=genKeywords(kw,country);}
   allResults.sort((a,b)=>b.volume-a.volume);
   document.getElementById('loading').style.display='none';
-  document.getElementById('result-count').textContent=allResults.length+' keywords found for "'+kw+'"';
+  document.getElementById('result-count').textContent='Similar & related keywords ('+(allResults.length-1)+')';
   showStats();
   document.getElementById('results-section').style.display='block';
   renderTable();
