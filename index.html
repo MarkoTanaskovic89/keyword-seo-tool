@@ -69,7 +69,7 @@ tr:hover td{background:#f9fafb;cursor:pointer;}
 .tip{position:relative;display:inline-flex;align-items:center;cursor:help;}
 .tip-icon{width:16px;height:16px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;}
 .tip:hover .tip-box{display:block;}
-.tip-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:13px;padding:8px 12px;border-radius:6px;white-space:nowrap;z-index:100;text-transform:none;letter-spacing:0;line-height:1.5;}
+.tip-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:100;text-transform:none;letter-spacing:0;line-height:1.5;}
 .tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
 
 .trend-panel{display:none;}
@@ -189,7 +189,7 @@ footer strong{color:#374151;}
     <span><b>✓</b> 100% free to start</span>
   </div>
   <div class="search-bar">
-    <input type="text" id="kw-input" placeholder="Enter a keyword, e.g. seo tools, wordpress hosting..." />
+    <input type="text" id="kw-input" placeholder="Enter a keyword, e.g. seo tools, wordpress hosting..." aria-label="Enter a keyword to research" />
     <select id="country-select">
       <option value="worldwide">🌍 Worldwide</option>
       <option value="US">🇺🇸 United States</option>
@@ -245,7 +245,7 @@ footer strong{color:#374151;}
       <option value="PK">🇵🇰 Pakistan</option>
       <option value="BD">🇧🇩 Bangladesh</option>
     </select>
-    <button class="btn-search" onclick="doSearch()">Search</button>
+    <button class="btn-search" onclick="doSearch()" aria-label="Search for keywords">Search</button>
   </div>
   <div class="search-counter" id="search-counter"></div>
 </div>
@@ -275,7 +275,7 @@ footer strong{color:#374151;}
             <button class="btn-sm" onclick="exportCSV()">Export CSV</button>
           </div>
         </div>
-        <table>
+        <table role="table" aria-label="Keyword research results">
           <thead>
             <tr>
               <th>Keyword</th>
@@ -367,7 +367,7 @@ function showStats(){
     'Competition':'How hard it is to rank for this keyword on Google. LOW = easy to rank. MEDIUM = moderate effort needed. HIGH = very hard, big competitors.',
     'Trend':'Is this keyword growing or shrinking over time? Rising = more people searching. Stable = consistent. Falling = losing interest.',
     'AI Score':'Our AI rates this keyword from 0 to 99. 75+ = great opportunity to target. 50-74 = decent. Below 50 = skip it or wait.'};
-  function tipHtml(t){return '<span style="position:relative;display:inline-flex;align-items:center;cursor:help;" onmouseenter="this.querySelector(\'.htip\').style.display=\'block\'" onmouseleave="this.querySelector(\'.htip\').style.display=\'none\'"><span style="width:15px;height:15px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;">?</span><span class="htip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;padding:7px 11px;border-radius:6px;white-space:nowrap;z-index:999;line-height:1.5;font-weight:400;">'+t+'</span></span>';}
+  function tipHtml(t){return '<span style="position:relative;display:inline-flex;align-items:center;cursor:help;" onmouseenter="this.querySelector(\'.htip\').style.display=\'block\'" onmouseleave="this.querySelector(\'.htip\').style.display=\'none\'"><span style="width:15px;height:15px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;margin-left:4px;">?</span><span class="htip" style="display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;font-weight:400;padding:6px 10px;border-radius:6px;white-space:nowrap;z-index:999;line-height:1.5;text-transform:none;">'+t+'</span></span>';}
   card.innerHTML='<div class="hero-kw-title">Your keyword</div><div class="hero-kw-keyword">'+main.keyword+'</div><div class="hero-kw-stats">'+
     [['Monthly searches',main.volume.toLocaleString(),''],
      ['CPC','$'+main.cpc.toFixed(2),''],
@@ -380,7 +380,11 @@ function showStats(){
   document.getElementById('stats-row').style.display='none';
 }
 
+const ADMIN_EMAILS=['markotanaskovic89@gmail.com','markotanaskovic55@gmail.com'];
+function isAdmin(){return currentUser&&ADMIN_EMAILS.includes(currentUser.email.toLowerCase());}
+
 function updateSearchCounter(){
+  if(isAdmin()){document.getElementById('search-counter').innerHTML='<span style="color:#15803d;font-weight:600;">Admin — unlimited searches</span>';return;}
   const searches=parseInt(localStorage.getItem('kp_searches')||'0');
   const limit=currentUser?10:3;
   const remaining=Math.max(0,limit-searches);
@@ -397,6 +401,9 @@ async function doSearch(){
   const kw=document.getElementById('kw-input').value.trim();
   const country=document.getElementById('country-select').value;
   if(!kw)return;
+  if(isAdmin()){
+    currentKw=kw;
+  } else {
   const searches=parseInt(localStorage.getItem('kp_searches')||'0');
   const limit=currentUser?10:3;
   if(searches>=limit){
@@ -407,6 +414,7 @@ async function doSearch(){
   localStorage.setItem('kp_searches',searches+1);
   updateSearchCounter();
   currentKw=kw;
+  } // end non-admin check
   document.getElementById('empty-state').style.display='none';
   document.getElementById('results-section').style.display='none';
   document.getElementById('stats-row').style.display='none';
