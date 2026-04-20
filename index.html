@@ -8,7 +8,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:17px;}
 header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
-.logo{font-size:22px;font-weight:700;color:#1a1a1a;text-decoration:none;}
+.logo{font-size:22px;font-weight:7a00;color:#1a1a1a;text-decoration:none;}
 .logo span{color:#2563eb;}
 .header-right{display:flex;align-items:center;gap:10px;}
 .btn-login{padding:8px 18px;font-size:14px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;color:#374151;}
@@ -152,6 +152,10 @@ footer{text-align:center;padding:2rem;font-size:14px;color:#9ca3af;border-top:1p
 footer a{color:#2563eb;text-decoration:none;}
 footer strong{color:#374151;}
 
+.tt{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:10px;font-weight:700;cursor:help;margin-left:3px;}
+.tt:hover .tt-box{display:block;}
+.tt-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;font-weight:400;padding:8px 12px;border-radius:8px;white-space:nowrap;z-index:999;line-height:1.6;text-transform:none;letter-spacing:0;min-width:200px;}
+.tt-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:#fff;border-radius:16px;padding:2.5rem;width:100%;max-width:440px;margin:1rem;position:relative;}
@@ -284,11 +288,11 @@ footer strong{color:#374151;}
           <thead>
             <tr>
               <th>Keyword <small style="font-weight:400;color:#9ca3af;text-transform:none;">(click to analyze)</small></th>
-              <th class="r">Monthly Searches <span title="How many times this keyword is searched on Google per month. Higher = more potential visitors." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
-              <th class="r">CPC <span title="Cost Per Click — how much advertisers pay per click on Google Ads. Higher = more commercial value." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
-              <th class="c">Competition <span title="How hard it is to rank. LOW = easy. MEDIUM = moderate. HIGH = very hard, big competitors dominate." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
-              <th class="c">Trend <span title="Is this keyword growing or declining? Green = growing. Red = declining. Blue = stable." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
-              <th class="c">AI Score <span title="Our AI rates each keyword 0-99. 75+ = great opportunity. 50-74 = decent. Below 50 = skip it." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
+              <th class="r">Monthly Searches <span class="tt">?<span class="tt-box">How many times this keyword is<br>searched on Google per month.<br>Higher = more potential visitors.</span></span></th>
+              <th class="r">CPC <span class="tt">?<span class="tt-box">Cost Per Click — what advertisers pay<br>per click on Google Ads.<br>Higher = more commercial value.</span></span></th>
+              <th class="c">Competition <span class="tt">?<span class="tt-box">How hard it is to rank on Google.<br>LOW = easy to rank.<br>MEDIUM = moderate effort needed.<br>HIGH = very hard, big competitors.</span></span></th>
+              <th class="c">Trend <span class="tt">?<span class="tt-box">Is this keyword growing or shrinking?<br>Green = growing (get in now!)<br>Red = declining (avoid)<br>Blue = stable (safe choice)</span></span></th>
+              <th class="c">AI Score <span class="tt">?<span class="tt-box">Our AI rates each keyword 0-99.<br>75+ = great opportunity<br>50-74 = decent<br>Below 50 = skip it</span></span></th>
             </tr>
           </thead>
           <tbody id="kw-tbody"></tbody>
