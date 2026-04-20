@@ -411,38 +411,48 @@ function updateSearchCounter(){
 
 async function doSearch(){
   const rawInput=document.getElementById('kw-input').value.trim();
-  const allKws=kwTags.length>0?kwTags:[rawInput];
-  const kw=allKws[0];
+  if(rawInput) addKwTag(rawInput);
+  const allKws=kwTags.length>0?[...kwTags]:[rawInput];
+  if(!allKws[0])return;
   const country=document.getElementById('country-select').value;
-  if(!kw)return;
-  if(isAdmin()){
-    currentKw=kw;
-  } else {
-  const searches=parseInt(localStorage.getItem('kp_searches')||'0');
-  const limit=currentUser?10:3;
-  if(searches>=limit){
-    if(!currentUser){openModal('signup');document.getElementById('signup-error').textContent='You used all '+limit+' free searches. Sign up free for 10 searches!';document.getElementById('signup-error').style.display='block';}
-    else alert('You used all 10 free searches. Pro plan coming soon!');
-    return;
+
+  if(!isAdmin()){
+    const searches=parseInt(localStorage.getItem('kp_searches')||'0');
+    const limit=currentUser?10:3;
+    if(searches>=limit){
+      if(!currentUser){openModal('signup');document.getElementById('signup-error').textContent='You used all '+limit+' free searches. Sign up free for 10 searches!';document.getElementById('signup-error').style.display='block';}
+      else alert('You used all 10 free searches. Pro plan coming soon!');
+      return;
+    }
+    localStorage.setItem('kp_searches',searches+1);
+    updateSearchCounter();
   }
-  localStorage.setItem('kp_searches',searches+1);
-  updateSearchCounter();
-  currentKw=kw;
-  } // end non-admin check
+
   document.getElementById('empty-state').style.display='none';
   document.getElementById('results-section').style.display='none';
   document.getElementById('stats-row').style.display='none';
+  document.getElementById('hero-kw-card').style.display='none';
   document.getElementById('loading').style.display='block';
   document.getElementById('tabs-bar').style.display='block';
   showTab('keywords');
-  try{
-    const response=await fetch('/api/keywords',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({keyword:kw,country})});
-    const data=await response.json();
-    allResults=data.keywords&&data.keywords.length>0?data.keywords:genKeywords(kw,country);
-  }catch(err){allResults=genKeywords(kw,country);}
+
+  let combined=[];
+  for(const kw of allKws){
+    try{
+      const response=await fetch('/api/keywords',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({keyword:kw,country})});
+      const data=await response.json();
+      const res=data.keywords&&data.keywords.length>0?data.keywords:genKeywords(kw,country);
+      combined=[...combined,...res];
+    }catch(err){combined=[...combined,...genKeywords(kw,country)];}
+  }
+
+  const seen=new Set();
+  allResults=combined.filter(r=>{if(seen.has(r.keyword))return false;seen.add(r.keyword);return true;});
   allResults.sort((a,b)=>b.volume-a.volume);
+  currentKw=allKws[0];
+
   document.getElementById('loading').style.display='none';
-  document.getElementById('result-count').textContent='Similar & related keywords ('+allResults.length+')';
+  document.getElementById('result-count').textContent='Keywords found ('+allResults.length+')';
   showStats();
   document.getElementById('results-section').style.display='block';
   renderTable();
