@@ -283,12 +283,12 @@ footer strong{color:#374151;}
         <table>
           <thead>
             <tr>
-              <th>Keyword</th>
-              <th class="r">Monthly Searches</th>
-              <th class="r">CPC</th>
-              <th class="c">Competition</th>
-              <th class="c">Trend</th>
-              <th class="c">AI Score</th>
+              <th>Keyword <small style="font-weight:400;color:#9ca3af;text-transform:none;">(click to analyze)</small></th>
+              <th class="r">Monthly Searches <span title="How many times this keyword is searched on Google per month. Higher = more potential visitors." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
+              <th class="r">CPC <span title="Cost Per Click — how much advertisers pay per click on Google Ads. Higher = more commercial value." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
+              <th class="c">Competition <span title="How hard it is to rank. LOW = easy. MEDIUM = moderate. HIGH = very hard, big competitors dominate." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
+              <th class="c">Trend <span title="Is this keyword growing or declining? Green = growing. Red = declining. Blue = stable." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
+              <th class="c">AI Score <span title="Our AI rates each keyword 0-99. 75+ = great opportunity. 50-74 = decent. Below 50 = skip it." style="cursor:help;background:#e5e7eb;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#6b7280;">?</span></th>
             </tr>
           </thead>
           <tbody id="kw-tbody"></tbody>
@@ -298,6 +298,13 @@ footer strong{color:#374151;}
     <div id="empty-state" class="empty-state">
       <h2>Enter a keyword to get started</h2>
       <p>Press Enter to add multiple keywords, then click Search</p>
+    <div id="ai-tip-banner" style="display:none;background:#fff;border:1.5px solid #2563eb;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="background:#eff6ff;color:#1d4ed8;font-size:11px;font-weight:700;padding:4px 10px;border-radius:4px;border:1px solid #bfdbfe;">AI RECOMMENDATION</div>
+        <div style="font-size:16px;font-weight:700;" id="ai-tip-title">Our top pick for you</div>
+      </div>
+      <div id="ai-tip-content" style="font-size:15px;color:#374151;line-height:1.7;"></div>
+    </div>
     </div>
   </div>
   <div id="trend-panel" class="trend-panel">
@@ -508,6 +515,35 @@ async function doSearch(){
   document.getElementById('result-count').textContent='Similar & related keywords ('+allResults.length+')';
   document.getElementById('results-section').style.display='block';
   renderTable();
+  showAiTip(kws[0]);
+}
+
+function showAiTip(mainKw){
+  const banner=document.getElementById('ai-tip-banner');
+  const content=document.getElementById('ai-tip-content');
+  if(!allResults.length){banner.style.display='none';return;}
+  
+  const lowComp=allResults.filter(r=>r.competition==='LOW');
+  const rising=allResults.filter(r=>r.trend==='rising');
+  const best=lowComp.filter(r=>r.trend==='rising').sort((a,b)=>b.score-a.score)[0]
+    || rising.sort((a,b)=>b.score-a.score)[0]
+    || lowComp.sort((a,b)=>b.score-a.score)[0]
+    || allResults.sort((a,b)=>b.score-a.score)[0];
+  
+  if(!best){banner.style.display='none';return;}
+  
+  const isLong = best.keyword.split(' ').length >= 3;
+  banner.style.display='block';
+  document.getElementById('ai-tip-title').textContent='We recommend targeting: "'+best.keyword+'"';
+  content.innerHTML=
+    '<p style="margin-bottom:8px;">Out of all '+allResults.length+' keywords we analyzed, <b>"'+best.keyword+'"</b> is your best opportunity right now. Here is why:</p>'+
+    '<ul style="margin-left:1.25rem;display:flex;flex-direction:column;gap:5px;">'+
+    '<li><b>'+best.volume.toLocaleString()+' monthly searches</b> — enough traffic to make a difference</li>'+
+    '<li><b>Competition: '+best.competition+'</b> — '+(best.competition==='LOW'?'you can rank on page 1 without needing hundreds of backlinks':best.competition==='MEDIUM'?'achievable with good content and some backlinks':'harder, but doable with strong content')+'</li>'+
+    '<li><b>Trend: '+best.trend+'</b> — '+(best.trend==='rising'?'search volume is growing — get in now before it gets crowded':best.trend==='stable'?'consistent demand, reliable traffic year-round':'declining, but still has volume worth targeting')+'</li>'+
+    '<li><b>AI Score: '+best.score+'/99</b> — '+(best.score>=75?'excellent opportunity':'decent opportunity')+' based on volume, competition and trend combined</li>'+
+    '</ul>'+
+    '<p style="margin-top:10px;padding:10px 14px;background:#f0fdf4;border-radius:8px;border-left:3px solid #16a34a;font-size:14px;"><b>What to do:</b> Write a blog post or landing page targeting <b>"'+best.keyword+'"</b>. '+(isLong?'Long-tail keywords like this are easier to rank for and attract visitors who know exactly what they want — higher chance they become customers.':'Use it as your main keyword in the title, first paragraph and meta description.')+'</p>';
 }
 
 function showTab(tab){
