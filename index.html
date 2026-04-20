@@ -652,17 +652,10 @@ async function doLogin(){
 
 document.getElementById('modal-overlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-async function startCheckout(){
-  const btn=document.getElementById('premium-btn');
-  if(btn){btn.textContent='Loading...';btn.disabled=true;}
-  try{
-    const email=currentUser?currentUser.email:'';
-    const res=await fetch('/api/stripe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'create_checkout',email})});
-    const data=await res.json();
-    if(data.url) window.location.href=data.url;
-    else alert('Error: '+data.error);
-  }catch(e){alert('Something went wrong. Please try again.');}
-  if(btn){btn.textContent='Get Premium — $5/mo →';btn.disabled=false;}
+function startCheckout(){
+  const email=currentUser?currentUser.email:'';
+  const url='https://markotanaskovic.lemonsqueezy.com/checkout/buy/eb41e07d-040a-4e31-b9e5-ab1c80d91cd7'+(email?'?checkout[email]='+encodeURIComponent(email):'');
+  window.location.href=url;
 }
 
 if(window.location.search.includes('upgraded=true')){
