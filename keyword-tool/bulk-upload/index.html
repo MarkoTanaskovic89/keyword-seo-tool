@@ -197,11 +197,13 @@ footer a{color:#2563eb;text-decoration:none;}
         <thead>
           <tr>
             <th>Keyword</th>
-            <th class="r">Monthly Searches</th>
-            <th class="r">CPC</th>
-            <th class="c">Competition</th>
-            <th class="c">Trend</th>
-            <th class="c">AI Score</th>
+            <th class="r">Monthly Searches <span class="tt">?<span class="tt-box">How many times this keyword is searched<br>on Google per month. Higher = more<br>potential visitors to your website.</span></span></th>
+            <th class="r">CPC <span class="tt">?<span class="tt-box">Cost Per Click — what advertisers pay<br>per click on Google Ads. Higher CPC<br>means the keyword has commercial value.</span></span></th>
+            <th class="c">Competition <span class="tt">?<span class="tt-box">How hard it is to rank on Google.<br>LOW = easy, no backlinks needed.<br>MEDIUM = some effort required.<br>HIGH = very hard, big brands dominate.</span></span></th>
+            <th class="c">Trend <span class="tt">?<span class="tt-box">Is this keyword growing or shrinking?<br>Rising = more people searching (get in now!)<br>Stable = consistent demand (safe choice)<br>Falling = losing interest (avoid)</span></span></th>
+            <th class="c">AI Score <span class="tt">?<span class="tt-box">Our AI rates each keyword 0-99.<br>Based on volume, competition and trend.<br>75+ = great opportunity<br>50-74 = decent<br>Below 50 = skip it</span></span></th>
+            <th>Suggested Blog Title <span class="tt">?<span class="tt-box">AI-generated blog title optimized<br>for this keyword. Copy and use directly<br>as your article or page title.</span></span></th>
+            <th class="c">Word Count <span class="tt">?<span class="tt-box">Recommended article length to rank<br>on Google for this keyword.<br>Based on competition level and trend.<br>More competitive = longer content needed.</span></span></th>
           </tr>
         </thead>
         <tbody id="results-tbody"></tbody>
@@ -334,6 +336,14 @@ async function processKeywords(keywords){
 function badge(c){if(c==='LOW')return '<span class="badge bl">LOW</span>';if(c==='MEDIUM')return '<span class="badge bm">MEDIUM</span>';return '<span class="badge bh">HIGH</span>';}
 function aiCol(s){return s>=75?'#15803d':s>=50?'#b45309':'#dc2626';}
 
+function wordCount(comp, trend, score){
+  if(comp==='HIGH') return 3000;
+  if(comp==='LOW' && trend==='rising') return 1500;
+  if(comp==='MEDIUM' && score>=75) return 2500;
+  if(comp==='LOW') return 2000;
+  return 2500;
+}
+
 function blogTitle(kw, trend, comp){
   const k=kw.charAt(0).toUpperCase()+kw.slice(1);
   if(trend==='rising'&&comp==='LOW') return 'The Complete Guide to '+k+' in 2025';
@@ -355,17 +365,44 @@ function showResults(){
   rc.style.display='block';
   document.getElementById('results-title').textContent=bulkResults.length+' keywords analyzed';
   document.getElementById('results-tbody').innerHTML=bulkResults.map(r=>
-    '<tr><td><b>'+r.keyword+'</b></td><td class="r">'+r.volume.toLocaleString()+'</td><td class="r">$'+r.cpc.toFixed(2)+'</td><td class="c">'+badge(r.competition)+'</td><td class="c" style="font-size:13px;color:'+(r.trend==='rising'?'#16a34a':r.trend==='falling'?'#dc2626':'#2563eb')+'">'+r.trend+'</td><td class="c"><b style="color:'+aiCol(r.score)+'">'+r.score+'</b></td><td style="font-size:13px;color:#374151;">'+blogTitle(r.keyword,r.trend,r.competition)+'</td></tr>'
+    '<tr><td><b>'+r.keyword+'</b></td><td class="r">'+r.volume.toLocaleString()+'</td><td class="r">$'+r.cpc.toFixed(2)+'</td><td class="c">'+badge(r.competition)+'</td><td class="c" style="font-size:13px;color:'+(r.trend==='rising'?'#16a34a':r.trend==='falling'?'#dc2626':'#2563eb')+'">'+r.trend+'</td><td class="c"><b style="color:'+aiCol(r.score)+'">'+r.score+'</b></td><td style="font-size:13px;color:#374151;">'+blogTitle(r.keyword,r.trend,r.competition)+'</td><td class="c" style="font-size:13px;font-weight:700;color:#2563eb;">'+wordCount(r.competition,r.trend,r.score).toLocaleString()+'</td></tr>'
   ).join('');
 }
 
 function downloadExcel(){
-  const rows=[['Keyword','Monthly Searches','CPC (USD)','Competition','Trend','AI Score','Suggested Blog Title']];
-  bulkResults.forEach(r=>rows.push([r.keyword,r.volume,r.cpc,r.competition,r.trend,r.score,blogTitle(r.keyword,r.trend,r.competition)]));
+  // Main data sheet
+  const rows=[['Keyword','Monthly Searches','CPC (USD)','Competition','Trend','AI Score','Suggested Blog Title','Recommended Word Count']];
+  bulkResults.forEach(r=>rows.push([r.keyword,r.volume,r.cpc,r.competition,r.trend,r.score,blogTitle(r.keyword,r.trend,r.competition),wordCount(r.competition,r.trend,r.score)]));
   const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws['!cols']=[{wch:35},{wch:18},{wch:12},{wch:14},{wch:12},{wch:10},{wch:50}];
+  ws['!cols']=[{wch:35},{wch:18},{wch:12},{wch:14},{wch:12},{wch:10},{wch:50},{wch:22}];
+
+  // Style header row
+  const headerStyle={font:{bold:true},fill:{fgColor:{rgb:'2563EB'}},alignment:{horizontal:'center'}};
+
+  // Explanations sheet
+  const explain=[
+    ['Column','What it means','How to use it'],
+    ['Keyword','The keyword you uploaded for analysis','Target this keyword in your content'],
+    ['Monthly Searches','How many times this keyword is searched on Google per month','Higher = more potential traffic to your site'],
+    ['CPC (USD)','Cost Per Click — how much advertisers pay per click on Google Ads','Higher CPC = more commercial value = people are ready to buy'],
+    ['Competition','How hard it is to rank on Google for this keyword','LOW = easy to rank. MEDIUM = moderate effort. HIGH = very hard, big brands dominate.'],
+    ['Trend','Whether search volume is growing, stable or falling','Rising = get in now before competition increases. Falling = avoid or update existing content.'],
+    ['AI Score','Our AI opportunity score from 0 to 99','75+ = excellent opportunity. 50-74 = decent. Below 50 = skip it or wait.'],
+    ['Suggested Blog Title','AI-generated article title optimized for this keyword','Use as your article title, H1 heading, or meta title directly'],
+    ['Recommended Word Count','Suggested article length to rank well on Google','Based on competition level. More competitive keywords need longer, more detailed content.'],
+    ['','',''],
+    ['Word Count Guide','',''],
+    ['1,500 words','LOW competition + Rising trend','Quick to write, fast to rank. Great for new sites.'],
+    ['2,000 words','LOW competition','Standard length for easy keywords.'],
+    ['2,500 words','MEDIUM competition or HIGH AI score','Needs more depth to outrank existing content.'],
+    ['3,000 words','HIGH competition','Must be comprehensive to compete with established sites.'],
+  ];
+  const ws2=XLSX.utils.aoa_to_sheet(explain);
+  ws2['!cols']=[{wch:25},{wch:55},{wch:55}];
+
   const wb=XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb,ws,'KeywordPro Analysis');
+  XLSX.utils.book_append_sheet(wb,ws,'Keyword Analysis');
+  XLSX.utils.book_append_sheet(wb,ws2,'Column Explanations');
   XLSX.writeFile(wb,'keywordpro-bulk-'+new Date().toISOString().slice(0,10)+'.xlsx');
 }
 
