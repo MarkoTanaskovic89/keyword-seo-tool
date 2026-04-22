@@ -232,8 +232,14 @@ function isPro(u){return u&&(u.plan==='pro'||u.plan==='premium');}
 function hasAccess(){const u=getCurrentUser();return isAdmin(u)||isPro(u);}
 
 function checkAccess(){
-  document.getElementById('locked-section').style.display='none';
-  document.getElementById('upload-section').style.display='block';
+  const u=getCurrentUser();
+  if(isAdmin(u)||isPro(u)){
+    document.getElementById('locked-section').style.display='none';
+    document.getElementById('upload-section').style.display='block';
+  } else {
+    document.getElementById('locked-section').style.display='block';
+    document.getElementById('upload-section').style.display='none';
+  }
 }
 
 function handleDragOver(e){e.preventDefault();document.getElementById('upload-area').classList.add('dragover');}
