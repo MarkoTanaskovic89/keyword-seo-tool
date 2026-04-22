@@ -135,7 +135,7 @@ footer a{color:#2563eb;text-decoration:none;}
     <div class="upload-card">
       <h2>Upload your keywords</h2>
       <p>Put your keywords in column A of an Excel or CSV file. First row can be a header (e.g. "Keyword") — we'll skip it automatically.</p>
-      <div class="upload-area" id="upload-area" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+      <div class="upload-area" id="upload-area" onclick="document.getElementById('file-input').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
         <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFile(this.files[0])">
         <div class="upload-icon">📂</div>
         <div class="upload-title">Drop your file here or click to browse</div>
@@ -338,7 +338,7 @@ function blogTitle(kw, trend, comp){
     'How to Master '+k+' (Step-by-Step Guide)',
     'The Best '+k+' Strategies That Actually Work',
     k+': Tips, Tools and Best Practices',
-    'What Is '+k+'? A Complete Beginner's Guide',
+    'What Is '+k+'? A Complete Beginner Guide',
     k+' in 2025: What You Need to Know',
   ];
   return titles[Math.abs(kw.length*7+kw.charCodeAt(0))%titles.length];
