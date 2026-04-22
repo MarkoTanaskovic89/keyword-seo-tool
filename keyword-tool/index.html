@@ -678,6 +678,7 @@ if(window.location.search.includes('upgraded=true')){
 const saved=localStorage.getItem('kp_user');
 if(saved){try{const u=JSON.parse(saved);currentUser=u;document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';if(document.getElementById('bulk-link'))document.getElementById('bulk-link').style.display='block';}catch(e){localStorage.removeItem('kp_user');}}
 updateCounter();
+if(window.location.search.includes('signup=true')&&!currentUser){openModal('signup');}
 </script>
 </body>
 </html>
