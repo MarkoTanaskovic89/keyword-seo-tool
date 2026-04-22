@@ -128,7 +128,7 @@ tr:hover td{background:#f9fafb;}
 .spinner{display:inline-block;width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
-.pricing-section{max-width:1100px;margin:0 auto 2rem;padding:0 1.5rem;}
+.pricing-section{max-width:820px;margin:0 auto 2rem;padding:0 1.5rem;}
 .pricing-inner{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:2rem;}
 .pricing-title{font-size:20px;font-weight:800;margin-bottom:6px;}
 .pricing-sub{font-size:15px;color:#6b7280;margin-bottom:1.5rem;}
@@ -195,6 +195,9 @@ footer strong{color:#374151;}
 
 <header>
   <a href="/" class="logo">Keyword<span>Pro</span></a>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="/keyword-tool/bulk-upload" style="font-size:13px;font-weight:600;color:#059669;text-decoration:none;padding:7px 14px;border:1.5px solid #059669;border-radius:6px;display:none;" id="bulk-link">📊 Bulk Upload</a>
+  </div>
   <div class="header-right" id="header-right">
     <button class="btn-login" onclick="openModal('login')">Log in</button>
     <button class="btn-signup" onclick="openModal('signup')">Sign up free</button>
@@ -316,6 +319,15 @@ footer strong{color:#374151;}
   </div>
 </div>
 
+<div style="max-width:820px;margin:0 auto 1rem;padding:0 1.5rem;">
+  <div style="background:#f0fdf4;border:1.5px solid #059669;border-radius:12px;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div style="font-size:15px;font-weight:700;color:#065f46;">📊 Need to analyze 300 keywords at once?</div>
+      <div style="font-size:13px;color:#047857;margin-top:2px;">Upload an Excel file and get CPC, volume, competition and AI score for every keyword.</div>
+    </div>
+    <a href="/keyword-tool/bulk-upload" style="padding:9px 20px;background:#059669;color:#fff;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none;white-space:nowrap;">Try Bulk Upload →</a>
+  </div>
+</div>
 <div class="pricing-section">
   <div class="pricing-inner">
     <div class="pricing-title">Simple, honest pricing</div>
@@ -610,7 +622,7 @@ function openModal(t){document.getElementById('modal-overlay').classList.add('op
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');}
 function switchModal(t){document.getElementById('modal-signup').style.display=t==='signup'?'block':'none';document.getElementById('modal-login').style.display=t==='login'?'block':'none';}
 
-function setLoggedIn(u){currentUser=u;localStorage.setItem('kp_user',JSON.stringify(u));document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';closeModal();updateCounter();}
+function setLoggedIn(u){currentUser=u;localStorage.setItem('kp_user',JSON.stringify(u));document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';if(document.getElementById('bulk-link'))document.getElementById('bulk-link').style.display='block';closeModal();updateCounter();}
 function doLogout(){currentUser=null;localStorage.removeItem('kp_user');location.reload();}
 
 async function doSignup(){
@@ -668,7 +680,7 @@ if(window.location.search.includes('upgraded=true')){
 }
 
 const saved=localStorage.getItem('kp_user');
-if(saved){try{const u=JSON.parse(saved);currentUser=u;document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';}catch(e){localStorage.removeItem('kp_user');}}
+if(saved){try{const u=JSON.parse(saved);currentUser=u;document.getElementById('header-right').innerHTML='<span class="user-email">'+u.email+'</span><button class="btn-logout" onclick="doLogout()">Log out</button>';if(document.getElementById('bulk-link'))document.getElementById('bulk-link').style.display='block';}catch(e){localStorage.removeItem('kp_user');}}
 updateCounter();
 </script>
 </body>
