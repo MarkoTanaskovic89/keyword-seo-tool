@@ -59,22 +59,26 @@ module.exports = async function handler(req, res) {
 
     if (action === 'get_backlinks') {
       const { access_token, site_url } = body;
-      const encoded = encodeURIComponent(site_url);
       const endDate = new Date().toISOString().slice(0, 10);
       const startDate = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
+      // Fix URL encoding - sc-domain: needs special handling
+      const siteUrlFixed = site_url.startsWith('sc-domain:') 
+        ? 'sc-domain:' + site_url.replace('sc-domain:', '')
+        : site_url;
+      const encoded = encodeURIComponent(siteUrlFixed);
+      
       const fetchAnalytics = async (dimension) => {
-        const r = await fetch(
-          `https://searchconsole.googleapis.com/v1/sites/${encoded}/searchAnalytics/query`,
-          {
+        const apiUrl = `https://searchconsole.googleapis.com/v1/sites/${encoded}/searchAnalytics/query`;
+        console.log('Calling:', apiUrl);
+        const r = await fetch(apiUrl, {
             method: 'POST',
             headers: {
               'Authorization': 'Bearer ' + access_token,
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({ startDate, endDate, dimensions: [dimension], rowLimit: 100 })
-          }
-        );
+          });
         const text = await r.text();
         try { return JSON.parse(text); }
         catch(e) { return { error: 'Parse error: ' + text.slice(0, 300) }; }
