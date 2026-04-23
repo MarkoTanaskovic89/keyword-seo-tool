@@ -33,14 +33,14 @@ module.exports = async function handler(req, res) {
         target,
         include_subdomains: true
       }]);
+      console.log('Summary result:', JSON.stringify(result).slice(0, 500));
       return res.status(200).json({
-        total_backlinks: result.total_count || 0,
+        total_backlinks: result.backlinks || result.total_count || 0,
         referring_domains: result.referring_domains || 0,
         referring_ips: result.referring_ips || 0,
         broken_backlinks: result.broken_backlinks || 0,
-        dofollow: result.backlinks_spam_score || 0,
-        domain_rank: result.rank || 0,
-        backlinks_spam_score: result.backlinks_spam_score || 0
+        domain_rank: Math.min(100, result.rank || 0),
+        spam_score: result.backlinks_spam_score || 0
       });
     }
 
@@ -129,4 +129,3 @@ module.exports = async function handler(req, res) {
     return res.status(500).json({ error: error.message });
   }
 }
-
