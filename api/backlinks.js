@@ -39,7 +39,7 @@ module.exports = async function handler(req, res) {
         page_authority: m.page_authority || 0,
         spam_score: m.spam_score || 0,
         linking_domains: m.root_domains_to_root_domain || 0,
-        total_backlinks: m.external_links_to_root_domain || 0
+        total_backlinks: m.external_pages_to_page || m.pages_to_page || 0
       });
     }
 
@@ -51,9 +51,9 @@ module.exports = async function handler(req, res) {
         select: ['domain_authority', 'root_domain', 'external_links_to_target']
       });
       const items = (result.results || []).map(d => ({
-        domain: d.root_domain || d.domain,
+        domain: d.root_domain || d.domain || '',
         domain_authority: d.domain_authority || 0,
-        links_to_target: d.external_links_to_target || 0
+        links_to_target: (d.to_target && d.to_target.pages) || d.external_links_to_target || 0
       }));
       return res.status(200).json({ items });
     }
@@ -67,11 +67,11 @@ module.exports = async function handler(req, res) {
         select: ['page_authority', 'domain_authority', 'source_url', 'target_url', 'anchor_text', 'nofollow']
       });
       const items = (result.results || []).map(b => ({
-        url_from: b.source_url || '',
-        url_to: b.target_url || '',
+        url_from: (b.source && ('https://' + b.source.page)) || b.source_url || '',
+        url_to: (b.target && ('https://' + b.target.page)) || b.target_url || '',
         anchor: b.anchor_text || '',
-        domain_authority: b.domain_authority || 0,
-        page_authority: b.page_authority || 0,
+        domain_authority: (b.source && b.source.domain_authority) || b.domain_authority || 0,
+        page_authority: (b.source && b.source.page_authority) || b.page_authority || 0,
         dofollow: !b.nofollow
       }));
       return res.status(200).json({ items });
