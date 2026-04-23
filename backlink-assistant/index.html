@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maximus — SEO Performance Dashboard</title>
+<title>Maximus — Backlink Assistant</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:16px;}
 header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
 .logo{font-size:22px;font-weight:700;color:#1a1a1a;text-decoration:none;}
 .logo span{color:#2563eb;}
-.back-link{font-size:14px;color:#2563eb;text-decoration:none;display:flex;align-items:center;gap:6px;}
+.back-link{font-size:14px;color:#2563eb;text-decoration:none;}
 
 .hero{background:linear-gradient(135deg,#1e3a8a,#2563eb);padding:2.5rem 2rem;text-align:center;color:#fff;}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:6px 16px;margin-bottom:1rem;font-size:13px;font-weight:600;}
@@ -21,111 +21,84 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64p
 
 .main{max-width:1100px;margin:2rem auto;padding:0 1.5rem;}
 
-/* Connect */
-.connect-card{background:#fff;border-radius:16px;border:2px solid #2563eb;padding:2.5rem;text-align:center;margin-bottom:1.5rem;}
-.connect-icon{font-size:48px;margin-bottom:1rem;}
-.connect-title{font-size:22px;font-weight:800;margin-bottom:8px;}
-.connect-desc{font-size:15px;color:#6b7280;margin-bottom:2rem;line-height:1.6;max-width:480px;margin-left:auto;margin-right:auto;margin-bottom:2rem;}
-.btn-connect{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:#2563eb;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
-.btn-connect:hover{background:#1d4ed8;}
-.connect-note{font-size:13px;color:#9ca3af;margin-top:1rem;}
+.search-card{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:2rem;margin-bottom:1.5rem;}
+.search-card h2{font-size:18px;font-weight:700;margin-bottom:6px;}
+.search-card p{font-size:14px;color:#6b7280;margin-bottom:1.5rem;}
+.input-row{display:flex;gap:10px;flex-wrap:wrap;}
+.input-row input{flex:1;min-width:200px;height:44px;padding:0 16px;font-size:15px;border:1.5px solid #d1d5db;border-radius:8px;outline:none;}
+.input-row input:focus{border-color:#2563eb;}
+.btn-primary{height:44px;padding:0 24px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.btn-primary:hover{background:#1d4ed8;}
+.btn-primary:disabled{background:#9ca3af;cursor:not-allowed;}
 
-/* Loading */
-.loading{text-align:center;padding:3rem;}
-.spinner{display:inline-block;width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
+.tabs{display:flex;gap:4px;margin-bottom:1.5rem;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:6px;}
+.tab-btn{flex:1;padding:9px;border:none;background:none;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;color:#6b7280;}
+.tab-btn.active{background:#2563eb;color:#fff;}
 
-/* Site selector */
-.site-selector{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:1.5rem;margin-bottom:1.5rem;display:none;}
-.site-selector h3{font-size:16px;font-weight:700;margin-bottom:1rem;}
-.site-list{display:flex;flex-direction:column;gap:8px;}
-.site-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1.5px solid #e5e7eb;border-radius:10px;cursor:pointer;transition:all .15s;}
-.site-item:hover,.site-item.selected{border-color:#2563eb;background:#eff6ff;}
-.site-name{font-size:15px;font-weight:600;}
-.site-perm{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;}
-.perm-owner{background:#dcfce7;color:#15803d;}
-.perm-user{background:#fef3c7;color:#92400e;}
-.btn-analyze{width:100%;margin-top:1rem;padding:12px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;}
-.btn-analyze:disabled{background:#9ca3af;cursor:not-allowed;}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:1.5rem;}
+.metric-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem;}
+.metric-label{font-size:11px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;display:flex;align-items:center;gap:4px;}
+.metric-value{font-size:28px;font-weight:800;color:#1a1a1a;margin-bottom:4px;}
+.metric-sub{font-size:12px;color:#9ca3af;}
 
-/* Score card */
-.score-banner{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:1.5rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;}
-.score-circle{width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
-.score-num{font-size:32px;font-weight:800;line-height:1;}
-.score-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
-.score-details{flex:1;}
-.score-title{font-size:18px;font-weight:700;margin-bottom:4px;}
-.score-desc{font-size:14px;color:#6b7280;line-height:1.6;}
-.score-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
-.action-tag{font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;}
-.action-fix{background:#fee2e2;color:#991b1b;}
-.action-good{background:#dcfce7;color:#15803d;}
-.action-improve{background:#fef3c7;color:#92400e;}
+.tt{position:relative;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;cursor:help;}
+.tt:hover .tt-box{display:block;}
+.tt-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;padding:8px 12px;border-radius:8px;white-space:nowrap;z-index:999;line-height:1.6;min-width:220px;font-weight:400;}
+.tt-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
 
-/* Metrics */
-.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:1.5rem;}
-.metric-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem;}
-.metric-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-.metric-label{font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:4px;}
-.metric-health{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;}
-.health-good{background:#dcfce7;color:#15803d;}
-.health-warn{background:#fef3c7;color:#92400e;}
-.health-bad{background:#fee2e2;color:#991b1b;}
-.metric-value{font-size:32px;font-weight:800;margin-bottom:4px;}
-.metric-explain{font-size:12px;color:#9ca3af;line-height:1.5;}
-
-/* Insight cards */
-.insights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:1.5rem;}
-.insight-card{background:#fff;border-radius:12px;padding:1.25rem;border-left:4px solid #e5e7eb;}
-.insight-card.opportunity{border-color:#2563eb;background:#f0f7ff;}
-.insight-card.warning{border-color:#f59e0b;background:#fffbeb;}
-.insight-card.success{border-color:#16a34a;background:#f0fdf4;}
-.insight-card.action{border-color:#7c3aed;background:#faf5ff;}
-.insight-icon{font-size:22px;margin-bottom:8px;}
-.insight-title{font-size:14px;font-weight:700;margin-bottom:4px;}
-.insight-desc{font-size:13px;line-height:1.6;color:#374151;}
-
-/* Tables */
 .data-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
-.data-header{padding:14px 18px;border-bottom:1px solid #e5e7eb;}
-.data-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.data-header{padding:14px 18px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;}
 .data-title{font-size:15px;font-weight:700;}
-.data-sub{font-size:13px;color:#6b7280;}
+.data-sub{font-size:13px;color:#6b7280;margin-top:3px;}
 table{width:100%;border-collapse:collapse;}
 th{text-align:left;padding:10px 16px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
 th.r,td.r{text-align:right;}
 td{padding:11px 16px;font-size:14px;border-bottom:1px solid #f3f4f6;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:#f9fafb;}
-.pos-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;}
-.pos-p1{background:#dcfce7;color:#15803d;}
-.pos-p2{background:#fef3c7;color:#92400e;}
-.pos-p3{background:#fee2e2;color:#991b1b;}
-.ctr-bar{display:flex;align-items:center;gap:6px;}
-.ctr-bg{width:60px;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;}
-.ctr-fill{height:100%;border-radius:3px;background:#2563eb;}
 
+.rank-pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700;}
+.rank-high{background:#dcfce7;color:#15803d;}
+.rank-mid{background:#fef3c7;color:#92400e;}
+.rank-low{background:#fee2e2;color:#991b1b;}
+.do-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;}
+.do-yes{background:#dcfce7;color:#15803d;}
+.do-no{background:#f3f4f6;color:#6b7280;}
+
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem;}
+.compare-card{background:#fff;border:2px solid #e5e7eb;border-radius:12px;padding:1.5rem;text-align:center;}
+.compare-card.mine{border-color:#2563eb;background:#eff6ff;}
+.compare-card.comp{border-color:#7c3aed;background:#f5f3ff;}
+.compare-label{font-size:12px;font-weight:700;text-transform:uppercase;margin-bottom:8px;color:#6b7280;}
+.compare-card.mine .compare-label{color:#1d4ed8;}
+.compare-card.comp .compare-label{color:#6d28d9;}
+.compare-domain{font-size:16px;font-weight:700;margin-bottom:1rem;word-break:break-all;}
+.compare-stat{margin-bottom:8px;}
+.compare-stat-val{font-size:24px;font-weight:800;}
+.compare-stat-label{font-size:12px;color:#9ca3af;}
+.compare-winner{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;background:#dcfce7;color:#15803d;margin-top:8px;display:inline-block;}
+.compare-loser{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;background:#fee2e2;color:#991b1b;margin-top:8px;display:inline-block;}
+
+.opportunity-card{background:#fff;border-left:4px solid #2563eb;border-radius:8px;padding:1rem 1.25rem;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.opp-domain{font-size:15px;font-weight:700;color:#1a1a1a;}
+.opp-rank{font-size:13px;color:#6b7280;}
+.opp-action{font-size:13px;color:#2563eb;font-weight:600;}
 .btn-export{padding:7px 14px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;}
-.btn-export:hover{background:#e5e7eb;}
 
-.tt{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;cursor:help;margin-left:3px;}
-.tt:hover .tt-box{display:block;}
-.tt-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;padding:8px 12px;border-radius:8px;white-space:nowrap;z-index:999;line-height:1.6;min-width:220px;font-weight:400;}
-.tt-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
-
-.disconnect-row{text-align:center;margin-top:1rem;}
-.btn-disconnect{padding:8px 18px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;color:#6b7280;cursor:pointer;}
+.loading{text-align:center;padding:3rem;}
+.spinner{display:inline-block;width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty{text-align:center;padding:3rem;color:#9ca3af;font-size:15px;}
 
 footer{text-align:center;padding:2rem;font-size:14px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:2rem;}
 footer a{color:#2563eb;text-decoration:none;}
 
 @media(max-width:768px){
-  header{padding:0 1rem;}
-  .main{padding:0 0.75rem;}
-  .metrics-grid{grid-template-columns:repeat(2,1fr);}
-  .score-banner{flex-direction:column;text-align:center;}
+  .input-row{flex-direction:column;}
+  .compare-grid{grid-template-columns:1fr;}
   .data-card{overflow-x:auto;}
   table{min-width:500px;}
+  .tabs{flex-wrap:wrap;}
 }
 </style>
 </head>
@@ -137,355 +110,289 @@ footer a{color:#2563eb;text-decoration:none;}
 </header>
 
 <div class="hero">
-  <div class="hero-badge">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-    Powered by Google Search Console — 100% Real Data
-  </div>
-  <h1>SEO Performance Dashboard</h1>
-  <p>Connect Google Search Console and see exactly how your site performs on Google. Real clicks, rankings, and actionable insights — no guessing, no estimates.</p>
+  <div class="hero-badge">🔗 Powered by DataForSEO — Real Backlink Data</div>
+  <h1>Backlink Assistant</h1>
+  <p>Analyze any domain's backlink profile, spy on competitors, and discover link building opportunities — all based on real data, not estimates.</p>
   <div class="hero-checks">
-    <span>✓ Real Google data</span>
-    <span>✓ Free forever</span>
-    <span>✓ Top pages & queries</span>
-    <span>✓ AI insights & tips</span>
+    <span>✓ Real backlink data</span>
+    <span>✓ Competitor analysis</span>
+    <span>✓ Link gap finder</span>
+    <span>✓ Referring domains</span>
   </div>
 </div>
 
 <div class="main">
 
-  <div id="connect-card" class="connect-card">
-    <div class="connect-icon">📊</div>
-    <div class="connect-title">Connect Google Search Console</div>
-    <div class="connect-desc">We pull your real search data directly from Google — clicks, impressions, rankings, and the keywords bringing people to your site. Read-only. We never store your data.</div>
-    <button class="btn-connect" onclick="connectGSC()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-      Connect with Google
-    </button>
-    <div class="connect-note">🔒 Read-only access. We only see Search Console data, nothing else.</div>
+  <div class="search-card">
+    <h2>Analyze a domain</h2>
+    <p>Enter any domain to see its full backlink profile. No www needed.</p>
+    <div class="input-row">
+      <input type="text" id="target-input" placeholder="e.g. ahrefs.com" />
+      <input type="text" id="competitor-input" placeholder="Competitor domain (optional)" />
+      <button class="btn-primary" id="analyze-btn" onclick="analyze()">Analyze →</button>
+    </div>
   </div>
 
-  <div id="loading-card" class="loading" style="display:none;">
-    <div class="spinner"></div>
-    <p id="loading-text" style="margin-top:1rem;color:#6b7280;">Connecting to Google...</p>
-  </div>
+  <div id="loading" class="loading" style="display:none;"><div class="spinner"></div><p style="margin-top:1rem;color:#6b7280;" id="loading-text">Fetching backlink data...</p></div>
 
-  <div id="site-selector" class="site-selector">
-    <h3>Select your website to analyze</h3>
-    <div class="site-list" id="site-list"></div>
-    <button class="btn-analyze" id="btn-analyze" onclick="analyzeSelected()" disabled>Analyze my SEO →</button>
-  </div>
+  <div id="results" style="display:none;">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+      <button class="tab-btn" onclick="showTab('backlinks')">Backlinks</button>
+      <button class="tab-btn" onclick="showTab('domains')">Referring Domains</button>
+      <button class="tab-btn" onclick="showTab('compare')" id="compare-tab" style="display:none;">vs Competitor</button>
+      <button class="tab-btn" onclick="showTab('gap')" id="gap-tab" style="display:none;">Link Gap</button>
+    </div>
 
-  <div id="results-section" style="display:none;">
-    <div id="score-banner" class="score-banner"></div>
-    <div class="metrics-grid" id="metrics-grid"></div>
-    <div class="insights-grid" id="insights-grid"></div>
+    <div id="tab-overview">
+      <div class="metrics-grid" id="metrics-grid"></div>
+      <div id="insights-section"></div>
+    </div>
 
-    <div class="data-card">
-      <div class="data-header">
-        <div class="data-header-top">
-          <div class="data-title">Top pages <span class="tt">?<span class="tt-box">Pages on your site that appear in Google search.<br>Click the page URL to open it.<br>High impressions + 0 clicks = fix your title & meta description!</span></span></div>
-          <button class="btn-export" onclick="exportPages()">Export CSV</button>
+    <div id="tab-backlinks" style="display:none;">
+      <div class="data-card">
+        <div class="data-header">
+          <div>
+            <div class="data-title">Top backlinks</div>
+            <div class="data-sub" id="backlinks-sub"></div>
+          </div>
+          <button class="btn-export" onclick="exportBacklinks()">Export CSV</button>
         </div>
-        <div class="data-sub" id="pages-sub"></div>
-      </div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead><tr>
-            <th>Page URL</th>
-            <th class="r">Clicks <span class="tt">?<span class="tt-box">How many people clicked this page<br>in Google search results.</span></span></th>
-            <th class="r">Impressions <span class="tt">?<span class="tt-box">How many times this page appeared<br>in search results (even if not clicked).</span></span></th>
-            <th class="r">CTR <span class="tt">?<span class="tt-box">Click-Through Rate. % of people who<br>saw this page and clicked.<br>Above 5% = great. Below 1% = fix the title.</span></span></th>
-            <th class="r">Position <span class="tt">?<span class="tt-box">Average ranking on Google.<br>#1-10 = first page (great!)<br>#11-20 = page 2 (almost there!)<br>Above 20 = needs SEO work</span></span></th>
-          </tr></thead>
-          <tbody id="pages-tbody"></tbody>
-        </table>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr>
+              <th>Linking Page</th>
+              <th>Anchor Text</th>
+              <th class="r">Domain Rank <span class="tt">?<span class="tt-box">Authority score of the linking domain.<br>Higher = more valuable link.<br>Above 50 = strong link.</span></span></th>
+              <th class="c">Dofollow <span class="tt">?<span class="tt-box">Dofollow links pass SEO value.<br>Nofollow links don't help rankings directly.</span></span></th>
+              <th>First Seen</th>
+            </tr></thead>
+            <tbody id="backlinks-tbody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <div class="data-card">
-      <div class="data-header">
-        <div class="data-header-top">
-          <div class="data-title">Top search queries <span class="tt">?<span class="tt-box">Keywords people type into Google to find your site.<br>High impressions + low position = target these keywords<br>more aggressively in your content!</span></span></div>
-          <button class="btn-export" onclick="exportQueries()">Export CSV</button>
+    <div id="tab-domains" style="display:none;">
+      <div class="data-card">
+        <div class="data-header">
+          <div>
+            <div class="data-title">Referring domains</div>
+            <div class="data-sub" id="domains-sub"></div>
+          </div>
+          <button class="btn-export" onclick="exportDomains()">Export CSV</button>
         </div>
-        <div class="data-sub" id="queries-sub"></div>
-      </div>
-      <div style="overflow-x:auto;">
-        <table>
-          <thead><tr>
-            <th>Search Query</th>
-            <th class="r">Clicks</th>
-            <th class="r">Impressions</th>
-            <th class="r">CTR</th>
-            <th class="r">Position</th>
-          </tr></thead>
-          <tbody id="queries-tbody"></tbody>
-        </table>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead><tr>
+              <th>Domain</th>
+              <th class="r">Domain Rank</th>
+              <th class="r">Backlinks</th>
+              <th>First Seen</th>
+            </tr></thead>
+            <tbody id="domains-tbody"></tbody>
+          </table>
+        </div>
       </div>
     </div>
 
-    <div class="disconnect-row">
-      <button class="btn-disconnect" onclick="disconnectGSC()">Disconnect & analyze different site</button>
+    <div id="tab-compare" style="display:none;">
+      <div class="compare-grid" id="compare-grid"></div>
+    </div>
+
+    <div id="tab-gap" style="display:none;">
+      <div class="data-card">
+        <div class="data-header">
+          <div>
+            <div class="data-title">Link gap opportunities</div>
+            <div class="data-sub" id="gap-sub"></div>
+          </div>
+        </div>
+        <div id="gap-list" style="padding:1rem;"></div>
+      </div>
     </div>
   </div>
 
 </div>
 
 <footer>
-  <strong>Maximus</strong> &copy; 2026 — SEO Dashboard powered by Google Search Console<br>
+  <strong>Maximus</strong> &copy; 2026 — Backlink Assistant powered by DataForSEO<br>
   <a href="/">Back to toolkit</a> &mdash;
   <a href="https://www.markotanaskovic.com/blog/privacy-policy" target="_blank">Privacy Policy</a>
 </footer>
 
 <script>
-let accessToken = null;
-let selectedSite = null;
-let pagesData = [];
-let queriesData = [];
+let backlinksData = [];
+let domainsData = [];
+let currentTarget = '';
 
-const params = new URLSearchParams(window.location.search);
-const code = params.get('code');
-if (code) {
-  window.history.replaceState({}, '', '/backlink-assistant');
-  document.getElementById('connect-card').style.display = 'none';
-  document.getElementById('loading-card').style.display = 'block';
-  exchangeToken(code);
+function showTab(tab) {
+  ['overview','backlinks','domains','compare','gap'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t === tab ? 'block' : 'none';
+    document.querySelectorAll('.tab-btn').forEach((btn,i) => {
+      const tabs = ['overview','backlinks','domains','compare','gap'];
+      if(tabs[i] === tab) btn.classList.add('active');
+      else btn.classList.remove('active');
+    });
+  });
 }
 
-const stored = localStorage.getItem('gsc_token');
-if (stored && !code) {
-  accessToken = stored;
-  document.getElementById('connect-card').style.display = 'none';
-  document.getElementById('loading-card').style.display = 'block';
-  loadSites();
+function rankClass(r) {
+  if(r >= 60) return 'rank-high';
+  if(r >= 30) return 'rank-mid';
+  return 'rank-low';
 }
 
-async function connectGSC() {
-  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'auth_url'})});
-  const data = await res.json();
-  if (data.url) window.location.href = data.url;
-  else alert('Error connecting. Please try again.');
-}
+async function analyze() {
+  const target = document.getElementById('target-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
+  const competitor = document.getElementById('competitor-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
+  if (!target) { alert('Please enter a domain to analyze.'); return; }
+  
+  currentTarget = target;
+  document.getElementById('analyze-btn').disabled = true;
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
 
-async function exchangeToken(code) {
-  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'exchange_token',code})});
-  const data = await res.json();
-  if (data.error) { alert('Auth error: ' + data.error); location.reload(); return; }
-  accessToken = data.access_token;
-  localStorage.setItem('gsc_token', accessToken);
-  loadSites();
-}
+  try {
+    // Fetch summary
+    document.getElementById('loading-text').textContent = 'Fetching backlink summary...';
+    const [summaryRes, backlinksRes, domainsRes] = await Promise.all([
+      fetch('/api/backlinks', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'summary',target})}),
+      fetch('/api/backlinks', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'backlinks',target})}),
+      fetch('/api/backlinks', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'referring_domains',target})})
+    ]);
 
-async function loadSites() {
-  document.getElementById('loading-text').textContent = 'Loading your sites...';
-  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_sites',access_token:accessToken})});
-  const data = await res.json();
-  if (data.error) { localStorage.removeItem('gsc_token'); location.reload(); return; }
-  document.getElementById('loading-card').style.display = 'none';
-  const sel = document.getElementById('site-selector');
-  sel.style.display = 'block';
-  const list = document.getElementById('site-list');
-  list.innerHTML = data.sites.map((s,i) => {
-    const isOwner = s.permissionLevel === 'siteOwner' || s.permissionLevel === 'siteFullUser';
-    const isVerified = s.permissionLevel !== 'siteUnverifiedUser';
-    const permClass = isOwner ? 'perm-owner' : isVerified ? 'perm-owner' : 'perm-user';
-    const permText = isOwner ? '✓ Owner' : isVerified ? '✓ Verified' : '⚠ Unverified';
-    return `<div class="site-item" onclick="selectSite(${i},'${s.siteUrl}')" id="site-${i}">
-      <div><div class="site-name">${s.siteUrl}</div></div>
-      <span class="site-perm ${permClass}">${permText}</span>
-    </div>`;
-  }).join('');
-  if (!data.sites.length) list.innerHTML = '<p style="color:#9ca3af;font-size:14px;padding:1rem 0;">No sites found. Make sure your site is verified in Google Search Console.</p>';
-  // Add tip
-  document.getElementById('site-selector').insertAdjacentHTML('beforeend', '<p style="font-size:12px;color:#9ca3af;margin-top:12px;">💡 For best results, select a site where you are the Owner. Unverified sites may have limited data.</p>');
-}
+    const summary = await summaryRes.json();
+    const bkData = await backlinksRes.json();
+    const dmData = await domainsRes.json();
 
-function selectSite(i, url) {
-  selectedSite = url;
-  document.querySelectorAll('.site-item').forEach(el => el.classList.remove('selected'));
-  document.getElementById('site-'+i).classList.add('selected');
-  document.getElementById('btn-analyze').disabled = false;
-}
+    if(summary.error) throw new Error(summary.error);
 
-async function analyzeSelected() {
-  if (!selectedSite) return;
-  document.getElementById('site-selector').style.display = 'none';
-  document.getElementById('loading-card').style.display = 'block';
-  document.getElementById('loading-text').textContent = 'Fetching your SEO data from Google...';
+    backlinksData = bkData.items || [];
+    domainsData = dmData.items || [];
 
-  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_backlinks',access_token:accessToken,site_url:selectedSite})});
-  const data = await res.json();
-  if (data.error) { alert('Error: ' + data.error); return; }
+    // Render metrics
+    document.getElementById('metrics-grid').innerHTML = [
+      ['Total Backlinks', (summary.total_backlinks||0).toLocaleString(), 'All links pointing to this domain', '#2563eb', 'More backlinks = more authority'],
+      ['Referring Domains', (summary.referring_domains||0).toLocaleString(), 'Unique domains linking', '#7c3aed', 'Diversity of links matters more than quantity'],
+      ['Domain Rank', summary.domain_rank||0, 'Authority score 0-100', '#059669', 'Above 50 = strong domain. Above 70 = very strong.'],
+      ['Referring IPs', (summary.referring_ips||0).toLocaleString(), 'Unique IP addresses', '#f59e0b', 'Links from same IP = less value. Diversity is key.'],
+    ].map(([l,v,tip,c,explain]) => `
+      <div class="metric-card">
+        <div class="metric-label">${l} <span class="tt">?<span class="tt-box">${tip}</span></span></div>
+        <div class="metric-value" style="color:${c}">${typeof v === 'number' ? v.toLocaleString() : v}</div>
+        <div class="metric-sub">${explain}</div>
+      </div>`).join('');
 
-  pagesData = data.pages || [];
-  queriesData = data.queries || [];
+    // Insights
+    const insights = [];
+    if((summary.referring_domains||0) < 10) insights.push({color:'#dc2626',icon:'🔴',text:'Very few referring domains ('+summary.referring_domains+'). Focus on getting links from at least 20-30 unique domains before worrying about quantity.'});
+    else if((summary.referring_domains||0) < 50) insights.push({color:'#f59e0b',icon:'🟡',text:'Growing backlink profile ('+summary.referring_domains+' domains). Keep building links from relevant sites in your niche.'});
+    else insights.push({color:'#16a34a',icon:'🟢',text:'Strong backlink profile with '+summary.referring_domains+' referring domains. Focus on link quality over quantity now.'});
 
-  document.getElementById('loading-card').style.display = 'none';
-  document.getElementById('results-section').style.display = 'block';
+    if((summary.domain_rank||0) < 20) insights.push({color:'#dc2626',icon:'🔴',text:'Low domain rank ('+summary.domain_rank+'/100). This is normal for new sites. Consistent link building will improve this over time.'});
+    else if((summary.domain_rank||0) < 50) insights.push({color:'#f59e0b',icon:'🟡',text:'Moderate domain rank ('+summary.domain_rank+'/100). You are on the right track. Focus on getting links from high-DR sites (50+).'});
+    else insights.push({color:'#16a34a',icon:'🟢',text:'Strong domain rank ('+summary.domain_rank+'/100). Your backlink profile is well established.'});
 
-  const totalClicks = pagesData.reduce((s,r) => s+r.clicks, 0);
-  const totalImpressions = pagesData.reduce((s,r) => s+r.impressions, 0);
-  const ctr = totalImpressions > 0 ? (totalClicks/totalImpressions*100) : 0;
-  const avgPos = queriesData.length ? Math.round(queriesData.reduce((s,r) => s+r.position,0)/queriesData.length) : 0;
-  const p1Pages = pagesData.filter(r => r.position <= 10).length;
-  const highImpLowCtr = pagesData.filter(r => r.impressions > 10 && r.clicks === 0).length;
+    document.getElementById('insights-section').innerHTML = '<div style="margin-bottom:1.5rem;">'+
+      insights.map(i => `<div style="background:#fff;border-left:4px solid ${i.color};border-radius:8px;padding:1rem 1.25rem;margin-bottom:8px;font-size:14px;line-height:1.6;">${i.icon} ${i.text}</div>`).join('')+
+      '</div>';
 
-  // SEO Score
-  let score = 0;
-  if (totalClicks > 0) score += 20;
-  if (totalClicks > 100) score += 10;
-  if (ctr > 2) score += 20;
-  if (ctr > 5) score += 10;
-  if (avgPos <= 10) score += 20;
-  if (avgPos <= 5) score += 10;
-  if (p1Pages > 3) score += 10;
-  const scoreColor = score >= 70 ? '#15803d' : score >= 40 ? '#b45309' : '#dc2626';
-  const scoreLabel = score >= 70 ? 'Strong' : score >= 40 ? 'Growing' : 'Needs work';
-  const scoreBg = score >= 70 ? '#f0fdf4' : score >= 40 ? '#fffbeb' : '#fef2f2';
-  const scoreBorder = score >= 70 ? '#16a34a' : score >= 40 ? '#f59e0b' : '#dc2626';
+    // Backlinks table
+    document.getElementById('backlinks-sub').textContent = 'Top ' + backlinksData.length + ' dofollow backlinks sorted by domain rank';
+    document.getElementById('backlinks-tbody').innerHTML = backlinksData.map(b => `
+      <tr>
+        <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+          <a href="${b.url_from}" target="_blank" style="color:#2563eb;text-decoration:none;">${b.url_from}</a>
+        </td>
+        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#6b7280;">${b.anchor||'—'}</td>
+        <td class="r"><span class="rank-pill ${rankClass(b.domain_from_rank||0)}">${b.domain_from_rank||0}</span></td>
+        <td class="c"><span class="do-badge ${b.dofollow?'do-yes':'do-no'}">${b.dofollow?'Dofollow':'Nofollow'}</span></td>
+        <td style="color:#9ca3af;font-size:13px;">${b.first_seen||'—'}</td>
+      </tr>`).join('') || '<tr><td colspan="5" class="empty">No backlinks found.</td></tr>';
 
-  document.getElementById('score-banner').innerHTML = `
-    <div class="score-circle" style="background:${scoreBg};border:3px solid ${scoreBorder};">
-      <div class="score-num" style="color:${scoreColor}">${score}</div>
-      <div class="score-label" style="color:${scoreColor}">/ 100</div>
-    </div>
-    <div class="score-details">
-      <div class="score-title">SEO Health Score: <span style="color:${scoreColor}">${scoreLabel}</span></div>
-      <div class="score-desc">Based on your clicks, impressions, click-through rate and average ranking position over the last 90 days.</div>
-      <div class="score-actions">
-        ${totalClicks === 0 ? '<span class="action-tag action-fix">🔴 No clicks yet</span>' : '<span class="action-tag action-good">🟢 Getting clicks</span>'}
-        ${avgPos <= 10 ? '<span class="action-tag action-good">🟢 Page 1 rankings</span>' : '<span class="action-tag action-improve">🟡 Improve rankings</span>'}
-        ${highImpLowCtr > 0 ? `<span class="action-tag action-fix">🔴 ${highImpLowCtr} pages need better titles</span>` : ''}
-        ${ctr > 3 ? '<span class="action-tag action-good">🟢 Good CTR</span>' : '<span class="action-tag action-improve">🟡 Improve CTR</span>'}
-      </div>
-    </div>`;
+    // Domains table
+    document.getElementById('domains-sub').textContent = 'Top ' + domainsData.length + ' referring domains sorted by rank';
+    document.getElementById('domains-tbody').innerHTML = domainsData.map(d => `
+      <tr>
+        <td><a href="https://${d.domain}" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:600;">${d.domain}</a></td>
+        <td class="r"><span class="rank-pill ${rankClass(d.rank||0)}">${d.rank||0}</span></td>
+        <td class="r">${(d.backlinks||0).toLocaleString()}</td>
+        <td style="color:#9ca3af;font-size:13px;">${d.first_seen||'—'}</td>
+      </tr>`).join('') || '<tr><td colspan="4" class="empty">No referring domains found.</td></tr>';
 
-  // Metrics
-  const clickHealth = totalClicks > 500 ? ['Great','health-good'] : totalClicks > 50 ? ['Growing','health-warn'] : ['Needs work','health-bad'];
-  const impHealth = totalImpressions > 5000 ? ['High visibility','health-good'] : totalImpressions > 500 ? ['Getting noticed','health-warn'] : ['Low visibility','health-bad'];
-  const ctrHealth = ctr > 5 ? ['Excellent','health-good'] : ctr > 2 ? ['Average','health-warn'] : ['Too low','health-bad'];
-  const posHealth = avgPos <= 10 ? ['Page 1! 🎉','health-good'] : avgPos <= 20 ? ['Close to page 1','health-warn'] : ['Below page 2','health-bad'];
+    // Competitor tabs
+    if(competitor) {
+      document.getElementById('compare-tab').style.display = 'block';
+      document.getElementById('gap-tab').style.display = 'block';
 
-  document.getElementById('metrics-grid').innerHTML = `
-    <div class="metric-card">
-      <div class="metric-top">
-        <div class="metric-label">Clicks <span class="tt">?<span class="tt-box">Real people who found your site on Google<br>and clicked. This is your actual Google traffic.<br>Goal: grow this number month over month.</span></span></div>
-        <span class="metric-health ${clickHealth[1]}">${clickHealth[0]}</span>
-      </div>
-      <div class="metric-value" style="color:#2563eb">${totalClicks.toLocaleString()}</div>
-      <div class="metric-explain">Last 90 days. ${totalClicks === 0 ? 'Publish more content targeting keywords people search for.' : 'Keep creating keyword-optimized content to grow this.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-top">
-        <div class="metric-label">Impressions <span class="tt">?<span class="tt-box">How many times your pages appeared<br>in Google search results. Even if no one clicked.<br>High impressions = Google knows you exist.</span></span></div>
-        <span class="metric-health ${impHealth[1]}">${impHealth[0]}</span>
-      </div>
-      <div class="metric-value" style="color:#7c3aed">${totalImpressions.toLocaleString()}</div>
-      <div class="metric-explain">Last 90 days. ${totalImpressions < 500 ? 'Add more content to increase visibility.' : 'Good visibility — focus on converting impressions to clicks.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-top">
-        <div class="metric-label">Click-Through Rate <span class="tt">?<span class="tt-box">% of people who saw your site and clicked.<br>Industry average: 2-5%.<br>Low CTR = your titles/descriptions aren't compelling enough.</span></span></div>
-        <span class="metric-health ${ctrHealth[1]}">${ctrHealth[0]}</span>
-      </div>
-      <div class="metric-value" style="color:#059669">${ctr.toFixed(1)}%</div>
-      <div class="metric-explain">${ctr < 2 ? 'Rewrite your page titles and meta descriptions to be more compelling.' : ctr < 5 ? 'Decent CTR. Try adding numbers or power words to your titles.' : 'Excellent! Your titles are attracting clicks well.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-top">
-        <div class="metric-label">Avg Position <span class="tt">?<span class="tt-box">Your average ranking on Google across all queries.<br>#1-3 = top results (most clicks)<br>#4-10 = still page 1<br>#11-20 = page 2 (big jump in traffic possible!)</span></span></div>
-        <span class="metric-health ${posHealth[1]}">${posHealth[0]}</span>
-      </div>
-      <div class="metric-value" style="color:#f59e0b">${avgPos || '—'}</div>
-      <div class="metric-explain">${avgPos <= 10 ? 'You are on the first page of Google. Focus on moving from position 5-10 to 1-3.' : avgPos <= 20 ? 'You are close! Getting from page 2 to page 1 can 10x your traffic.' : 'Focus on building quality content and backlinks to improve rankings.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-top">
-        <div class="metric-label">Page 1 Rankings <span class="tt">?<span class="tt-box">Number of your pages that rank in the<br>top 10 results on Google (page 1).<br>More page 1 rankings = more organic traffic.</span></span></div>
-        <span class="metric-health ${p1Pages > 3 ? 'health-good' : p1Pages > 0 ? 'health-warn' : 'health-bad'}">${p1Pages > 3 ? 'Great' : p1Pages > 0 ? 'Some' : 'None yet'}</span>
-      </div>
-      <div class="metric-value" style="color:#16a34a">${p1Pages}</div>
-      <div class="metric-explain">Pages ranking in top 10 on Google. ${p1Pages === 0 ? 'Focus on long-tail keywords with low competition.' : 'Good start! Keep optimizing to move more pages to page 1.'}</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-top">
-        <div class="metric-label">Fix Opportunities <span class="tt">?<span class="tt-box">Pages with good impressions but 0 clicks.<br>These pages appear in Google but nobody clicks.<br>Fix = rewrite the title and meta description.</span></span></div>
-        <span class="metric-health ${highImpLowCtr === 0 ? 'health-good' : highImpLowCtr < 3 ? 'health-warn' : 'health-bad'}">${highImpLowCtr === 0 ? 'None' : highImpLowCtr + ' pages'}</span>
-      </div>
-      <div class="metric-value" style="color:#dc2626">${highImpLowCtr}</div>
-      <div class="metric-explain">${highImpLowCtr === 0 ? 'No obvious CTR problems — great!' : `${highImpLowCtr} page${highImpLowCtr>1?'s':''} have impressions but 0 clicks. Rewrite their titles to be more attractive.`}</div>
-    </div>`;
+      const [compareRes, gapRes] = await Promise.all([
+        fetch('/api/backlinks', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'compare',target,competitor})}),
+        fetch('/api/backlinks', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'link_gap',target,competitor})})
+      ]);
+      const compareData = await compareRes.json();
+      const gapData = await gapRes.json();
 
-  // AI Insights
-  const insights = [];
-  if (highImpLowCtr > 0) insights.push({type:'warning',icon:'✏️',title:'Rewrite titles on '+highImpLowCtr+' pages',desc:'These pages show up in Google but nobody clicks them. The title and meta description are not compelling enough. Use numbers, power words, and make it clear what the user gets.'});
-  if (avgPos > 10 && avgPos <= 20) insights.push({type:'opportunity',icon:'⚡',title:'You are almost on page 1!',desc:'Your average position is '+avgPos+'. Getting from page 2 to page 1 can increase traffic by 10x. Add more content, internal links, and target your main keywords more specifically.'});
-  if (ctr < 2 && totalImpressions > 100) insights.push({type:'action',icon:'🎯',title:'Low CTR — fix your meta descriptions',desc:'You get '+totalImpressions.toLocaleString()+' impressions but only '+ctr.toFixed(1)+'% click. Rewrite meta descriptions to be more compelling. Include your main keyword and a clear benefit.'});
-  if (totalClicks === 0) insights.push({type:'warning',icon:'🚀',title:'No clicks yet — start with long-tail keywords',desc:'Your site has impressions but no clicks. Focus on writing content for specific long-tail keywords (3-5 words) with LOW competition. Use our Keyword Research tool to find them!'});
-  if (p1Pages > 0) insights.push({type:'success',icon:'🎉',title:p1Pages+' pages on page 1 of Google',desc:'You already have '+p1Pages+' page'+( p1Pages>1?'s':'')+' ranking on the first page. Build internal links to these pages and update them regularly to maintain and improve their position.'});
-  if (queriesData.length > 0) {
-    const bestQuery = queriesData.sort((a,b) => b.impressions-a.impressions)[0];
-    insights.push({type:'opportunity',icon:'🔑',title:'Your biggest keyword opportunity: "'+bestQuery.query+'"',desc:'This keyword gets the most impressions ('+bestQuery.impressions.toLocaleString()+') but is at position #'+bestQuery.position+'. Create more content around this topic and add it to your homepage to climb higher.'});
+      const m = compareData.mine || {};
+      const c = compareData.competitor || {};
+      document.getElementById('compare-grid').innerHTML = `
+        <div class="compare-card mine">
+          <div class="compare-label">Your domain</div>
+          <div class="compare-domain">${m.domain}</div>
+          <div class="compare-stat"><div class="compare-stat-val" style="color:#2563eb">${(m.backlinks||0).toLocaleString()}</div><div class="compare-stat-label">Total backlinks</div></div>
+          <div class="compare-stat"><div class="compare-stat-val">${(m.referring_domains||0).toLocaleString()}</div><div class="compare-stat-label">Referring domains</div></div>
+          <div class="compare-stat"><div class="compare-stat-val">${m.rank||0}</div><div class="compare-stat-label">Domain rank</div></div>
+          ${m.backlinks >= c.backlinks ? '<span class="compare-winner">✓ More backlinks</span>' : '<span class="compare-loser">Fewer backlinks</span>'}
+        </div>
+        <div class="compare-card comp">
+          <div class="compare-label">Competitor</div>
+          <div class="compare-domain">${c.domain}</div>
+          <div class="compare-stat"><div class="compare-stat-val" style="color:#7c3aed">${(c.backlinks||0).toLocaleString()}</div><div class="compare-stat-label">Total backlinks</div></div>
+          <div class="compare-stat"><div class="compare-stat-val">${(c.referring_domains||0).toLocaleString()}</div><div class="compare-stat-label">Referring domains</div></div>
+          <div class="compare-stat"><div class="compare-stat-val">${c.rank||0}</div><div class="compare-stat-label">Domain rank</div></div>
+          ${c.backlinks >= m.backlinks ? '<span class="compare-winner">✓ More backlinks</span>' : '<span class="compare-loser">Fewer backlinks</span>'}
+        </div>`;
+
+      const gaps = gapData.items || [];
+      document.getElementById('gap-sub').textContent = gaps.length + ' domains link to '+competitor+' — these are your link building opportunities';
+      document.getElementById('gap-list').innerHTML = gaps.map(g => `
+        <div class="opportunity-card">
+          <div>
+            <div class="opp-domain"><a href="https://${g.domain}" target="_blank" style="color:#1a1a1a;text-decoration:none;">${g.domain}</a></div>
+            <div class="opp-rank">Domain Rank: <b>${g.rank}</b> · ${g.backlinks} links to competitor</div>
+          </div>
+          <div class="opp-action">→ Get a link here</div>
+        </div>`).join('') || '<p class="empty">No gap opportunities found.</p>';
+    }
+
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+
+  } catch(e) {
+    alert('Error: ' + e.message);
+    document.getElementById('loading').style.display = 'none';
   }
-
-  document.getElementById('insights-grid').innerHTML = insights.slice(0,4).map(i =>
-    `<div class="insight-card ${i.type}"><div class="insight-icon">${i.icon}</div><div class="insight-title">${i.title}</div><div class="insight-desc">${i.desc}</div></div>`
-  ).join('');
-
-  document.getElementById('pages-sub').textContent = 'Last 90 days — ' + pagesData.length + ' pages found. Pages on position 1-10 are on the first page of Google.';
-  document.getElementById('queries-sub').textContent = 'Last 90 days — ' + queriesData.length + ' queries found. These are the keywords bringing people to your site.';
-
-  // Pages table
-  document.getElementById('pages-tbody').innerHTML = pagesData.sort((a,b) => b.impressions-a.impressions).map(r => {
-    const pos = r.position;
-    const cls = pos <= 10 ? 'pos-p1' : pos <= 20 ? 'pos-p2' : 'pos-p3';
-    const label = pos <= 10 ? '✅ Page 1' : pos <= 20 ? '⚡ Page 2' : '❌ Page '+Math.ceil(pos/10);
-    const ctrNum = parseFloat(r.ctr);
-    const ctrW = Math.min(100, ctrNum * 10);
-    return `<tr>
-      <td style="max-width:350px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-        <a href="${r.page}" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:500;">${r.page.replace(/https?:\/\/[^/]+/,'')|| '/'}</a>
-        <div style="font-size:11px;color:#9ca3af;">${r.page}</div>
-      </td>
-      <td class="r"><b>${r.clicks.toLocaleString()}</b></td>
-      <td class="r">${r.impressions.toLocaleString()}</td>
-      <td class="r"><div class="ctr-bar"><div class="ctr-bg"><div class="ctr-fill" style="width:${ctrW}%"></div></div>${r.ctr}</div></td>
-      <td class="r"><span class="pos-pill ${cls}">${label} (#${pos})</span></td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:2rem;">No page data found. Make sure your site has traffic and is verified in Search Console.</td></tr>';
-
-  // Queries table
-  document.getElementById('queries-tbody').innerHTML = queriesData.sort((a,b) => b.impressions-a.impressions).map(r => {
-    const pos = r.position;
-    const cls = pos <= 10 ? 'pos-p1' : pos <= 20 ? 'pos-p2' : 'pos-p3';
-    const label = pos <= 10 ? '✅ Page 1' : pos <= 20 ? '⚡ Page 2' : '❌ Low';
-    return `<tr>
-      <td><b>${r.query}</b></td>
-      <td class="r">${r.clicks.toLocaleString()}</td>
-      <td class="r">${r.impressions.toLocaleString()}</td>
-      <td class="r">${r.ctr}%</td>
-      <td class="r"><span class="pos-pill ${cls}">${label} (#${pos})</span></td>
-    </tr>`;
-  }).join('') || '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:2rem;">No query data found yet. This usually means your site is new or has very little traffic.</td></tr>';
+  document.getElementById('analyze-btn').disabled = false;
 }
 
-function exportPages() {
-  const rows = [['Page','Clicks','Impressions','CTR','Position']];
-  pagesData.forEach(r => rows.push([r.page,r.clicks,r.impressions,r.ctr,r.position]));
-  dl(rows,'pages');
+document.getElementById('target-input').addEventListener('keydown', e => { if(e.key==='Enter') analyze(); });
+
+function exportBacklinks() {
+  const rows = [['URL From','Anchor','Domain Rank','Dofollow','First Seen']];
+  backlinksData.forEach(b => rows.push([b.url_from,b.anchor||'',b.domain_from_rank||0,b.dofollow?'Yes':'No',b.first_seen||'']));
+  dl(rows,'backlinks');
 }
-function exportQueries() {
-  const rows = [['Query','Clicks','Impressions','CTR','Position']];
-  queriesData.forEach(r => rows.push([r.query,r.clicks,r.impressions,r.ctr,r.position]));
-  dl(rows,'queries');
+function exportDomains() {
+  const rows = [['Domain','Rank','Backlinks','First Seen']];
+  domainsData.forEach(d => rows.push([d.domain,d.rank||0,d.backlinks||0,d.first_seen||'']));
+  dl(rows,'domains');
 }
 function dl(rows,name){
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n'));
-  a.download='keywordpro-'+name+'.csv';
+  a.download='maximus-'+name+'.csv';
   a.click();
 }
-function disconnectGSC(){localStorage.removeItem('gsc_token');location.reload();}
 </script>
 </body>
 </html>
