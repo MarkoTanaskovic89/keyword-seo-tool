@@ -246,7 +246,7 @@ let queriesData = [];
 const params = new URLSearchParams(window.location.search);
 const code = params.get('code');
 if (code) {
-  window.history.replaceState({}, '', '/backlink-assistant');
+  window.history.replaceState({}, '', '/seo-dashboard');
   document.getElementById('connect-card').style.display = 'none';
   document.getElementById('loading-card').style.display = 'block';
   exchangeToken(code);
