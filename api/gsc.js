@@ -6,9 +6,8 @@ module.exports = async function handler(req, res) {
 
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-  const referer = (req.headers.referer || req.headers.origin || '');
-  const REDIRECT_URI = referer.includes('seo-dashboard')
-    ? 'https://app.markotanaskovic.com/seo-dashboard'
+  const REDIRECT_URI = (body && body.redirect_uri) 
+    ? body.redirect_uri 
     : 'https://app.markotanaskovic.com/seo-dashboard';
 
   let body = req.body;
