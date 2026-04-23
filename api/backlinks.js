@@ -12,37 +12,37 @@ module.exports = async function handler(req, res) {
   const { action, target, competitor } = body || {};
 
   const mozCall = async (endpoint, payload) => {
-    const r = await fetch(`https://api.moz.com/v2/${endpoint}`, {
+    const r = await fetch(`https://lsapi.seomoz.com/v2/${endpoint}`, {
       method: 'POST',
       headers: {
-        'x-moz-token': MOZ_TOKEN,
+        'Authorization': `Bearer ${MOZ_TOKEN}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
     });
     const text = await r.text();
+    console.log(`Moz ${endpoint} status:`, r.status, text.slice(0,300));
     try { return JSON.parse(text); }
     catch(e) { throw new Error('Moz API error: ' + text.slice(0, 200)); }
   };
 
   try {
-    // Get domain metrics (DA, backlinks, etc)
     if (action === 'summary') {
       const result = await mozCall('url/metrics', {
-        url: target,
-        select: ['domain_authority','page_authority','spam_score','linking_root_domains','inlinks_to_url','root_domains_to_root_domain','external_links']
+        targets: [target],
+        select: ['domain_authority','page_authority','spam_score','linking_root_domains','root_domains_to_root_domain','external_links_to_root_domain']
       });
       if (result.error) return res.status(400).json({ error: result.error });
+      const r = result.results?.[0] || result;
       return res.status(200).json({
-        domain_authority: result.domain_authority || 0,
-        page_authority: result.page_authority || 0,
-        spam_score: result.spam_score || 0,
-        linking_domains: result.linking_root_domains || result.root_domains_to_root_domain || 0,
-        total_backlinks: result.external_links || result.inlinks_to_url || 0
+        domain_authority: r.domain_authority || 0,
+        page_authority: r.page_authority || 0,
+        spam_score: r.spam_score || 0,
+        linking_domains: r.linking_root_domains || r.root_domains_to_root_domain || 0,
+        total_backlinks: r.external_links_to_root_domain || 0
       });
     }
 
-    // Get linking domains
     if (action === 'referring_domains') {
       const result = await mozCall('links/root_domains', {
         target,
@@ -59,7 +59,6 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ items });
     }
 
-    // Get backlinks
     if (action === 'backlinks') {
       const result = await mozCall('links/pages', {
         target,
@@ -79,19 +78,19 @@ module.exports = async function handler(req, res) {
       return res.status(200).json({ items });
     }
 
-    // Compare two domains
     if (action === 'compare') {
       const [myResult, compResult] = await Promise.all([
-        mozCall('url/metrics', { url: target, select: ['domain_authority','linking_root_domains','external_links'] }),
-        mozCall('url/metrics', { url: competitor, select: ['domain_authority','linking_root_domains','external_links'] })
+        mozCall('url/metrics', { targets: [target], select: ['domain_authority','linking_root_domains','external_links_to_root_domain'] }),
+        mozCall('url/metrics', { targets: [competitor], select: ['domain_authority','linking_root_domains','external_links_to_root_domain'] })
       ]);
+      const m = myResult.results?.[0] || myResult;
+      const c = compResult.results?.[0] || compResult;
       return res.status(200).json({
-        mine: { domain: target, domain_authority: myResult.domain_authority||0, linking_domains: myResult.linking_root_domains||0, backlinks: myResult.external_links||0 },
-        competitor: { domain: competitor, domain_authority: compResult.domain_authority||0, linking_domains: compResult.linking_root_domains||0, backlinks: compResult.external_links||0 }
+        mine: { domain: target, domain_authority: m.domain_authority||0, linking_domains: m.linking_root_domains||0, backlinks: m.external_links_to_root_domain||0 },
+        competitor: { domain: competitor, domain_authority: c.domain_authority||0, linking_domains: c.linking_root_domains||0, backlinks: c.external_links_to_root_domain||0 }
       });
     }
 
-    // Link gap - competitor's linking domains
     if (action === 'link_gap') {
       const result = await mozCall('links/root_domains', {
         target: competitor,
