@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeywordPro — Backlink Assistant</title>
+<title>KeywordPro — SEO Performance Dashboard</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:16px;}
@@ -101,14 +101,14 @@ footer a{color:#2563eb;text-decoration:none;}
 </header>
 
 <div class="hero">
-  <div class="badge">Powered by Google Search Console</div>
-  <h1>Backlink Assistant</h1>
-  <p>Connect your Google Search Console to see exactly who is linking to your site, your top pages, and the keywords bringing you traffic — all from Google's own data.</p>
+  <div class="badge">Powered by Google Search Console — 100% Real Data</div>
+  <h1>SEO Performance Dashboard</h1>
+  <p>Connect Google Search Console and instantly see how your site performs on Google — which pages get traffic, which keywords rank, and where you have room to grow. Real data, no guessing.</p>
   <div class="hero-checks">
     <span><b>✓</b> 100% accurate Google data</span>
     <span><b>✓</b> Free to use</span>
     <span><b>✓</b> No estimates</span>
-    <span><b>✓</b> Top pages & keywords</span>
+    <span><b>✓</b> AI-powered insights</span>
   </div>
 </div>
 
@@ -117,7 +117,7 @@ footer a{color:#2563eb;text-decoration:none;}
   <div id="connect-card" class="connect-card">
     <div class="connect-icon">🔗</div>
     <div class="connect-title">Connect Google Search Console</div>
-    <div class="connect-desc">We use Google's official API to pull your backlink and traffic data. Your data stays private — we never store it.</div>
+    <div class="connect-desc">Sign in with Google to pull your real Search Console data — clicks, impressions, rankings and top keywords. Read-only access. We never store or share your data.</div>
     <button class="btn-connect" onclick="connectGSC()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
       Connect with Google
@@ -139,7 +139,7 @@ footer a{color:#2563eb;text-decoration:none;}
       <div class="data-card-header">
         <div>
           <div class="data-card-title">Top pages by clicks (last 90 days)</div>
-          <div class="data-card-sub">Pages on your site that get the most traffic from Google</div>
+          <div class="data-card-sub">Pages with the most Google impressions. <b style="color:#15803d;">High impressions + Low clicks = fix your title/meta description to get more clicks.</b></div>
         </div>
         <button class="btn-export" onclick="exportPages()">Export CSV</button>
       </div>
@@ -160,7 +160,7 @@ footer a{color:#2563eb;text-decoration:none;}
       <div class="data-card-header">
         <div>
           <div class="data-card-title">Top search queries (last 90 days)</div>
-          <div class="data-card-sub">Keywords people search to find your site on Google</div>
+          <div class="data-card-sub">Keywords people type to find your site. <b style="color:#2563eb;">Position 1-10 = first page of Google. Position 11-20 = page 2 — just needs a push!</b></div>
         </div>
         <button class="btn-export" onclick="exportQueries()">Export CSV</button>
       </div>
@@ -302,23 +302,45 @@ async function analyzeSelected() {
   const totalImpressions = pagesData.reduce((s, r) => s + r.impressions, 0);
   const avgPos = queriesData.length ? Math.round(queriesData.reduce((s, r) => s + r.position, 0) / queriesData.length) : 0;
 
-  document.getElementById('metrics-grid').innerHTML = [
-    ['Total Clicks', totalClicks.toLocaleString(), 'Last 90 days', '#2563eb'],
-    ['Impressions', totalImpressions.toLocaleString(), 'Last 90 days', '#7c3aed'],
-    ['Top Pages', pagesData.length.toLocaleString(), 'With traffic', '#059669'],
-    ['Avg Position', avgPos || '—', 'On Google', '#f59e0b'],
-  ].map(([l, v, s, c]) => `<div class="metric-card"><div class="metric-label">${l}</div><div class="metric-value" style="color:${c}">${v}</div><div class="metric-sub">${s}</div></div>`).join('');
+  const clicksHealth = totalClicks > 1000 ? '🟢 Great' : totalClicks > 100 ? '🟡 Growing' : '🔴 Needs work';
+  const impHealth = totalImpressions > 5000 ? '🟢 Good visibility' : totalImpressions > 500 ? '🟡 Getting there' : '🔴 Low visibility';
+  const posHealth = avgPos <= 10 ? '🟢 Page 1!' : avgPos <= 20 ? '🟡 Almost page 1' : '🔴 Needs SEO work';
+  const ctrAvg = totalImpressions > 0 ? ((totalClicks/totalImpressions)*100).toFixed(1) : 0;
+  const ctrHealth = ctrAvg > 5 ? '🟢 Great CTR' : ctrAvg > 2 ? '🟡 Average' : '🔴 Fix meta tags';
+
+  document.getElementById('metrics-grid').innerHTML = `
+    <div class="metric-card">
+      <div class="metric-label">Total Clicks <span class="tt">?<span class="tt-box">How many times people clicked your site<br>in Google search results. This is your<br>actual traffic from Google search.</span></span></div>
+      <div class="metric-value" style="color:#2563eb">${totalClicks.toLocaleString()}</div>
+      <div class="metric-sub">${clicksHealth} — last 90 days</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Impressions <span class="tt">?<span class="tt-box">How many times your site appeared<br>in Google search results. High impressions<br>but low clicks = fix your titles & descriptions.</span></span></div>
+      <div class="metric-value" style="color:#7c3aed">${totalImpressions.toLocaleString()}</div>
+      <div class="metric-sub">${impHealth} — last 90 days</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Click-Through Rate <span class="tt">?<span class="tt-box">% of people who saw your site and clicked.<br>Industry average is 2-5%.<br>Low CTR = your title/description is not attractive enough.</span></span></div>
+      <div class="metric-value" style="color:#059669">${ctrAvg}%</div>
+      <div class="metric-sub">${ctrHealth}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Avg Position <span class="tt">?<span class="tt-box">Your average ranking position on Google.<br>Position 1-10 = first page (great!).<br>Position 11-20 = page 2 (almost there!).<br>Below 20 = needs serious SEO work.</span></span></div>
+      <div class="metric-value" style="color:#f59e0b">${avgPos || '—'}</div>
+      <div class="metric-sub">${posHealth}</div>
+    </div>`;
 
   // Pages table
   document.getElementById('pages-tbody').innerHTML = pagesData.map(r => {
     const pos = r.position;
     const cls = pos <= 10 ? 'pos-top' : pos <= 20 ? 'pos-mid' : 'pos-low';
+    const tip = pos <= 10 ? '✅ Page 1' : pos <= 20 ? '⚡ Close to page 1' : '❌ Needs work';
     return `<tr>
-      <td style="max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a href="${r.page}" target="_blank" style="color:#2563eb;text-decoration:none;">${r.page}</a></td>
+      <td style="max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a href="${r.page}" target="_blank" style="color:#2563eb;text-decoration:none;">${r.page}</a></td>
       <td class="r"><b>${r.clicks.toLocaleString()}</b></td>
       <td class="r">${r.impressions.toLocaleString()}</td>
       <td class="r">${r.ctr}</td>
-      <td class="r"><span class="pos-badge ${cls}">#${pos}</span></td>
+      <td class="r"><span class="pos-badge ${cls}" title="${tip}">#${pos}</span></td>
     </tr>`;
   }).join('') || '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:2rem;">No page data found for this site.</td></tr>';
 
