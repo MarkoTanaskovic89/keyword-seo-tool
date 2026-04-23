@@ -261,14 +261,14 @@ if (stored && !code) {
 }
 
 async function connectGSC() {
-  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'auth_url'})});
+  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'auth_url',redirect_uri:'https://app.markotanaskovic.com/seo-dashboard'})});
   const data = await res.json();
   if (data.url) window.location.href = data.url;
   else alert('Error connecting. Please try again.');
 }
 
 async function exchangeToken(code) {
-  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'exchange_token',code})});
+  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'exchange_token',code,redirect_uri:'https://app.markotanaskovic.com/seo-dashboard'})});
   const data = await res.json();
   if (data.error) { alert('Auth error: ' + data.error); location.reload(); return; }
   accessToken = data.access_token;
