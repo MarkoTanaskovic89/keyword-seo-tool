@@ -287,14 +287,17 @@ async function loadSites() {
   const list = document.getElementById('site-list');
   list.innerHTML = data.sites.map((s,i) => {
     const isOwner = s.permissionLevel === 'siteOwner' || s.permissionLevel === 'siteFullUser';
-    const permClass = isOwner ? 'perm-owner' : 'perm-user';
-    const permText = isOwner ? 'Owner' : 'Viewer';
+    const isVerified = s.permissionLevel !== 'siteUnverifiedUser';
+    const permClass = isOwner ? 'perm-owner' : isVerified ? 'perm-owner' : 'perm-user';
+    const permText = isOwner ? '✓ Owner' : isVerified ? '✓ Verified' : '⚠ Unverified';
     return `<div class="site-item" onclick="selectSite(${i},'${s.siteUrl}')" id="site-${i}">
       <div><div class="site-name">${s.siteUrl}</div></div>
       <span class="site-perm ${permClass}">${permText}</span>
     </div>`;
   }).join('');
-  if (!data.sites.length) list.innerHTML = '<p style="color:#9ca3af;font-size:14px;padding:1rem 0;">No verified sites found. Make sure your site is verified in Google Search Console.</p>';
+  if (!data.sites.length) list.innerHTML = '<p style="color:#9ca3af;font-size:14px;padding:1rem 0;">No sites found. Make sure your site is verified in Google Search Console.</p>';
+  // Add tip
+  document.getElementById('site-selector').insertAdjacentHTML('beforeend', '<p style="font-size:12px;color:#9ca3af;margin-top:12px;">💡 For best results, select a site where you are the Owner. Unverified sites may have limited data.</p>');
 }
 
 function selectSite(i, url) {
