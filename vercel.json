@@ -4,10 +4,11 @@
     { "source": "/api/keywords", "destination": "/api/keywords.js" },
     { "source": "/api/auth", "destination": "/api/auth.js" },
     { "source": "/api/stripe", "destination": "/api/stripe.js" },
+    { "source": "/api/backlinks", "destination": "/api/backlinks.js" },
     { "source": "/keyword-tool", "destination": "/keyword-tool/index.html" },
     { "source": "/keyword-tool/bulk-upload", "destination": "/keyword-tool/bulk-upload/index.html" },
+    { "source": "/seo-dashboard", "destination": "/seo-dashboard/index.html" },
     { "source": "/backlink-assistant", "destination": "/backlink-assistant/index.html" },
-    { "source": "/seo-dashboard", "destination": "/backlink-assistant/index.html" },
     { "source": "/bulk-upload", "destination": "/bulk-upload/index.html" }
   ]
 }
