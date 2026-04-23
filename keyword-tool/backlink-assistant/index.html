@@ -3,83 +3,118 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KeywordPro — Backlink Assistant</title>
+<title>Maximus — SEO Performance Dashboard</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f9fa;color:#1a1a1a;font-size:16px;}
 header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;}
 .logo{font-size:22px;font-weight:700;color:#1a1a1a;text-decoration:none;}
 .logo span{color:#2563eb;}
-.back-link{font-size:14px;color:#2563eb;text-decoration:none;}
+.back-link{font-size:14px;color:#2563eb;text-decoration:none;display:flex;align-items:center;gap:6px;}
 
-.hero{background:#fff;border-bottom:1px solid #e5e7eb;padding:2.5rem 2rem;text-align:center;}
-.badge{display:inline-block;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:700;padding:5px 14px;border-radius:20px;border:1.5px solid #bfdbfe;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.05em;}
+.hero{background:linear-gradient(135deg,#1e3a8a,#2563eb);padding:2.5rem 2rem;text-align:center;color:#fff;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:6px 16px;margin-bottom:1rem;font-size:13px;font-weight:600;}
 .hero h1{font-size:30px;font-weight:800;margin-bottom:10px;}
-.hero p{font-size:16px;color:#4b5563;margin-bottom:1.5rem;max-width:560px;margin:0 auto 1.5rem;}
+.hero p{font-size:15px;opacity:0.85;max-width:560px;margin:0 auto 1.5rem;line-height:1.6;}
 .hero-checks{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
-.hero-checks span{font-size:14px;color:#374151;}
-.hero-checks span b{color:#16a34a;}
+.hero-checks span{font-size:13px;opacity:0.9;}
 
-.main{max-width:1000px;margin:2rem auto;padding:0 1.5rem;}
+.main{max-width:1100px;margin:2rem auto;padding:0 1.5rem;}
 
-/* Connect card */
-.connect-card{background:#fff;border-radius:16px;border:1.5px solid #2563eb;padding:2.5rem;text-align:center;margin-bottom:1.5rem;}
+/* Connect */
+.connect-card{background:#fff;border-radius:16px;border:2px solid #2563eb;padding:2.5rem;text-align:center;margin-bottom:1.5rem;}
 .connect-icon{font-size:48px;margin-bottom:1rem;}
 .connect-title{font-size:22px;font-weight:800;margin-bottom:8px;}
-.connect-desc{font-size:15px;color:#6b7280;margin-bottom:2rem;line-height:1.6;max-width:480px;margin-left:auto;margin-right:auto;}
-.btn-connect{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:#2563eb;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;}
+.connect-desc{font-size:15px;color:#6b7280;margin-bottom:2rem;line-height:1.6;max-width:480px;margin-left:auto;margin-right:auto;margin-bottom:2rem;}
+.btn-connect{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:#2563eb;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
 .btn-connect:hover{background:#1d4ed8;}
 .connect-note{font-size:13px;color:#9ca3af;margin-top:1rem;}
+
+/* Loading */
+.loading{text-align:center;padding:3rem;}
+.spinner{display:inline-block;width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
 
 /* Site selector */
 .site-selector{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:1.5rem;margin-bottom:1.5rem;display:none;}
 .site-selector h3{font-size:16px;font-weight:700;margin-bottom:1rem;}
 .site-list{display:flex;flex-direction:column;gap:8px;}
 .site-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border:1.5px solid #e5e7eb;border-radius:10px;cursor:pointer;transition:all .15s;}
-.site-item:hover{border-color:#2563eb;background:#eff6ff;}
-.site-item.selected{border-color:#2563eb;background:#eff6ff;}
+.site-item:hover,.site-item.selected{border-color:#2563eb;background:#eff6ff;}
 .site-name{font-size:15px;font-weight:600;}
-.site-type{font-size:12px;color:#9ca3af;}
+.site-perm{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;}
+.perm-owner{background:#dcfce7;color:#15803d;}
+.perm-user{background:#fef3c7;color:#92400e;}
 .btn-analyze{width:100%;margin-top:1rem;padding:12px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;}
-.btn-analyze:hover{background:#1d4ed8;}
 .btn-analyze:disabled{background:#9ca3af;cursor:not-allowed;}
 
-/* Results */
-.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:1.5rem;}
-.metric-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem;}
-.metric-label{font-size:12px;color:#9ca3af;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
-.metric-value{font-size:28px;font-weight:800;color:#1a1a1a;}
-.metric-sub{font-size:13px;color:#6b7280;margin-top:4px;}
+/* Score card */
+.score-banner{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:1.5rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;}
+.score-circle{width:90px;height:90px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.score-num{font-size:32px;font-weight:800;line-height:1;}
+.score-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+.score-details{flex:1;}
+.score-title{font-size:18px;font-weight:700;margin-bottom:4px;}
+.score-desc{font-size:14px;color:#6b7280;line-height:1.6;}
+.score-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.action-tag{font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;}
+.action-fix{background:#fee2e2;color:#991b1b;}
+.action-good{background:#dcfce7;color:#15803d;}
+.action-improve{background:#fef3c7;color:#92400e;}
 
+/* Metrics */
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:1.5rem;}
+.metric-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem 1.5rem;}
+.metric-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.metric-label{font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:.04em;display:flex;align-items:center;gap:4px;}
+.metric-health{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;}
+.health-good{background:#dcfce7;color:#15803d;}
+.health-warn{background:#fef3c7;color:#92400e;}
+.health-bad{background:#fee2e2;color:#991b1b;}
+.metric-value{font-size:32px;font-weight:800;margin-bottom:4px;}
+.metric-explain{font-size:12px;color:#9ca3af;line-height:1.5;}
+
+/* Insight cards */
+.insights-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:1.5rem;}
+.insight-card{background:#fff;border-radius:12px;padding:1.25rem;border-left:4px solid #e5e7eb;}
+.insight-card.opportunity{border-color:#2563eb;background:#f0f7ff;}
+.insight-card.warning{border-color:#f59e0b;background:#fffbeb;}
+.insight-card.success{border-color:#16a34a;background:#f0fdf4;}
+.insight-card.action{border-color:#7c3aed;background:#faf5ff;}
+.insight-icon{font-size:22px;margin-bottom:8px;}
+.insight-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.insight-desc{font-size:13px;line-height:1.6;color:#374151;}
+
+/* Tables */
 .data-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
-.data-card-header{padding:14px 18px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;}
-.data-card-title{font-size:16px;font-weight:700;}
-.data-card-sub{font-size:13px;color:#6b7280;}
+.data-header{padding:14px 18px;border-bottom:1px solid #e5e7eb;}
+.data-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.data-title{font-size:15px;font-weight:700;}
+.data-sub{font-size:13px;color:#6b7280;}
 table{width:100%;border-collapse:collapse;}
 th{text-align:left;padding:10px 16px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
 th.r,td.r{text-align:right;}
 td{padding:11px 16px;font-size:14px;border-bottom:1px solid #f3f4f6;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:#f9fafb;}
-.pos-badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700;}
-.pos-top{background:#dcfce7;color:#166534;}
-.pos-mid{background:#fef3c7;color:#92400e;}
-.pos-low{background:#fee2e2;color:#991b1b;}
+.pos-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;}
+.pos-p1{background:#dcfce7;color:#15803d;}
+.pos-p2{background:#fef3c7;color:#92400e;}
+.pos-p3{background:#fee2e2;color:#991b1b;}
+.ctr-bar{display:flex;align-items:center;gap:6px;}
+.ctr-bg{width:60px;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;}
+.ctr-fill{height:100%;border-radius:3px;background:#2563eb;}
 
-.loading{text-align:center;padding:3rem;}
-.spinner{display:inline-block;width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-.btn-export{padding:8px 16px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;}
+.btn-export{padding:7px 14px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;}
 .btn-export:hover{background:#e5e7eb;}
 
-.how-it-works{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:2rem;margin-bottom:1.5rem;}
-.how-it-works h2{font-size:18px;font-weight:700;margin-bottom:1.5rem;}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;}
-.step{text-align:center;padding:1rem;}
-.step-num{width:36px;height:36px;border-radius:50%;background:#eff6ff;color:#2563eb;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
-.step-title{font-size:14px;font-weight:700;margin-bottom:4px;}
-.step-desc{font-size:13px;color:#6b7280;line-height:1.5;}
+.tt{position:relative;display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;cursor:help;margin-left:3px;}
+.tt:hover .tt-box{display:block;}
+.tt-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;padding:8px 12px;border-radius:8px;white-space:nowrap;z-index:999;line-height:1.6;min-width:220px;font-weight:400;}
+.tt-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
+
+.disconnect-row{text-align:center;margin-top:1rem;}
+.btn-disconnect{padding:8px 18px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;color:#6b7280;cursor:pointer;}
 
 footer{text-align:center;padding:2rem;font-size:14px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:2rem;}
 footer a{color:#2563eb;text-decoration:none;}
@@ -87,82 +122,93 @@ footer a{color:#2563eb;text-decoration:none;}
 @media(max-width:768px){
   header{padding:0 1rem;}
   .main{padding:0 0.75rem;}
-  .results-grid{grid-template-columns:repeat(2,1fr);}
-  table{min-width:500px;}
+  .metrics-grid{grid-template-columns:repeat(2,1fr);}
+  .score-banner{flex-direction:column;text-align:center;}
   .data-card{overflow-x:auto;}
+  table{min-width:500px;}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <a href="/" class="logo">Keyword<span>Pro</span></a>
+  <a href="/" class="logo">Maxi<span>mus</span></a>
   <a href="/" class="back-link">← Back to toolkit</a>
 </header>
 
 <div class="hero">
-  <div class="badge">Powered by Google Search Console</div>
-  <h1>Backlink Assistant</h1>
-  <p>Connect your Google Search Console to see exactly who is linking to your site, your top pages, and the keywords bringing you traffic — all from Google's own data.</p>
+  <div class="hero-badge">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+    Powered by Google Search Console — 100% Real Data
+  </div>
+  <h1>SEO Performance Dashboard</h1>
+  <p>Connect Google Search Console and see exactly how your site performs on Google. Real clicks, rankings, and actionable insights — no guessing, no estimates.</p>
   <div class="hero-checks">
-    <span><b>✓</b> 100% accurate Google data</span>
-    <span><b>✓</b> Free to use</span>
-    <span><b>✓</b> No estimates</span>
-    <span><b>✓</b> Top pages & keywords</span>
+    <span>✓ Real Google data</span>
+    <span>✓ Free forever</span>
+    <span>✓ Top pages & queries</span>
+    <span>✓ AI insights & tips</span>
   </div>
 </div>
 
 <div class="main">
 
   <div id="connect-card" class="connect-card">
-    <div class="connect-icon">🔗</div>
+    <div class="connect-icon">📊</div>
     <div class="connect-title">Connect Google Search Console</div>
-    <div class="connect-desc">We use Google's official API to pull your backlink and traffic data. Your data stays private — we never store it.</div>
+    <div class="connect-desc">We pull your real search data directly from Google — clicks, impressions, rankings, and the keywords bringing people to your site. Read-only. We never store your data.</div>
     <button class="btn-connect" onclick="connectGSC()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
       Connect with Google
     </button>
-    <div class="connect-note">🔒 Read-only access. We only see your Search Console data, nothing else.</div>
+    <div class="connect-note">🔒 Read-only access. We only see Search Console data, nothing else.</div>
   </div>
 
-  <div id="loading-card" class="loading" style="display:none;"><div class="spinner"></div><p style="margin-top:1rem;color:#6b7280;">Connecting to Google...</p></div>
+  <div id="loading-card" class="loading" style="display:none;">
+    <div class="spinner"></div>
+    <p id="loading-text" style="margin-top:1rem;color:#6b7280;">Connecting to Google...</p>
+  </div>
 
   <div id="site-selector" class="site-selector">
-    <h3>Select your website</h3>
+    <h3>Select your website to analyze</h3>
     <div class="site-list" id="site-list"></div>
-    <button class="btn-analyze" id="btn-analyze" onclick="analyzeSelected()" disabled>Analyze backlinks →</button>
+    <button class="btn-analyze" id="btn-analyze" onclick="analyzeSelected()" disabled>Analyze my SEO →</button>
   </div>
 
   <div id="results-section" style="display:none;">
-    <div class="results-grid" id="metrics-grid"></div>
-    <div id="pages-card" class="data-card">
-      <div class="data-card-header">
-        <div>
-          <div class="data-card-title">Top pages by clicks (last 90 days)</div>
-          <div class="data-card-sub">Pages on your site that get the most traffic from Google</div>
+    <div id="score-banner" class="score-banner"></div>
+    <div class="metrics-grid" id="metrics-grid"></div>
+    <div class="insights-grid" id="insights-grid"></div>
+
+    <div class="data-card">
+      <div class="data-header">
+        <div class="data-header-top">
+          <div class="data-title">Top pages <span class="tt">?<span class="tt-box">Pages on your site that appear in Google search.<br>Click the page URL to open it.<br>High impressions + 0 clicks = fix your title & meta description!</span></span></div>
+          <button class="btn-export" onclick="exportPages()">Export CSV</button>
         </div>
-        <button class="btn-export" onclick="exportPages()">Export CSV</button>
+        <div class="data-sub" id="pages-sub"></div>
       </div>
       <div style="overflow-x:auto;">
         <table>
           <thead><tr>
             <th>Page URL</th>
-            <th class="r">Clicks</th>
-            <th class="r">Impressions</th>
-            <th class="r">CTR</th>
-            <th class="r">Avg Position</th>
+            <th class="r">Clicks <span class="tt">?<span class="tt-box">How many people clicked this page<br>in Google search results.</span></span></th>
+            <th class="r">Impressions <span class="tt">?<span class="tt-box">How many times this page appeared<br>in search results (even if not clicked).</span></span></th>
+            <th class="r">CTR <span class="tt">?<span class="tt-box">Click-Through Rate. % of people who<br>saw this page and clicked.<br>Above 5% = great. Below 1% = fix the title.</span></span></th>
+            <th class="r">Position <span class="tt">?<span class="tt-box">Average ranking on Google.<br>#1-10 = first page (great!)<br>#11-20 = page 2 (almost there!)<br>Above 20 = needs SEO work</span></span></th>
           </tr></thead>
           <tbody id="pages-tbody"></tbody>
         </table>
       </div>
     </div>
-    <div id="queries-card" class="data-card">
-      <div class="data-card-header">
-        <div>
-          <div class="data-card-title">Top search queries (last 90 days)</div>
-          <div class="data-card-sub">Keywords people search to find your site on Google</div>
+
+    <div class="data-card">
+      <div class="data-header">
+        <div class="data-header-top">
+          <div class="data-title">Top search queries <span class="tt">?<span class="tt-box">Keywords people type into Google to find your site.<br>High impressions + low position = target these keywords<br>more aggressively in your content!</span></span></div>
+          <button class="btn-export" onclick="exportQueries()">Export CSV</button>
         </div>
-        <button class="btn-export" onclick="exportQueries()">Export CSV</button>
+        <div class="data-sub" id="queries-sub"></div>
       </div>
       <div style="overflow-x:auto;">
         <table>
@@ -171,30 +217,22 @@ footer a{color:#2563eb;text-decoration:none;}
             <th class="r">Clicks</th>
             <th class="r">Impressions</th>
             <th class="r">CTR</th>
-            <th class="r">Avg Position</th>
+            <th class="r">Position</th>
           </tr></thead>
           <tbody id="queries-tbody"></tbody>
         </table>
       </div>
     </div>
-    <div style="text-align:center;margin-top:1rem;">
-      <button onclick="disconnectGSC()" style="padding:8px 18px;background:#fff;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;color:#6b7280;cursor:pointer;">Disconnect & analyze different site</button>
-    </div>
-  </div>
 
-  <div class="how-it-works" id="how-section">
-    <h2>How it works</h2>
-    <div class="steps">
-      <div class="step"><div class="step-num">1</div><div class="step-title">Connect GSC</div><div class="step-desc">Sign in with Google and grant read-only access to your Search Console data.</div></div>
-      <div class="step"><div class="step-num">2</div><div class="step-title">Select your site</div><div class="step-desc">Choose which website you want to analyze from your verified properties.</div></div>
-      <div class="step"><div class="step-num">3</div><div class="step-title">See your data</div><div class="step-desc">View top pages, search queries, clicks, impressions and average position — all from Google.</div></div>
+    <div class="disconnect-row">
+      <button class="btn-disconnect" onclick="disconnectGSC()">Disconnect & analyze different site</button>
     </div>
   </div>
 
 </div>
 
 <footer>
-  <strong>KeywordPro</strong> &copy; 2026 — Backlink Assistant powered by Google Search Console API<br>
+  <strong>Maximus</strong> &copy; 2026 — SEO Dashboard powered by Google Search Console<br>
   <a href="/">Back to toolkit</a> &mdash;
   <a href="https://www.markotanaskovic.com/blog/privacy-policy" target="_blank">Privacy Policy</a>
 </footer>
@@ -205,7 +243,6 @@ let selectedSite = null;
 let pagesData = [];
 let queriesData = [];
 
-// Check if returning from OAuth
 const params = new URLSearchParams(window.location.search);
 const code = params.get('code');
 if (code) {
@@ -215,7 +252,6 @@ if (code) {
   exchangeToken(code);
 }
 
-// Check stored token
 const stored = localStorage.getItem('gsc_token');
 if (stored && !code) {
   accessToken = stored;
@@ -225,22 +261,14 @@ if (stored && !code) {
 }
 
 async function connectGSC() {
-  const res = await fetch('/api/gsc', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({action: 'auth_url'})
-  });
+  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'auth_url'})});
   const data = await res.json();
   if (data.url) window.location.href = data.url;
   else alert('Error connecting. Please try again.');
 }
 
 async function exchangeToken(code) {
-  const res = await fetch('/api/gsc', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({action: 'exchange_token', code})
-  });
+  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'exchange_token',code})});
   const data = await res.json();
   if (data.error) { alert('Auth error: ' + data.error); location.reload(); return; }
   accessToken = data.access_token;
@@ -249,31 +277,33 @@ async function exchangeToken(code) {
 }
 
 async function loadSites() {
-  const res = await fetch('/api/gsc', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({action: 'get_sites', access_token: accessToken})
-  });
+  document.getElementById('loading-text').textContent = 'Loading your sites...';
+  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_sites',access_token:accessToken})});
   const data = await res.json();
   if (data.error) { localStorage.removeItem('gsc_token'); location.reload(); return; }
   document.getElementById('loading-card').style.display = 'none';
-  document.getElementById('how-section').style.display = 'none';
-  const selector = document.getElementById('site-selector');
-  selector.style.display = 'block';
+  const sel = document.getElementById('site-selector');
+  sel.style.display = 'block';
   const list = document.getElementById('site-list');
-  list.innerHTML = data.sites.map((s, i) =>
-    `<div class="site-item" onclick="selectSite(${i}, '${s.siteUrl}')" id="site-${i}">
-      <div><div class="site-name">${s.siteUrl}</div><div class="site-type">${s.permissionLevel}</div></div>
-      <span style="color:#9ca3af;font-size:20px;">→</span>
-    </div>`
-  ).join('');
-  if (data.sites.length === 0) list.innerHTML = '<p style="color:#9ca3af;font-size:14px;">No verified sites found in Search Console.</p>';
+  list.innerHTML = data.sites.map((s,i) => {
+    const isOwner = s.permissionLevel === 'siteOwner' || s.permissionLevel === 'siteFullUser';
+    const isVerified = s.permissionLevel !== 'siteUnverifiedUser';
+    const permClass = isOwner ? 'perm-owner' : isVerified ? 'perm-owner' : 'perm-user';
+    const permText = isOwner ? '✓ Owner' : isVerified ? '✓ Verified' : '⚠ Unverified';
+    return `<div class="site-item" onclick="selectSite(${i},'${s.siteUrl}')" id="site-${i}">
+      <div><div class="site-name">${s.siteUrl}</div></div>
+      <span class="site-perm ${permClass}">${permText}</span>
+    </div>`;
+  }).join('');
+  if (!data.sites.length) list.innerHTML = '<p style="color:#9ca3af;font-size:14px;padding:1rem 0;">No sites found. Make sure your site is verified in Google Search Console.</p>';
+  // Add tip
+  document.getElementById('site-selector').insertAdjacentHTML('beforeend', '<p style="font-size:12px;color:#9ca3af;margin-top:12px;">💡 For best results, select a site where you are the Owner. Unverified sites may have limited data.</p>');
 }
 
 function selectSite(i, url) {
   selectedSite = url;
   document.querySelectorAll('.site-item').forEach(el => el.classList.remove('selected'));
-  document.getElementById('site-' + i).classList.add('selected');
+  document.getElementById('site-'+i).classList.add('selected');
   document.getElementById('btn-analyze').disabled = false;
 }
 
@@ -281,13 +311,9 @@ async function analyzeSelected() {
   if (!selectedSite) return;
   document.getElementById('site-selector').style.display = 'none';
   document.getElementById('loading-card').style.display = 'block';
-  document.getElementById('loading-card').querySelector('p').textContent = 'Fetching your data from Google...';
+  document.getElementById('loading-text').textContent = 'Fetching your SEO data from Google...';
 
-  const res = await fetch('/api/gsc', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({action: 'get_backlinks', access_token: accessToken, site_url: selectedSite})
-  });
+  const res = await fetch('/api/gsc', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_backlinks',access_token:accessToken,site_url:selectedSite})});
   const data = await res.json();
   if (data.error) { alert('Error: ' + data.error); return; }
 
@@ -297,65 +323,169 @@ async function analyzeSelected() {
   document.getElementById('loading-card').style.display = 'none';
   document.getElementById('results-section').style.display = 'block';
 
-  // Metrics
-  const totalClicks = pagesData.reduce((s, r) => s + r.clicks, 0);
-  const totalImpressions = pagesData.reduce((s, r) => s + r.impressions, 0);
-  const avgPos = queriesData.length ? Math.round(queriesData.reduce((s, r) => s + r.position, 0) / queriesData.length) : 0;
+  const totalClicks = pagesData.reduce((s,r) => s+r.clicks, 0);
+  const totalImpressions = pagesData.reduce((s,r) => s+r.impressions, 0);
+  const ctr = totalImpressions > 0 ? (totalClicks/totalImpressions*100) : 0;
+  const avgPos = queriesData.length ? Math.round(queriesData.reduce((s,r) => s+r.position,0)/queriesData.length) : 0;
+  const p1Pages = pagesData.filter(r => r.position <= 10).length;
+  const highImpLowCtr = pagesData.filter(r => r.impressions > 10 && r.clicks === 0).length;
 
-  document.getElementById('metrics-grid').innerHTML = [
-    ['Total Clicks', totalClicks.toLocaleString(), 'Last 90 days', '#2563eb'],
-    ['Impressions', totalImpressions.toLocaleString(), 'Last 90 days', '#7c3aed'],
-    ['Top Pages', pagesData.length.toLocaleString(), 'With traffic', '#059669'],
-    ['Avg Position', avgPos || '—', 'On Google', '#f59e0b'],
-  ].map(([l, v, s, c]) => `<div class="metric-card"><div class="metric-label">${l}</div><div class="metric-value" style="color:${c}">${v}</div><div class="metric-sub">${s}</div></div>`).join('');
+  // SEO Score
+  let score = 0;
+  if (totalClicks > 0) score += 20;
+  if (totalClicks > 100) score += 10;
+  if (ctr > 2) score += 20;
+  if (ctr > 5) score += 10;
+  if (avgPos <= 10) score += 20;
+  if (avgPos <= 5) score += 10;
+  if (p1Pages > 3) score += 10;
+  const scoreColor = score >= 70 ? '#15803d' : score >= 40 ? '#b45309' : '#dc2626';
+  const scoreLabel = score >= 70 ? 'Strong' : score >= 40 ? 'Growing' : 'Needs work';
+  const scoreBg = score >= 70 ? '#f0fdf4' : score >= 40 ? '#fffbeb' : '#fef2f2';
+  const scoreBorder = score >= 70 ? '#16a34a' : score >= 40 ? '#f59e0b' : '#dc2626';
+
+  document.getElementById('score-banner').innerHTML = `
+    <div class="score-circle" style="background:${scoreBg};border:3px solid ${scoreBorder};">
+      <div class="score-num" style="color:${scoreColor}">${score}</div>
+      <div class="score-label" style="color:${scoreColor}">/ 100</div>
+    </div>
+    <div class="score-details">
+      <div class="score-title">SEO Health Score: <span style="color:${scoreColor}">${scoreLabel}</span></div>
+      <div class="score-desc">Based on your clicks, impressions, click-through rate and average ranking position over the last 90 days.</div>
+      <div class="score-actions">
+        ${totalClicks === 0 ? '<span class="action-tag action-fix">🔴 No clicks yet</span>' : '<span class="action-tag action-good">🟢 Getting clicks</span>'}
+        ${avgPos <= 10 ? '<span class="action-tag action-good">🟢 Page 1 rankings</span>' : '<span class="action-tag action-improve">🟡 Improve rankings</span>'}
+        ${highImpLowCtr > 0 ? `<span class="action-tag action-fix">🔴 ${highImpLowCtr} pages need better titles</span>` : ''}
+        ${ctr > 3 ? '<span class="action-tag action-good">🟢 Good CTR</span>' : '<span class="action-tag action-improve">🟡 Improve CTR</span>'}
+      </div>
+    </div>`;
+
+  // Metrics
+  const clickHealth = totalClicks > 500 ? ['Great','health-good'] : totalClicks > 50 ? ['Growing','health-warn'] : ['Needs work','health-bad'];
+  const impHealth = totalImpressions > 5000 ? ['High visibility','health-good'] : totalImpressions > 500 ? ['Getting noticed','health-warn'] : ['Low visibility','health-bad'];
+  const ctrHealth = ctr > 5 ? ['Excellent','health-good'] : ctr > 2 ? ['Average','health-warn'] : ['Too low','health-bad'];
+  const posHealth = avgPos <= 10 ? ['Page 1! 🎉','health-good'] : avgPos <= 20 ? ['Close to page 1','health-warn'] : ['Below page 2','health-bad'];
+
+  document.getElementById('metrics-grid').innerHTML = `
+    <div class="metric-card">
+      <div class="metric-top">
+        <div class="metric-label">Clicks <span class="tt">?<span class="tt-box">Real people who found your site on Google<br>and clicked. This is your actual Google traffic.<br>Goal: grow this number month over month.</span></span></div>
+        <span class="metric-health ${clickHealth[1]}">${clickHealth[0]}</span>
+      </div>
+      <div class="metric-value" style="color:#2563eb">${totalClicks.toLocaleString()}</div>
+      <div class="metric-explain">Last 90 days. ${totalClicks === 0 ? 'Publish more content targeting keywords people search for.' : 'Keep creating keyword-optimized content to grow this.'}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-top">
+        <div class="metric-label">Impressions <span class="tt">?<span class="tt-box">How many times your pages appeared<br>in Google search results. Even if no one clicked.<br>High impressions = Google knows you exist.</span></span></div>
+        <span class="metric-health ${impHealth[1]}">${impHealth[0]}</span>
+      </div>
+      <div class="metric-value" style="color:#7c3aed">${totalImpressions.toLocaleString()}</div>
+      <div class="metric-explain">Last 90 days. ${totalImpressions < 500 ? 'Add more content to increase visibility.' : 'Good visibility — focus on converting impressions to clicks.'}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-top">
+        <div class="metric-label">Click-Through Rate <span class="tt">?<span class="tt-box">% of people who saw your site and clicked.<br>Industry average: 2-5%.<br>Low CTR = your titles/descriptions aren't compelling enough.</span></span></div>
+        <span class="metric-health ${ctrHealth[1]}">${ctrHealth[0]}</span>
+      </div>
+      <div class="metric-value" style="color:#059669">${ctr.toFixed(1)}%</div>
+      <div class="metric-explain">${ctr < 2 ? 'Rewrite your page titles and meta descriptions to be more compelling.' : ctr < 5 ? 'Decent CTR. Try adding numbers or power words to your titles.' : 'Excellent! Your titles are attracting clicks well.'}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-top">
+        <div class="metric-label">Avg Position <span class="tt">?<span class="tt-box">Your average ranking on Google across all queries.<br>#1-3 = top results (most clicks)<br>#4-10 = still page 1<br>#11-20 = page 2 (big jump in traffic possible!)</span></span></div>
+        <span class="metric-health ${posHealth[1]}">${posHealth[0]}</span>
+      </div>
+      <div class="metric-value" style="color:#f59e0b">${avgPos || '—'}</div>
+      <div class="metric-explain">${avgPos <= 10 ? 'You are on the first page of Google. Focus on moving from position 5-10 to 1-3.' : avgPos <= 20 ? 'You are close! Getting from page 2 to page 1 can 10x your traffic.' : 'Focus on building quality content and backlinks to improve rankings.'}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-top">
+        <div class="metric-label">Page 1 Rankings <span class="tt">?<span class="tt-box">Number of your pages that rank in the<br>top 10 results on Google (page 1).<br>More page 1 rankings = more organic traffic.</span></span></div>
+        <span class="metric-health ${p1Pages > 3 ? 'health-good' : p1Pages > 0 ? 'health-warn' : 'health-bad'}">${p1Pages > 3 ? 'Great' : p1Pages > 0 ? 'Some' : 'None yet'}</span>
+      </div>
+      <div class="metric-value" style="color:#16a34a">${p1Pages}</div>
+      <div class="metric-explain">Pages ranking in top 10 on Google. ${p1Pages === 0 ? 'Focus on long-tail keywords with low competition.' : 'Good start! Keep optimizing to move more pages to page 1.'}</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-top">
+        <div class="metric-label">Fix Opportunities <span class="tt">?<span class="tt-box">Pages with good impressions but 0 clicks.<br>These pages appear in Google but nobody clicks.<br>Fix = rewrite the title and meta description.</span></span></div>
+        <span class="metric-health ${highImpLowCtr === 0 ? 'health-good' : highImpLowCtr < 3 ? 'health-warn' : 'health-bad'}">${highImpLowCtr === 0 ? 'None' : highImpLowCtr + ' pages'}</span>
+      </div>
+      <div class="metric-value" style="color:#dc2626">${highImpLowCtr}</div>
+      <div class="metric-explain">${highImpLowCtr === 0 ? 'No obvious CTR problems — great!' : `${highImpLowCtr} page${highImpLowCtr>1?'s':''} have impressions but 0 clicks. Rewrite their titles to be more attractive.`}</div>
+    </div>`;
+
+  // AI Insights
+  const insights = [];
+  if (highImpLowCtr > 0) insights.push({type:'warning',icon:'✏️',title:'Rewrite titles on '+highImpLowCtr+' pages',desc:'These pages show up in Google but nobody clicks them. The title and meta description are not compelling enough. Use numbers, power words, and make it clear what the user gets.'});
+  if (avgPos > 10 && avgPos <= 20) insights.push({type:'opportunity',icon:'⚡',title:'You are almost on page 1!',desc:'Your average position is '+avgPos+'. Getting from page 2 to page 1 can increase traffic by 10x. Add more content, internal links, and target your main keywords more specifically.'});
+  if (ctr < 2 && totalImpressions > 100) insights.push({type:'action',icon:'🎯',title:'Low CTR — fix your meta descriptions',desc:'You get '+totalImpressions.toLocaleString()+' impressions but only '+ctr.toFixed(1)+'% click. Rewrite meta descriptions to be more compelling. Include your main keyword and a clear benefit.'});
+  if (totalClicks === 0) insights.push({type:'warning',icon:'🚀',title:'No clicks yet — start with long-tail keywords',desc:'Your site has impressions but no clicks. Focus on writing content for specific long-tail keywords (3-5 words) with LOW competition. Use our Keyword Research tool to find them!'});
+  if (p1Pages > 0) insights.push({type:'success',icon:'🎉',title:p1Pages+' pages on page 1 of Google',desc:'You already have '+p1Pages+' page'+( p1Pages>1?'s':'')+' ranking on the first page. Build internal links to these pages and update them regularly to maintain and improve their position.'});
+  if (queriesData.length > 0) {
+    const bestQuery = queriesData.sort((a,b) => b.impressions-a.impressions)[0];
+    insights.push({type:'opportunity',icon:'🔑',title:'Your biggest keyword opportunity: "'+bestQuery.query+'"',desc:'This keyword gets the most impressions ('+bestQuery.impressions.toLocaleString()+') but is at position #'+bestQuery.position+'. Create more content around this topic and add it to your homepage to climb higher.'});
+  }
+
+  document.getElementById('insights-grid').innerHTML = insights.slice(0,4).map(i =>
+    `<div class="insight-card ${i.type}"><div class="insight-icon">${i.icon}</div><div class="insight-title">${i.title}</div><div class="insight-desc">${i.desc}</div></div>`
+  ).join('');
+
+  document.getElementById('pages-sub').textContent = 'Last 90 days — ' + pagesData.length + ' pages found. Pages on position 1-10 are on the first page of Google.';
+  document.getElementById('queries-sub').textContent = 'Last 90 days — ' + queriesData.length + ' queries found. These are the keywords bringing people to your site.';
 
   // Pages table
-  document.getElementById('pages-tbody').innerHTML = pagesData.map(r => {
+  document.getElementById('pages-tbody').innerHTML = pagesData.sort((a,b) => b.impressions-a.impressions).map(r => {
     const pos = r.position;
-    const cls = pos <= 10 ? 'pos-top' : pos <= 20 ? 'pos-mid' : 'pos-low';
+    const cls = pos <= 10 ? 'pos-p1' : pos <= 20 ? 'pos-p2' : 'pos-p3';
+    const label = pos <= 10 ? '✅ Page 1' : pos <= 20 ? '⚡ Page 2' : '❌ Page '+Math.ceil(pos/10);
+    const ctrNum = parseFloat(r.ctr);
+    const ctrW = Math.min(100, ctrNum * 10);
     return `<tr>
-      <td style="max-width:400px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><a href="${r.page}" target="_blank" style="color:#2563eb;text-decoration:none;">${r.page}</a></td>
+      <td style="max-width:350px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+        <a href="${r.page}" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:500;">${r.page.replace(/https?:\/\/[^/]+/,'')|| '/'}</a>
+        <div style="font-size:11px;color:#9ca3af;">${r.page}</div>
+      </td>
       <td class="r"><b>${r.clicks.toLocaleString()}</b></td>
       <td class="r">${r.impressions.toLocaleString()}</td>
-      <td class="r">${r.ctr}</td>
-      <td class="r"><span class="pos-badge ${cls}">#${pos}</span></td>
+      <td class="r"><div class="ctr-bar"><div class="ctr-bg"><div class="ctr-fill" style="width:${ctrW}%"></div></div>${r.ctr}</div></td>
+      <td class="r"><span class="pos-pill ${cls}">${label} (#${pos})</span></td>
     </tr>`;
-  }).join('') || '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:2rem;">No page data found for this site.</td></tr>';
+  }).join('') || '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:2rem;">No page data found. Make sure your site has traffic and is verified in Search Console.</td></tr>';
 
   // Queries table
-  document.getElementById('queries-tbody').innerHTML = queriesData.map(r => {
+  document.getElementById('queries-tbody').innerHTML = queriesData.sort((a,b) => b.impressions-a.impressions).map(r => {
     const pos = r.position;
-    const cls = pos <= 10 ? 'pos-top' : pos <= 20 ? 'pos-mid' : 'pos-low';
+    const cls = pos <= 10 ? 'pos-p1' : pos <= 20 ? 'pos-p2' : 'pos-p3';
+    const label = pos <= 10 ? '✅ Page 1' : pos <= 20 ? '⚡ Page 2' : '❌ Low';
     return `<tr>
       <td><b>${r.query}</b></td>
       <td class="r">${r.clicks.toLocaleString()}</td>
       <td class="r">${r.impressions.toLocaleString()}</td>
-      <td class="r">${(r.ctr || 0).toFixed(1)}%</td>
-      <td class="r"><span class="pos-badge ${cls}">#${pos}</span></td>
+      <td class="r">${r.ctr}%</td>
+      <td class="r"><span class="pos-pill ${cls}">${label} (#${pos})</span></td>
     </tr>`;
-  }).join('') || '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:2rem;">No query data found for this site.</td></tr>';
+  }).join('') || '<tr><td colspan="5" style="text-align:center;color:#9ca3af;padding:2rem;">No query data found yet. This usually means your site is new or has very little traffic.</td></tr>';
 }
 
 function exportPages() {
   const rows = [['Page','Clicks','Impressions','CTR','Position']];
-  pagesData.forEach(r => rows.push([r.page, r.clicks, r.impressions, r.ctr, r.position]));
-  downloadCSV(rows, 'pages');
+  pagesData.forEach(r => rows.push([r.page,r.clicks,r.impressions,r.ctr,r.position]));
+  dl(rows,'pages');
 }
 function exportQueries() {
   const rows = [['Query','Clicks','Impressions','CTR','Position']];
-  queriesData.forEach(r => rows.push([r.query, r.clicks, r.impressions, r.ctr || 0, r.position]));
-  downloadCSV(rows, 'queries');
+  queriesData.forEach(r => rows.push([r.query,r.clicks,r.impressions,r.ctr,r.position]));
+  dl(rows,'queries');
 }
-function downloadCSV(rows, name) {
-  const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(rows.map(r => r.map(v => '"'+v+'"').join(',')).join('\n'));
-  a.download = 'keywordpro-' + name + '.csv';
+function dl(rows,name){
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n'));
+  a.download='keywordpro-'+name+'.csv';
   a.click();
 }
-function disconnectGSC() {
-  localStorage.removeItem('gsc_token');
-  location.reload();
-}
+function disconnectGSC(){localStorage.removeItem('gsc_token');location.reload();}
 </script>
 </body>
 </html>
