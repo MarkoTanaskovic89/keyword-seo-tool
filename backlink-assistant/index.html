@@ -243,11 +243,40 @@ function rankClass(r) {
   return 'rank-low';
 }
 
+function getBacklinkUsage() {
+  const today = new Date().toDateString();
+  const stored = JSON.parse(localStorage.getItem('bl_usage') || '{"date":"","count":0}');
+  if (stored.date !== today) return { date: today, count: 0 };
+  return stored;
+}
+
+function incrementBacklinkUsage() {
+  const usage = getBacklinkUsage();
+  usage.count++;
+  localStorage.setItem('bl_usage', JSON.stringify(usage));
+}
+
+function isBasicOrPro() {
+  const user = JSON.parse(localStorage.getItem('kp_user') || 'null');
+  if (!user) return false;
+  return user.plan === 'basic' || user.plan === 'premium' || user.plan === 'pro' || user.email === 'markotanaskovic89@gmail.com' || user.email === 'markotanaskovic55@gmail.com';
+}
+
 async function analyze() {
   const target = document.getElementById('target-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
   const competitor = document.getElementById('competitor-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
   if (!target) { alert('Please enter a domain to analyze.'); return; }
   
+  // Check daily limit for free users
+  if (!isBasicOrPro()) {
+    const usage = getBacklinkUsage();
+    if (usage.count >= 3) {
+      alert('You have used your 3 free daily lookups.\n\nUpgrade to Basic ($5/mo) for unlimited backlink analysis!\n\nClick OK to see pricing.');
+      window.location.href = '/#pricing';
+      return;
+    }
+  }
+
   currentTarget = target;
   document.getElementById('analyze-btn').disabled = true;
   document.getElementById('results').style.display = 'none';
@@ -286,9 +315,10 @@ async function analyze() {
 
     // Insights
     const insights = [];
-    if((summary.referring_domains||0) < 10) insights.push({color:'#dc2626',icon:'🔴',text:'Very few referring domains ('+summary.referring_domains+'). Focus on getting links from at least 20-30 unique domains before worrying about quantity.'});
-    else if((summary.referring_domains||0) < 50) insights.push({color:'#f59e0b',icon:'🟡',text:'Growing backlink profile ('+summary.referring_domains+' domains). Keep building links from relevant sites in your niche.'});
-    else insights.push({color:'#16a34a',icon:'🟢',text:'Strong backlink profile with '+summary.referring_domains+' referring domains. Focus on link quality over quantity now.'});
+    const ld = summary.linking_domains || 0;
+    if(ld < 10) insights.push({color:'#dc2626',icon:'🔴',text:'Very few linking domains ('+ld+'). Focus on getting links from at least 20-30 unique domains before worrying about quantity.'});
+    else if(ld < 50) insights.push({color:'#f59e0b',icon:'🟡',text:'Growing backlink profile ('+ld+' linking domains). Keep building links from relevant sites in your niche.'});
+    else insights.push({color:'#16a34a',icon:'🟢',text:'Strong backlink profile with '+ld+' linking domains. Focus on link quality over quantity now.'});
 
     const da = summary.domain_authority||0;
     if(da < 20) insights.push({color:'#dc2626',icon:'🔴',text:'Low Domain Authority (DA '+da+'/100). Normal for new sites. Get links from relevant, established sites to grow this score over time.'});
@@ -368,6 +398,23 @@ async function analyze() {
 
     document.getElementById('loading').style.display = 'none';
     document.getElementById('results').style.display = 'block';
+
+    // Increment usage for free users
+    if (!isBasicOrPro()) {
+      incrementBacklinkUsage();
+      const usage = getBacklinkUsage();
+      const remaining = 3 - usage.count;
+      // Hide backlinks and domains tabs for free users
+      document.querySelectorAll('.tab-btn')[1].style.display = 'none';
+      document.querySelectorAll('.tab-btn')[2].style.display = 'none';
+      // Add upgrade banner
+      document.getElementById('insights-section').insertAdjacentHTML('beforeend',
+        '<div style="background:#eff6ff;border:1.5px solid #2563eb;border-radius:10px;padding:1rem 1.25rem;margin-top:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">' +
+        '<div><b style="color:#1d4ed8;">🔒 '+remaining+' free lookup'+(remaining===1?'':'s')+' remaining today</b><div style="font-size:13px;color:#374151;margin-top:3px;">Upgrade to Basic for unlimited lookups + full backlink & domain data.</div></div>' +
+        '<a href="https://markotanaskovic.lemonsqueezy.com/checkout/buy/eb41e07d-040a-4e31-b9e5-ab1c80d91cd7" target="_blank" style="padding:8px 18px;background:#2563eb;color:#fff;border-radius:7px;font-size:13px;font-weight:700;text-decoration:none;">Upgrade — $5/mo →</a>' +
+        '</div>'
+      );
+    }
 
   } catch(e) {
     alert('Error: ' + e.message);
