@@ -6,7 +6,10 @@ module.exports = async function handler(req, res) {
 
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-  const REDIRECT_URI = 'https://app.markotanaskovic.com/backlink-assistant';
+  const referer = (req.headers.referer || req.headers.origin || '');
+  const REDIRECT_URI = referer.includes('seo-dashboard')
+    ? 'https://app.markotanaskovic.com/seo-dashboard'
+    : 'https://app.markotanaskovic.com/seo-dashboard';
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch(e) {} }
