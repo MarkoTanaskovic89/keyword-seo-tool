@@ -6,13 +6,13 @@ module.exports = async function handler(req, res) {
 
   const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
   const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-  const REDIRECT_URI = (body && body.redirect_uri) 
-    ? body.redirect_uri 
-    : 'https://app.markotanaskovic.com/seo-dashboard';
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch(e) {} }
   const { action } = body || {};
+  const REDIRECT_URI = (body && body.redirect_uri)
+    ? body.redirect_uri
+    : 'https://app.markotanaskovic.com/seo-dashboard';
 
   try {
     if (action === 'auth_url') {
