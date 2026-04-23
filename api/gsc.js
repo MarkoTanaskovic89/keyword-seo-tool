@@ -48,7 +48,11 @@ module.exports = async function handler(req, res) {
       const response = await fetch('https://www.googleapis.com/webmasters/v3/sites', {
         headers: { 'Authorization': 'Bearer ' + access_token }
       });
-      const data = await response.json();
+      const text = await response.text();
+      let data;
+      try { data = JSON.parse(text); } catch(e) {
+        return res.status(500).json({ error: 'Google API error: ' + text.slice(0, 200) });
+      }
       if (data.error) return res.status(400).json({ error: data.error.message });
       return res.status(200).json({ sites: data.siteEntry || [] });
     }
@@ -59,42 +63,27 @@ module.exports = async function handler(req, res) {
       const endDate = new Date().toISOString().slice(0, 10);
       const startDate = new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
-      // Get top pages
-      const pagesRes = await fetch(
-        `https://searchconsole.googleapis.com/v1/sites/${encoded}/searchAnalytics/query`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + access_token,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            startDate, endDate,
-            dimensions: ['page'],
-            rowLimit: 100
-          })
-        }
-      );
-      const pagesData = await pagesRes.json();
-      if (pagesData.error) return res.status(400).json({ error: pagesData.error.message });
+      const fetchAnalytics = async (dimension) => {
+        const r = await fetch(
+          `https://searchconsole.googleapis.com/v1/sites/${encoded}/searchAnalytics/query`,
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + access_token,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ startDate, endDate, dimensions: [dimension], rowLimit: 100 })
+          }
+        );
+        const text = await r.text();
+        try { return JSON.parse(text); }
+        catch(e) { return { error: 'Parse error: ' + text.slice(0, 300) }; }
+      };
 
-      // Get top queries
-      const queriesRes = await fetch(
-        `https://searchconsole.googleapis.com/v1/sites/${encoded}/searchAnalytics/query`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + access_token,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            startDate, endDate,
-            dimensions: ['query'],
-            rowLimit: 100
-          })
-        }
-      );
-      const queriesData = await queriesRes.json();
+      const pagesData = await fetchAnalytics('page');
+      if (pagesData.error) return res.status(400).json({ error: pagesData.error });
+
+      const queriesData = await fetchAnalytics('query');
 
       const pages = (pagesData.rows || []).map(r => ({
         page: r.keys[0],
