@@ -558,7 +558,7 @@ Respond ONLY with a valid JSON object, no markdown, no backticks:
 
       <div style="font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;margin-top:1.5rem;">📧 Personalized outreach targets & emails:</div>
 
-      ${ai.outreach_targets.map((t,i) => `
+      ${ai.outreach_targets.map((t,i) => { emailStore[i] = {subject: t.email_subject, body: t.email_body}; return `
         <div class="outreach-card" style="border-color:${typeColors[t.type]||'#2563eb'};">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
             <div class="outreach-domain">${t.title}</div>
@@ -570,12 +570,11 @@ Respond ONLY with a valid JSON object, no markdown, no backticks:
             <div style="color:#6b7280;margin-bottom:4px;font-size:12px;"><b>Subject:</b> ${t.email_subject}</div>
             <div style="color:#374151;line-height:1.7;white-space:pre-line;">${t.email_body}</div>
           </div>
-          <button onclick="copyEmail(${i})" data-subject="${t.email_subject.replace(/"/g,'&quot;')}" data-body="${t.email_body.replace(/"/g,'&quot;').replace(/
-/g,'\n')}"
+          <button onclick="copyEmail(${i})" data-idx="${i}"
             style="margin-top:10px;padding:7px 16px;background:#2563eb;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;">
             📋 Copy email
           </button>
-        </div>`).join('')}
+        </div>`; }).join('')}
 
       ${domains.filter(d => d.domain_authority >= 40).length > 0 ? `
         <div style="margin-top:1.5rem;margin-bottom:8px;font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">💪 High-DA sites already linking to you — ask for more!</div>
@@ -593,16 +592,17 @@ Respond ONLY with a valid JSON object, no markdown, no backticks:
   }
 }
 
+let emailStore = [];
 function copyEmail(idx) {
-  const btn = document.querySelectorAll('[data-subject]')[idx];
-  const subject = btn.getAttribute('data-subject');
-  const body = btn.getAttribute('data-body').replace(/\n/g, '
-');
-  navigator.clipboard.writeText(`Subject: ${subject}
-
-${body}`).then(() => {
-    btn.textContent = '✅ Copied!';
-    setTimeout(() => btn.textContent = '📋 Copy email', 2000);
+  if (!emailStore[idx]) return;
+  const {subject, body} = emailStore[idx];
+  navigator.clipboard.writeText('Subject: ' + subject + '\n\n' + body).then(() => {
+    document.querySelectorAll('[data-idx]').forEach(b => {
+      if(parseInt(b.getAttribute('data-idx')) === idx) {
+        b.textContent = '\u2705 Copied!';
+        setTimeout(() => b.textContent = '\ud83d\udccb Copy email', 2000);
+      }
+    });
   });
 }
 
