@@ -212,15 +212,17 @@ footer a{color:#2563eb;text-decoration:none;}
 
   <div class="pricing-section">
     <div class="pricing-title">Simple, honest pricing</div>
-    <div class="pricing-sub">Ahrefs costs $150/mo. SEMrush costs $130/mo. We charge $5/mo — because we don't have a $50M marketing budget to pay for.</div>
+    <div class="pricing-sub">Simple tools, fair prices. No hidden fees, no annual contracts. Cancel anytime.</div>
     <div class="pricing-grid">
       <div class="price-card">
         <div class="price-name">Guest</div>
         <div class="price-amount">Free</div>
         <div class="price-period">no account needed</div>
         <div class="price-features">
-          <div class="price-feature"><b>✓</b> 3 searches to try</div>
-          <div class="price-feature"><b>✓</b> 1 keyword at a time</div>
+          <div class="price-feature"><b>✓</b> 3 keyword searches to try</div>
+          <div class="price-feature"><b>✓</b> 1 backlink domain/month</div>
+          <div class="price-feature"><b>✓</b> Overview only (no full data)</div>
+          <div class="price-feature"><b>✓</b> SEO Dashboard (free)</div>
         </div>
         <a href="/keyword-tool" class="price-btn" style="background:#f3f4f6;color:#374151;">Try now</a>
       </div>
@@ -229,33 +231,41 @@ footer a{color:#2563eb;text-decoration:none;}
         <div class="price-amount">Free</div>
         <div class="price-period">forever free</div>
         <div class="price-features">
-          <div class="price-feature"><b>✓</b> 50 searches/month</div>
+          <div class="price-feature"><b>✓</b> 50 keyword searches/month</div>
           <div class="price-feature"><b>✓</b> 3 keywords at once</div>
-          <div class="price-feature"><b>✓</b> Export CSV</div>
+          <div class="price-feature"><b>✓</b> 1 backlink domain/month</div>
+          <div class="price-feature"><b>✓</b> Overview only (no full data)</div>
+          <div class="price-feature"><b>✓</b> SEO Dashboard (free)</div>
         </div>
-        <a href="/keyword-tool" class="price-btn" style="background:#2563eb;color:#fff;">Sign up free →</a>
+        <a href="/keyword-tool?signup=true" class="price-btn" style="background:#2563eb;color:#fff;">Sign up free →</a>
       </div>
       <div class="price-card purple">
-        <div class="price-name">Premium</div>
+        <div class="price-name">Basic</div>
         <div class="price-amount">$5</div>
         <div class="price-period">per month</div>
         <div class="price-features">
-          <div class="price-feature"><b>✓</b> Unlimited searches</div>
+          <div class="price-feature"><b>✓</b> Unlimited keyword searches</div>
           <div class="price-feature"><b>✓</b> 10 keywords at once</div>
-          <div class="price-feature"><b>✓</b> Cancel anytime</div>
+          <div class="price-feature"><b>✓</b> Unlimited domain lookups</div>
+          <div class="price-feature"><b>✓</b> 50 backlinks per domain</div>
+          <div class="price-feature"><b>✓</b> Full backlinks & domains data</div>
+          <div class="price-feature"><b>✓</b> SEO Dashboard (free)</div>
         </div>
-        <a href="/keyword-tool" class="price-btn" style="background:#7c3aed;color:#fff;">Get Premium →</a>
+        <a href="https://markotanaskovic.lemonsqueezy.com/checkout/buy/eb41e07d-040a-4e31-b9e5-ab1c80d91cd7" target="_blank" class="price-btn" style="background:#7c3aed;color:#fff;">Get Basic — $5/mo →</a>
       </div>
       <div class="price-card green">
         <div class="price-name">Pro</div>
-        <div class="price-amount">$39</div>
+        <div class="price-amount">$20</div>
         <div class="price-period">per month</div>
         <div class="price-features">
-          <div class="price-feature"><b>✓</b> Unlimited searches</div>
+          <div class="price-feature"><b>✓</b> Everything in Basic</div>
+          <div class="price-feature"><b>✓</b> Unlimited domain lookups</div>
+          <div class="price-feature"><b>✓</b> 100 backlinks per domain</div>
+          <div class="price-feature"><b>✓</b> AI outreach emails</div>
           <div class="price-feature"><b>✓</b> Bulk Excel (300 kw)</div>
           <div class="price-feature"><b>✓</b> All future tools</div>
         </div>
-        <a href="/keyword-tool/bulk-upload" class="price-btn" style="background:#059669;color:#fff;">Get Pro →</a>
+        <a href="https://markotanaskovic.lemonsqueezy.com/checkout/buy/8ed13325-d638-4eca-9d1d-6fff68822b89" target="_blank" class="price-btn" style="background:#059669;color:#fff;">Get Pro — $20/mo →</a>
       </div>
     </div>
   </div>
