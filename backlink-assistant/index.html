@@ -378,11 +378,37 @@ async function analyze() {
     if(topRelevant > 0) insights.push({color:'#16a34a',icon:'✅',text:topRelevant+' highly relevant domains link to you. These are your most valuable links — build more from similar sites.'});
 
     document.getElementById('insights-section').innerHTML = '<div style="margin-bottom:1.5rem;">' +
-      insights.map(i => `<div style="background:#fff;border-left:4px solid ${i.color};border-radius:8px;padding:1rem 1.25rem;margin-bottom:8px;font-size:14px;line-height:1.6;">${i.icon} ${i.text}</div>`).join('') +
+      insights.map(i => '<div style="background:#fff;border-left:4px solid ' + i.color + ';border-radius:8px;padding:1rem 1.25rem;margin-bottom:8px;font-size:14px;line-height:1.6;">' + i.icon + ' ' + i.text + '</div>').join('') +
+      '</div>' +
+      '<div style="background:linear-gradient(135deg,#1e3a8a,#2563eb);border-radius:14px;padding:1.5rem 2rem;margin-bottom:1.5rem;color:#fff;">' +
+        '<div style="font-size:16px;font-weight:800;margin-bottom:6px;">🎯 Link Building Playbook — Focus on these</div>' +
+        '<div style="font-size:13px;opacity:0.85;margin-bottom:1.25rem;">Based on what actually works for SaaS and digital products</div>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">' +
+          '<div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:1rem;">' +
+            '<div style="font-size:12px;font-weight:700;opacity:0.7;margin-bottom:4px;">PRIORITY 1</div>' +
+            '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">Relevancy over DR</div>' +
+            '<div style="font-size:12px;opacity:0.85;">A link from a niche nobody site beats a generic DR90 site. Google cares about context.</div>' +
+          '</div>' +
+          '<div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:1rem;">' +
+            '<div style="font-size:12px;font-weight:700;opacity:0.7;margin-bottom:4px;">PRIORITY 2</div>' +
+            '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">20+ links/month</div>' +
+            '<div style="font-size:12px;opacity:0.85;">Consistency beats bursts. Build links every month, no exceptions. Use our Outreach tab for targets.</div>' +
+          '</div>' +
+          '<div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:1rem;">' +
+            '<div style="font-size:12px;font-weight:700;opacity:0.7;margin-bottom:4px;">PRIORITY 3</div>' +
+            '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">Listicle outreach</div>' +
+            '<div style="font-size:12px;opacity:0.85;">Target "best [your category]" pages. One email, one link, one relationship. See Outreach tab.</div>' +
+          '</div>' +
+          '<div style="background:rgba(255,255,255,0.1);border-radius:8px;padding:1rem;">' +
+            '<div style="font-size:12px;font-weight:700;opacity:0.7;margin-bottom:4px;">PRIORITY 4</div>' +
+            '<div style="font-size:14px;font-weight:700;margin-bottom:4px;">Update your money page</div>' +
+            '<div style="font-size:12px;opacity:0.85;">SERPs from 6 months ago look nothing like today. Update your main page constantly.</div>' +
+          '</div>' +
+        '</div>' +
       '</div>';
 
     // Backlinks table
-    document.getElementById('backlinks-sub').textContent = 'Showing ' + backlinksData.length + ' backlinks (current plan limit). Upgrade for more.';
+    document.getElementById('backlinks-sub').innerHTML = 'Showing top <b>' + backlinksData.length + ' backlinks</b> sorted by Domain Authority — highest DA first. <span style="color:#9ca3af;font-size:12px;">Moz API currently limits to 100 results. We are working on showing more as we grow.</span>';
     document.getElementById('backlinks-tbody').innerHTML = backlinksData.map(b => {
       const rel = relevancyScore(b.url_from, target);
       return `<tr>
@@ -397,7 +423,7 @@ async function analyze() {
     }).join('') || '<tr><td colspan="5" class="empty">No backlinks found.</td></tr>';
 
     // Domains table
-    document.getElementById('domains-sub').textContent = 'Showing ' + domainsData.length + ' referring domains (current plan limit).';
+    document.getElementById('domains-sub').innerHTML = 'Showing top <b>' + domainsData.length + ' referring domains</b> sorted by Domain Authority. <span style="color:#9ca3af;font-size:12px;">Highest DA domains shown first — these are your most valuable link sources.</span>';
     document.getElementById('domains-tbody').innerHTML = domainsData.map(d => {
       const rel = relevancyScore(d.domain, target);
       return `<tr>
@@ -535,15 +561,15 @@ async function buildOutreachTargets(target, domains, competitor) {
           </div>
            <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
              <button onclick="copyEmail(${i})" data-idx="${i}"
-               style="padding:7px 16px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;color:#374151;">
+               style="padding:7px 16px;background:#2563eb;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;">
                📋 Copy email
              </button>
-             <button onclick="findAndSend(${i})"
-               style="padding:7px 16px;background:#2563eb;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;">
-               🔍 Find contact & Send
-             </button>
+             <a href="https://hunter.io/find?domain=" target="_blank"
+               style="padding:7px 16px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;color:#374151;text-decoration:none;"
+               onclick="this.href='https://hunter.io/find?domain=' + prompt('Enter domain to find email (e.g. ahrefs.com):')">
+               🔍 Find email on Hunter →
+             </a>
            </div>
-           <div id="hunter-result-${i}" style="margin-top:8px;"></div>
         </div>`; }).join('')}
 
       ${domains.filter(d => d.domain_authority >= 40).length > 0 ? `
