@@ -31,14 +31,14 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64p
 .btn-primary:hover{background:#1d4ed8;}
 .btn-primary:disabled{background:#9ca3af;cursor:not-allowed;}
 
-.tabs{display:flex;gap:4px;margin-bottom:1.5rem;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:6px;}
-.tab-btn{flex:1;padding:9px;border:none;background:none;border-radius:7px;font-size:14px;font-weight:600;cursor:pointer;color:#6b7280;}
+.tabs{display:flex;gap:4px;margin-bottom:1.5rem;background:#fff;border-radius:10px;border:1px solid #e5e7eb;padding:6px;flex-wrap:wrap;}
+.tab-btn{flex:1;min-width:100px;padding:9px;border:none;background:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;color:#6b7280;}
 .tab-btn.active{background:#2563eb;color:#fff;}
 
 .metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:1.5rem;}
 .metric-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:1.25rem;}
 .metric-label{font-size:11px;color:#6b7280;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;display:flex;align-items:center;gap:4px;}
-.metric-value{font-size:28px;font-weight:800;color:#1a1a1a;margin-bottom:4px;}
+.metric-value{font-size:28px;font-weight:800;margin-bottom:4px;}
 .metric-sub{font-size:12px;color:#9ca3af;}
 
 .tt{position:relative;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;cursor:help;}
@@ -47,7 +47,7 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64p
 .tt-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
 
 .data-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
-.data-header{padding:14px 18px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;}
+.data-header{padding:14px 18px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .data-title{font-size:15px;font-weight:700;}
 .data-sub{font-size:13px;color:#6b7280;margin-top:3px;}
 table{width:100%;border-collapse:collapse;}
@@ -57,13 +57,18 @@ td{padding:11px 16px;font-size:14px;border-bottom:1px solid #f3f4f6;}
 tr:last-child td{border-bottom:none;}
 tr:hover td{background:#f9fafb;}
 
-.rank-pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700;}
-.rank-high{background:#dcfce7;color:#15803d;}
-.rank-mid{background:#fef3c7;color:#92400e;}
-.rank-low{background:#fee2e2;color:#991b1b;}
+.da-pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:700;}
+.da-high{background:#dcfce7;color:#15803d;}
+.da-mid{background:#fef3c7;color:#92400e;}
+.da-low{background:#fee2e2;color:#991b1b;}
 .do-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;}
 .do-yes{background:#dcfce7;color:#15803d;}
 .do-no{background:#f3f4f6;color:#6b7280;}
+
+.rel-score{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;padding:3px 8px;border-radius:6px;}
+.rel-high{background:#dcfce7;color:#15803d;}
+.rel-mid{background:#fef3c7;color:#92400e;}
+.rel-low{background:#f3f4f6;color:#6b7280;}
 
 .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem;}
 .compare-card{background:#fff;border:2px solid #e5e7eb;border-radius:12px;padding:1.5rem;text-align:center;}
@@ -79,16 +84,33 @@ tr:hover td{background:#f9fafb;}
 .compare-winner{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;background:#dcfce7;color:#15803d;margin-top:8px;display:inline-block;}
 .compare-loser{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px;background:#fee2e2;color:#991b1b;margin-top:8px;display:inline-block;}
 
-.opportunity-card{background:#fff;border-left:4px solid #2563eb;border-radius:8px;padding:1rem 1.25rem;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.opp-domain{font-size:15px;font-weight:700;color:#1a1a1a;}
-.opp-rank{font-size:13px;color:#6b7280;}
-.opp-action{font-size:13px;color:#2563eb;font-weight:600;}
+.outreach-card{background:#fff;border-left:4px solid #2563eb;border-radius:8px;padding:1rem 1.25rem;margin-bottom:10px;}
+.outreach-domain{font-size:15px;font-weight:700;margin-bottom:4px;}
+.outreach-meta{font-size:13px;color:#6b7280;margin-bottom:8px;}
+.outreach-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.tag{font-size:11px;font-weight:600;padding:3px 8px;border-radius:4px;}
+.tag-listicle{background:#eff6ff;color:#2563eb;}
+.tag-niche{background:#f0fdf4;color:#15803d;}
+.tag-outreach{background:#fef3c7;color:#92400e;}
+.outreach-tip{font-size:13px;color:#374151;line-height:1.6;background:#f9fafb;border-radius:6px;padding:8px 12px;margin-bottom:8px;}
+.btn-outreach{display:inline-block;padding:7px 16px;background:#2563eb;color:#fff;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;border:none;}
+
+.playbook-card{background:linear-gradient(135deg,#1e3a8a,#2563eb);border-radius:14px;padding:1.5rem 2rem;margin-bottom:1.5rem;color:#fff;}
+.playbook-title{font-size:18px;font-weight:800;margin-bottom:6px;}
+.playbook-sub{font-size:14px;opacity:0.85;margin-bottom:1.25rem;}
+.playbook-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;}
+.playbook-step{background:rgba(255,255,255,0.1);border-radius:10px;padding:1rem;}
+.step-num{font-size:11px;font-weight:700;opacity:0.7;margin-bottom:4px;text-transform:uppercase;}
+.step-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.step-desc{font-size:13px;opacity:0.85;line-height:1.5;}
+
 .btn-export{padding:7px 14px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;}
+.upgrade-banner{background:#eff6ff;border:1.5px solid #2563eb;border-radius:10px;padding:1rem 1.25rem;margin-top:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 
 .loading{text-align:center;padding:3rem;}
 .spinner{display:inline-block;width:32px;height:32px;border:3px solid #e5e7eb;border-top-color:#2563eb;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.empty{text-align:center;padding:3rem;color:#9ca3af;font-size:15px;}
+.empty{text-align:center;padding:2rem;color:#9ca3af;font-size:14px;}
 
 footer{text-align:center;padding:2rem;font-size:14px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:2rem;}
 footer a{color:#2563eb;text-decoration:none;}
@@ -98,7 +120,8 @@ footer a{color:#2563eb;text-decoration:none;}
   .compare-grid{grid-template-columns:1fr;}
   .data-card{overflow-x:auto;}
   table{min-width:500px;}
-  .tabs{flex-wrap:wrap;}
+  .tabs{gap:3px;}
+  .tab-btn{font-size:12px;padding:7px;}
 }
 </style>
 </head>
@@ -112,12 +135,12 @@ footer a{color:#2563eb;text-decoration:none;}
 <div class="hero">
   <div class="hero-badge">🔗 Powered by Moz API — Real Backlink Data</div>
   <h1>Backlink Assistant</h1>
-  <p>Analyze any domain's backlink profile, spy on competitors, and discover link building opportunities — all based on real data, not estimates.</p>
+  <p>Analyze backlinks, find outreach targets, discover link gaps — and follow the exact playbook that generates $137K/month from Google.</p>
   <div class="hero-checks">
-    <span>✓ Real backlink data</span>
-    <span>✓ Competitor analysis</span>
+    <span>✓ Domain Authority data</span>
+    <span>✓ Outreach targets</span>
     <span>✓ Link gap finder</span>
-    <span>✓ Referring domains</span>
+    <span>✓ Relevancy scoring</span>
   </div>
 </div>
 
@@ -125,9 +148,9 @@ footer a{color:#2563eb;text-decoration:none;}
 
   <div class="search-card">
     <h2>Analyze a domain</h2>
-    <p>Enter any domain to see its full backlink profile. No www needed.</p>
+    <p>Enter your domain and optionally a competitor to get full backlink analysis + outreach opportunities.</p>
     <div class="input-row">
-      <input type="text" id="target-input" placeholder="e.g. ahrefs.com" />
+      <input type="text" id="target-input" placeholder="Your domain (e.g. yourdomain.com)" />
       <input type="text" id="competitor-input" placeholder="Competitor domain (optional)" />
       <button class="btn-primary" id="analyze-btn" onclick="analyze()">Analyze →</button>
     </div>
@@ -137,25 +160,26 @@ footer a{color:#2563eb;text-decoration:none;}
 
   <div id="results" style="display:none;">
     <div class="tabs">
-      <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
-      <button class="tab-btn" onclick="showTab('backlinks')">Backlinks</button>
-      <button class="tab-btn" onclick="showTab('domains')">Referring Domains</button>
-      <button class="tab-btn" onclick="showTab('compare')" id="compare-tab" style="display:none;">vs Competitor</button>
-      <button class="tab-btn" onclick="showTab('gap')" id="gap-tab" style="display:none;">Link Gap</button>
+      <button class="tab-btn active" onclick="showTab('overview')">📊 Overview</button>
+      <button class="tab-btn" onclick="showTab('backlinks')" id="tab-btn-backlinks">🔗 Backlinks</button>
+      <button class="tab-btn" onclick="showTab('domains')" id="tab-btn-domains">🌐 Referring Domains</button>
+      <button class="tab-btn" onclick="showTab('outreach')" id="tab-btn-outreach">📧 Outreach Targets</button>
+      <button class="tab-btn" onclick="showTab('compare')" id="compare-tab" style="display:none;">⚡ vs Competitor</button>
+      <button class="tab-btn" onclick="showTab('gap')" id="gap-tab" style="display:none;">🎯 Link Gap</button>
     </div>
 
+    <!-- Overview -->
     <div id="tab-overview">
       <div class="metrics-grid" id="metrics-grid"></div>
       <div id="insights-section"></div>
+      <div id="upgrade-section"></div>
     </div>
 
+    <!-- Backlinks -->
     <div id="tab-backlinks" style="display:none;">
       <div class="data-card">
         <div class="data-header">
-          <div>
-            <div class="data-title">Top backlinks</div>
-            <div class="data-sub" id="backlinks-sub"></div>
-          </div>
+          <div><div class="data-title">Top backlinks</div><div class="data-sub" id="backlinks-sub"></div></div>
           <button class="btn-export" onclick="exportBacklinks()">Export CSV</button>
         </div>
         <div style="overflow-x:auto;">
@@ -163,9 +187,9 @@ footer a{color:#2563eb;text-decoration:none;}
             <thead><tr>
               <th>Linking Page</th>
               <th>Anchor Text</th>
-              <th class="r">Domain Rank <span class="tt">?<span class="tt-box">Authority score of the linking domain.<br>Higher = more valuable link.<br>Above 50 = strong link.</span></span></th>
-              <th class="c">Dofollow <span class="tt">?<span class="tt-box">Dofollow links pass SEO value.<br>Nofollow links don't help rankings directly.</span></span></th>
-              <th>First Seen</th>
+              <th class="r">DA <span class="tt">?<span class="tt-box">Domain Authority — Moz score 0-100.<br>Above 40 = strong link. Above 60 = very valuable.</span></span></th>
+              <th>Type</th>
+              <th>Relevancy <span class="tt">?<span class="tt-box">How relevant this linking page is to your niche.<br>Relevant links matter more than high-DA links!</span></span></th>
             </tr></thead>
             <tbody id="backlinks-tbody"></tbody>
           </table>
@@ -173,22 +197,20 @@ footer a{color:#2563eb;text-decoration:none;}
       </div>
     </div>
 
+    <!-- Referring Domains -->
     <div id="tab-domains" style="display:none;">
       <div class="data-card">
         <div class="data-header">
-          <div>
-            <div class="data-title">Referring domains</div>
-            <div class="data-sub" id="domains-sub"></div>
-          </div>
+          <div><div class="data-title">Referring domains</div><div class="data-sub" id="domains-sub"></div></div>
           <button class="btn-export" onclick="exportDomains()">Export CSV</button>
         </div>
         <div style="overflow-x:auto;">
           <table>
             <thead><tr>
               <th>Domain</th>
-              <th class="r">Domain Rank</th>
-              <th class="r">Backlinks</th>
-              <th>First Seen</th>
+              <th class="r">DA</th>
+              <th class="r">Links</th>
+              <th>Relevancy</th>
             </tr></thead>
             <tbody id="domains-tbody"></tbody>
           </table>
@@ -196,17 +218,31 @@ footer a{color:#2563eb;text-decoration:none;}
       </div>
     </div>
 
+    <!-- Outreach Targets -->
+    <div id="tab-outreach" style="display:none;">
+      <div class="playbook-card">
+        <div class="playbook-title">🎯 The $137K Link Building Playbook</div>
+        <div class="playbook-sub">Focus on relevancy, not DR. One niche link beats a generic DR90 every time.</div>
+        <div class="playbook-steps">
+          <div class="playbook-step"><div class="step-num">Step 1</div><div class="step-title">Find listicles</div><div class="step-desc">Target "best [your category]" pages that rank top 10 — get listed there.</div></div>
+          <div class="playbook-step"><div class="step-num">Step 2</div><div class="step-title">One email, two goals</div><div class="step-desc">Each outreach email ticks both SEO and GEO (AI mentions) boxes simultaneously.</div></div>
+          <div class="playbook-step"><div class="step-num">Step 3</div><div class="step-title">20+ links/month</div><div class="step-desc">Consistency beats bursts. Build links at scale, every single month, no excuses.</div></div>
+          <div class="playbook-step"><div class="step-num">Step 4</div><div class="step-title">Update your money page</div><div class="step-desc">SERPs change constantly. The page that ranked 6 months ago needs refreshing today.</div></div>
+        </div>
+      </div>
+      <div id="outreach-list"></div>
+    </div>
+
+    <!-- Compare -->
     <div id="tab-compare" style="display:none;">
       <div class="compare-grid" id="compare-grid"></div>
     </div>
 
+    <!-- Link Gap -->
     <div id="tab-gap" style="display:none;">
       <div class="data-card">
         <div class="data-header">
-          <div>
-            <div class="data-title">Link gap opportunities</div>
-            <div class="data-sub" id="gap-sub"></div>
-          </div>
+          <div><div class="data-title">🎯 Link gap opportunities</div><div class="data-sub" id="gap-sub"></div></div>
         </div>
         <div id="gap-list" style="padding:1rem;"></div>
       </div>
@@ -225,22 +261,42 @@ footer a{color:#2563eb;text-decoration:none;}
 let backlinksData = [];
 let domainsData = [];
 let currentTarget = '';
+const BASIC_LINK = 'https://markotanaskovic.lemonsqueezy.com/checkout/buy/eb41e07d-040a-4e31-b9e5-ab1c80d91cd7';
 
 function showTab(tab) {
-  ['overview','backlinks','domains','compare','gap'].forEach(t => {
-    document.getElementById('tab-'+t).style.display = t === tab ? 'block' : 'none';
-    document.querySelectorAll('.tab-btn').forEach((btn,i) => {
-      const tabs = ['overview','backlinks','domains','compare','gap'];
-      if(tabs[i] === tab) btn.classList.add('active');
-      else btn.classList.remove('active');
-    });
+  ['overview','backlinks','domains','outreach','compare','gap'].forEach(t => {
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().includes(tab) || 
+      (tab==='overview' && btn.textContent.includes('Overview')) ||
+      (tab==='backlinks' && btn.textContent.includes('Backlink')) ||
+      (tab==='domains' && btn.textContent.includes('Domain')) ||
+      (tab==='outreach' && btn.textContent.includes('Outreach')) ||
+      (tab==='compare' && btn.textContent.includes('Competitor')) ||
+      (tab==='gap' && btn.textContent.includes('Gap'))
+    );
   });
 }
 
-function rankClass(r) {
-  if(r >= 60) return 'rank-high';
-  if(r >= 30) return 'rank-mid';
-  return 'rank-low';
+function daClass(da) { return da >= 50 ? 'da-high' : da >= 25 ? 'da-mid' : 'da-low'; }
+
+function relevancyScore(url, target) {
+  if (!url || !target) return 'low';
+  const targetParts = target.replace(/\.[^.]+$/, '').split(/[-_.]/);
+  const urlLower = url.toLowerCase();
+  const matches = targetParts.filter(p => p.length > 3 && urlLower.includes(p));
+  if (matches.length > 0) return 'high';
+  const seoWords = ['seo','marketing','digital','content','keyword','backlink','rank','traffic','search','blog','tool'];
+  const hasNiche = seoWords.some(w => urlLower.includes(w));
+  return hasNiche ? 'mid' : 'low';
+}
+
+function relBadge(level) {
+  const map = {high:'🟢 Relevant', mid:'🟡 Somewhat', low:'⚪ Generic'};
+  const cls = {high:'rel-high', mid:'rel-mid', low:'rel-low'};
+  return `<span class="rel-score ${cls[level]}">${map[level]}</span>`;
 }
 
 function getBacklinkUsage() {
@@ -259,20 +315,20 @@ function incrementBacklinkUsage() {
 function isBasicOrPro() {
   const user = JSON.parse(localStorage.getItem('kp_user') || 'null');
   if (!user) return false;
-  return user.plan === 'basic' || user.plan === 'premium' || user.plan === 'pro' || user.email === 'markotanaskovic89@gmail.com' || user.email === 'markotanaskovic55@gmail.com';
+  return user.plan === 'basic' || user.plan === 'premium' || user.plan === 'pro' || 
+    user.email === 'markotanaskovic89@gmail.com' || user.email === 'markotanaskovic55@gmail.com';
 }
 
 async function analyze() {
   const target = document.getElementById('target-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
   const competitor = document.getElementById('competitor-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
   if (!target) { alert('Please enter a domain to analyze.'); return; }
-  
-  // Check daily limit for free users
+
   if (!isBasicOrPro()) {
     const usage = getBacklinkUsage();
     if (usage.count >= 3) {
-      alert('You have used your 3 free daily lookups.\n\nUpgrade to Basic ($5/mo) for unlimited backlink analysis!\n\nClick OK to see pricing.');
-      window.location.href = '/#pricing';
+      alert('You have used your 3 free daily lookups.\n\nUpgrade to Basic ($5/mo) for unlimited backlink analysis!');
+      window.open(BASIC_LINK, '_blank');
       return;
     }
   }
@@ -283,8 +339,7 @@ async function analyze() {
   document.getElementById('loading').style.display = 'block';
 
   try {
-    // Fetch summary
-    document.getElementById('loading-text').textContent = 'Fetching backlink summary...';
+    document.getElementById('loading-text').textContent = 'Fetching backlink data from Moz...';
     const [summaryRes, backlinksRes, domainsRes] = await Promise.all([
       fetch('/api/backlinks', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'summary',target})}),
       fetch('/api/backlinks', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'backlinks',target})}),
@@ -300,62 +355,74 @@ async function analyze() {
     backlinksData = bkData.items || [];
     domainsData = dmData.items || [];
 
-    // Render metrics
+    // Metrics
+    const da = summary.domain_authority || 0;
+    const pa = summary.page_authority || 0;
+    const ld = summary.linking_domains || 0;
+    const spam = summary.spam_score || 0;
+
     document.getElementById('metrics-grid').innerHTML = [
-      ['Domain Authority', summary.domain_authority||0, 'Moz score 0-100 predicting how well this domain ranks on Google', '#2563eb', 'Above 40 = established. Above 60 = strong. Above 80 = very authoritative.'],
-      ['Page Authority', summary.page_authority||0, 'Moz score 0-100 for this specific page', '#7c3aed', 'Predicts ranking potential of this specific URL.'],
-      ['Linking Domains', (summary.linking_domains||0).toLocaleString(), 'Unique domains linking to this site', '#059669', 'Diversity of links matters more than total quantity.'],
-      ['Spam Score', (summary.spam_score||0)+'%', 'Moz spam detection score', '#f59e0b', 'Below 30% = clean. Above 60% = potentially spammy site.'],
-    ].map(([l,v,tip,c,explain]) => `
+      ['Domain Authority', da, 'Moz score 0-100. Predicts ranking strength.', '#2563eb', da >= 50 ? '🟢 Strong' : da >= 25 ? '🟡 Growing' : '🔴 New site'],
+      ['Page Authority', pa, 'Authority of this specific URL.', '#7c3aed', pa >= 40 ? '🟢 Good' : '🟡 Building'],
+      ['Linking Domains', ld.toLocaleString(), 'Unique domains linking to you. Diversity matters!', '#059669', ld >= 50 ? '🟢 Diverse' : ld >= 20 ? '🟡 Growing' : '🔴 Build more'],
+      ['Spam Score', spam+'%', 'Below 30% = clean. Above 60% = risky.', '#f59e0b', spam < 30 ? '🟢 Clean' : spam < 60 ? '🟡 Watch it' : '🔴 Risky'],
+    ].map(([l,v,tip,c,status]) => `
       <div class="metric-card">
         <div class="metric-label">${l} <span class="tt">?<span class="tt-box">${tip}</span></span></div>
-        <div class="metric-value" style="color:${c}">${typeof v === 'number' ? v.toLocaleString() : v}</div>
-        <div class="metric-sub">${explain}</div>
+        <div class="metric-value" style="color:${c}">${v}</div>
+        <div class="metric-sub">${status}</div>
       </div>`).join('');
 
     // Insights
     const insights = [];
-    const ld = summary.linking_domains || 0;
-    if(ld < 10) insights.push({color:'#dc2626',icon:'🔴',text:'Very few linking domains ('+ld+'). Focus on getting links from at least 20-30 unique domains before worrying about quantity.'});
-    else if(ld < 50) insights.push({color:'#f59e0b',icon:'🟡',text:'Growing backlink profile ('+ld+' linking domains). Keep building links from relevant sites in your niche.'});
-    else insights.push({color:'#16a34a',icon:'🟢',text:'Strong backlink profile with '+ld+' linking domains. Focus on link quality over quantity now.'});
+    if(da < 20) insights.push({color:'#dc2626',icon:'🚀',text:'DA '+da+' — Your domain is new. Focus on getting 20-30 relevant links from niche sites first. Quality beats quantity at this stage.'});
+    else if(da < 50) insights.push({color:'#f59e0b',icon:'⚡',text:'DA '+da+' — Building nicely! Target sites with DA 40+ in your niche. Aim for 20+ new links per month consistently.'});
+    else insights.push({color:'#16a34a',icon:'💪',text:'DA '+da+' — Strong authority! Now focus on link relevancy over quantity. One niche link beats a generic DR90 site.'});
 
-    const da = summary.domain_authority||0;
-    if(da < 20) insights.push({color:'#dc2626',icon:'🔴',text:'Low Domain Authority (DA '+da+'/100). Normal for new sites. Get links from relevant, established sites to grow this score over time.'});
-    else if(da < 50) insights.push({color:'#f59e0b',icon:'🟡',text:'Growing Domain Authority (DA '+da+'/100). You are building authority. Keep getting links from DA 40+ sites in your niche.'});
-    else insights.push({color:'#16a34a',icon:'🟢',text:'Strong Domain Authority (DA '+da+'/100). Your backlink profile is well established. Focus on quality and relevancy now.'});
+    if(ld < 20) insights.push({color:'#dc2626',icon:'🎯',text:'Only '+ld+' linking domains. Diversity is key — Google values links from many different domains. Aim for 20+ unique referring domains.'});
 
-    document.getElementById('insights-section').innerHTML = '<div style="margin-bottom:1.5rem;">'+
-      insights.map(i => `<div style="background:#fff;border-left:4px solid ${i.color};border-radius:8px;padding:1rem 1.25rem;margin-bottom:8px;font-size:14px;line-height:1.6;">${i.icon} ${i.text}</div>`).join('')+
+    const topRelevant = domainsData.filter(d => relevancyScore(d.domain, target) === 'high').length;
+    if(topRelevant > 0) insights.push({color:'#16a34a',icon:'✅',text:topRelevant+' highly relevant domains link to you. These are your most valuable links — build more from similar sites.'});
+
+    document.getElementById('insights-section').innerHTML = '<div style="margin-bottom:1.5rem;">' +
+      insights.map(i => `<div style="background:#fff;border-left:4px solid ${i.color};border-radius:8px;padding:1rem 1.25rem;margin-bottom:8px;font-size:14px;line-height:1.6;">${i.icon} ${i.text}</div>`).join('') +
       '</div>';
 
     // Backlinks table
-    document.getElementById('backlinks-sub').textContent = 'Top ' + backlinksData.length + ' dofollow backlinks sorted by domain rank';
-    document.getElementById('backlinks-tbody').innerHTML = backlinksData.map(b => `
-      <tr>
+    document.getElementById('backlinks-sub').textContent = 'Top ' + backlinksData.length + ' backlinks — sorted by Domain Authority';
+    document.getElementById('backlinks-tbody').innerHTML = backlinksData.map(b => {
+      const rel = relevancyScore(b.url_from, target);
+      return `<tr>
         <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
           <a href="${b.url_from}" target="_blank" style="color:#2563eb;text-decoration:none;">${b.url_from}</a>
         </td>
-        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#6b7280;">${b.anchor||'—'}</td>
-        <td class="r"><span class="rank-pill ${rankClass(b.domain_authority||0)}">${b.domain_authority||0}</span></td>
-        <td class="c"><span class="do-badge ${b.dofollow?'do-yes':'do-no'}">${b.dofollow?'Dofollow':'Nofollow'}</span></td>
-        <td style="color:#9ca3af;font-size:13px;">${b.first_seen||'—'}</td>
-      </tr>`).join('') || '<tr><td colspan="5" class="empty">No backlinks found.</td></tr>';
+        <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#6b7280;">${b.anchor||'—'}</td>
+        <td class="r"><span class="da-pill ${daClass(b.domain_authority||0)}">${b.domain_authority||0}</span></td>
+        <td><span class="do-badge ${b.dofollow?'do-yes':'do-no'}">${b.dofollow?'Dofollow':'Nofollow'}</span></td>
+        <td>${relBadge(rel)}</td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="5" class="empty">No backlinks found.</td></tr>';
 
     // Domains table
-    document.getElementById('domains-sub').textContent = 'Top ' + domainsData.length + ' referring domains sorted by rank';
-    document.getElementById('domains-tbody').innerHTML = domainsData.map(d => `
-      <tr>
+    document.getElementById('domains-sub').textContent = 'Top ' + domainsData.length + ' referring domains';
+    document.getElementById('domains-tbody').innerHTML = domainsData.map(d => {
+      const rel = relevancyScore(d.domain, target);
+      return `<tr>
         <td><a href="https://${d.domain}" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:600;">${d.domain}</a></td>
-        <td class="r"><span class="rank-pill ${rankClass(d.domain_authority||0)}">${d.domain_authority||0}</span></td>
+        <td class="r"><span class="da-pill ${daClass(d.domain_authority||0)}">${d.domain_authority||0}</span></td>
         <td class="r">${(d.links_to_target||0).toLocaleString()}</td>
-        <td style="color:#9ca3af;font-size:13px;">${d.first_seen||'—'}</td>
-      </tr>`).join('') || '<tr><td colspan="4" class="empty">No referring domains found.</td></tr>';
+        <td>${relBadge(rel)}</td>
+      </tr>`;
+    }).join('') || '<tr><td colspan="4" class="empty">No referring domains found.</td></tr>';
 
-    // Competitor tabs
+    // Outreach targets - generate from domains data + playbook
+    buildOutreachTargets(target, domainsData, competitor);
+
+    // Competitor
     if(competitor) {
-      document.getElementById('compare-tab').style.display = 'block';
-      document.getElementById('gap-tab').style.display = 'block';
+      document.getElementById('compare-tab').style.display = '';
+      document.getElementById('gap-tab').style.display = '';
+      document.getElementById('loading-text').textContent = 'Analyzing competitor...';
 
       const [compareRes, gapRes] = await Promise.all([
         fetch('/api/backlinks', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'compare',target,competitor})}),
@@ -363,58 +430,59 @@ async function analyze() {
       ]);
       const compareData = await compareRes.json();
       const gapData = await gapRes.json();
-
       const m = compareData.mine || {};
       const c = compareData.competitor || {};
+
       document.getElementById('compare-grid').innerHTML = `
         <div class="compare-card mine">
           <div class="compare-label">Your domain</div>
           <div class="compare-domain">${m.domain}</div>
-          <div class="compare-stat"><div class="compare-stat-val" style="color:#2563eb">${(m.backlinks||0).toLocaleString()}</div><div class="compare-stat-label">Total backlinks</div></div>
-          <div class="compare-stat"><div class="compare-stat-val">${(m.referring_domains||0).toLocaleString()}</div><div class="compare-stat-label">Referring domains</div></div>
-          <div class="compare-stat"><div class="compare-stat-val">${m.domain_authority||0}</div><div class="compare-stat-label">Domain Authority</div></div>
-          ${m.backlinks >= c.backlinks ? '<span class="compare-winner">✓ More backlinks</span>' : '<span class="compare-loser">Fewer backlinks</span>'}
+          <div class="compare-stat"><div class="compare-stat-val" style="color:#2563eb">${m.domain_authority||0}</div><div class="compare-stat-label">Domain Authority</div></div>
+          <div class="compare-stat"><div class="compare-stat-val">${(m.linking_domains||0).toLocaleString()}</div><div class="compare-stat-label">Linking Domains</div></div>
+          <div class="compare-stat"><div class="compare-stat-val">${(m.backlinks||0).toLocaleString()}</div><div class="compare-stat-label">Total Backlinks</div></div>
+          ${m.domain_authority >= c.domain_authority ? '<span class="compare-winner">✓ Higher DA</span>' : '<span class="compare-loser">Lower DA — build more links</span>'}
         </div>
         <div class="compare-card comp">
           <div class="compare-label">Competitor</div>
           <div class="compare-domain">${c.domain}</div>
-          <div class="compare-stat"><div class="compare-stat-val" style="color:#7c3aed">${(c.backlinks||0).toLocaleString()}</div><div class="compare-stat-label">Total backlinks</div></div>
-          <div class="compare-stat"><div class="compare-stat-val">${(c.referring_domains||0).toLocaleString()}</div><div class="compare-stat-label">Referring domains</div></div>
-          <div class="compare-stat"><div class="compare-stat-val">${c.domain_authority||0}</div><div class="compare-stat-label">Domain Authority</div></div>
-          ${c.backlinks >= m.backlinks ? '<span class="compare-winner">✓ More backlinks</span>' : '<span class="compare-loser">Fewer backlinks</span>'}
+          <div class="compare-stat"><div class="compare-stat-val" style="color:#7c3aed">${c.domain_authority||0}</div><div class="compare-stat-label">Domain Authority</div></div>
+          <div class="compare-stat"><div class="compare-stat-val">${(c.linking_domains||0).toLocaleString()}</div><div class="compare-stat-label">Linking Domains</div></div>
+          <div class="compare-stat"><div class="compare-stat-val">${(c.backlinks||0).toLocaleString()}</div><div class="compare-stat-label">Total Backlinks</div></div>
+          ${c.domain_authority >= m.domain_authority ? '<span class="compare-winner">✓ Higher DA</span>' : '<span class="compare-loser">Lower DA</span>'}
         </div>`;
 
       const gaps = gapData.items || [];
-      document.getElementById('gap-sub').textContent = gaps.length + ' domains link to '+competitor+' — these are your link building opportunities';
+      document.getElementById('gap-sub').textContent = gaps.length + ' domains link to ' + competitor + ' but not to you — these are your best opportunities!';
       document.getElementById('gap-list').innerHTML = gaps.map(g => `
-        <div class="opportunity-card">
-          <div>
-            <div class="opp-domain"><a href="https://${g.domain}" target="_blank" style="color:#1a1a1a;text-decoration:none;">${g.domain}</a></div>
-            <div class="opp-rank">Domain Authority: <b>DA ${g.domain_authority}</b> · ${g.links_to_competitor} links to competitor</div>
+        <div class="outreach-card">
+          <div class="outreach-domain"><a href="https://${g.domain}" target="_blank" style="color:#1a1a1a;text-decoration:none;">${g.domain}</a></div>
+          <div class="outreach-meta">DA ${g.domain_authority} · ${g.links_to_competitor} links to ${competitor}</div>
+          <div class="outreach-tags">
+            <span class="tag tag-outreach">📧 Outreach opportunity</span>
+            ${relevancyScore(g.domain, target) === 'high' ? '<span class="tag tag-niche">✓ Relevant niche</span>' : ''}
           </div>
-          <div class="opp-action">→ Get a link here</div>
-        </div>`).join('') || '<p class="empty">No gap opportunities found.</p>';
+          <div class="outreach-tip">💡 <b>Pitch:</b> "I noticed you linked to ${competitor} — we do the same thing but [your key differentiator]. Would love to be included in your resource."</div>
+        </div>`).join('') || '<p class="empty">No gap opportunities found. Try adding a competitor domain above.</p>';
+    }
+
+    // Access control
+    if (!isBasicOrPro()) {
+      incrementBacklinkUsage();
+      const usage = getBacklinkUsage();
+      const remaining = Math.max(0, 3 - usage.count);
+      document.getElementById('tab-btn-backlinks').style.display = 'none';
+      document.getElementById('tab-btn-domains').style.display = 'none';
+      document.getElementById('tab-btn-outreach').style.display = 'none';
+      document.getElementById('upgrade-section').innerHTML = `
+        <div class="upgrade-banner">
+          <div><b style="color:#1d4ed8;">🔒 ${remaining} free lookup${remaining===1?'':'s'} remaining today</b>
+          <div style="font-size:13px;color:#374151;margin-top:3px;">Upgrade to Basic for unlimited lookups, full backlink data, outreach targets & competitor analysis.</div></div>
+          <a href="${BASIC_LINK}" target="_blank" style="padding:9px 20px;background:#2563eb;color:#fff;border-radius:7px;font-size:13px;font-weight:700;text-decoration:none;">Upgrade — $5/mo →</a>
+        </div>`;
     }
 
     document.getElementById('loading').style.display = 'none';
     document.getElementById('results').style.display = 'block';
-
-    // Increment usage for free users
-    if (!isBasicOrPro()) {
-      incrementBacklinkUsage();
-      const usage = getBacklinkUsage();
-      const remaining = 3 - usage.count;
-      // Hide backlinks and domains tabs for free users
-      document.querySelectorAll('.tab-btn')[1].style.display = 'none';
-      document.querySelectorAll('.tab-btn')[2].style.display = 'none';
-      // Add upgrade banner
-      document.getElementById('insights-section').insertAdjacentHTML('beforeend',
-        '<div style="background:#eff6ff;border:1.5px solid #2563eb;border-radius:10px;padding:1rem 1.25rem;margin-top:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">' +
-        '<div><b style="color:#1d4ed8;">🔒 '+remaining+' free lookup'+(remaining===1?'':'s')+' remaining today</b><div style="font-size:13px;color:#374151;margin-top:3px;">Upgrade to Basic for unlimited lookups + full backlink & domain data.</div></div>' +
-        '<a href="https://markotanaskovic.lemonsqueezy.com/checkout/buy/eb41e07d-040a-4e31-b9e5-ab1c80d91cd7" target="_blank" style="padding:8px 18px;background:#2563eb;color:#fff;border-radius:7px;font-size:13px;font-weight:700;text-decoration:none;">Upgrade — $5/mo →</a>' +
-        '</div>'
-      );
-    }
 
   } catch(e) {
     alert('Error: ' + e.message);
@@ -423,22 +491,79 @@ async function analyze() {
   document.getElementById('analyze-btn').disabled = false;
 }
 
+function buildOutreachTargets(target, domains, competitor) {
+  const niche = target.replace(/\.[^.]+$/, '');
+  const outreachTargets = [
+    {
+      type: 'listicle',
+      title: `Find "best ${niche} tools" listicles`,
+      desc: `Search Google for "best ${niche} tools" or "top ${niche} software". The sites ranking top 10 are your #1 outreach targets. Getting listed there can send hundreds of qualified visitors.`,
+      tags: ['📋 Listicle outreach', '🎯 High priority'],
+      tip: `Email pitch: "Hi [name], I found your roundup of best ${niche} tools. We just launched [your tool] and thousands of users are getting [specific result]. Would love to be considered for your list — happy to offer an exclusive discount for your readers."`
+    },
+    {
+      type: 'niche',
+      title: `Target niche blogs in your space`,
+      desc: `A link from a small but relevant blog in your niche beats a generic DR90 link every time. Focus on sites that write about ${niche}-related topics.`,
+      tags: ['✍️ Guest post', '🎯 Relevancy focus'],
+      tip: `Offer to write a guest post. Pitch a specific topic that helps their audience and naturally includes a link to your tool. One email, one relationship — tick the GEO and SEO box at the same time.`
+    },
+    {
+      type: 'competitor',
+      title: competitor ? `Steal links from ${competitor}` : 'Competitor link stealing',
+      desc: competitor ? `${competitor} has links you don't. Each of those sites already knows they need tools like yours — they're pre-qualified prospects.` : 'Enter a competitor domain above to see exactly which sites link to them but not to you.',
+      tags: competitor ? ['🕵️ Competitor intel', '⚡ Quick wins'] : ['🔍 Add competitor above'],
+      tip: competitor ? `These sites already link to competitors — they're warm prospects. Lead with: "I noticed you mentioned ${competitor} — here's why [your tool] might be a better fit for your audience..."` : 'Add a competitor domain in the search bar above to unlock this feature.'
+    },
+    {
+      type: 'pr',
+      title: 'PR + affiliate combo strategy',
+      desc: 'Work inside PR and affiliate networks. When someone Googles "best [your category]" you want to show up everywhere — organic, paid, and in AI results simultaneously.',
+      tags: ['📰 PR strategy', '🤖 AI mentions'],
+      tip: `Create a free tool, dataset, or study that journalists and bloggers want to link to. Even a simple "State of [your niche] 2026" report can generate 50+ editorial links from people citing your data.`
+    }
+  ];
+
+  document.getElementById('outreach-list').innerHTML = outreachTargets.map(t => `
+    <div class="outreach-card">
+      <div class="outreach-domain">${t.title}</div>
+      <div class="outreach-meta" style="margin-bottom:8px;">${t.desc}</div>
+      <div class="outreach-tags">${t.tags.map(tag => `<span class="tag tag-outreach">${tag}</span>`).join('')}</div>
+      <div class="outreach-tip">💡 <b>How to execute:</b> ${t.tip}</div>
+    </div>`).join('');
+
+  // Add high-DA referring domains as extra outreach targets
+  if(domains.length > 0) {
+    const topDomains = domains.filter(d => d.domain_authority >= 40).slice(0, 5);
+    if(topDomains.length > 0) {
+      document.getElementById('outreach-list').insertAdjacentHTML('beforeend', `
+        <div style="margin-top:1.5rem;margin-bottom:8px;font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Sites already linking to you (high DA — ask for more links)</div>
+        ${topDomains.map(d => `
+          <div class="outreach-card" style="border-color:#16a34a;">
+            <div class="outreach-domain"><a href="https://${d.domain}" target="_blank" style="color:#1a1a1a;text-decoration:none;">${d.domain}</a> <span style="font-size:12px;color:#16a34a;font-weight:600;">DA ${d.domain_authority}</span></div>
+            <div class="outreach-meta">Already links to you — ask them to link to more of your pages or mention you in new content.</div>
+            <div class="outreach-tip">💡 They already like you! Reach out to deepen the relationship: offer exclusive content, data, or a partnership.</div>
+          </div>`).join('')}`);
+    }
+  }
+}
+
 document.getElementById('target-input').addEventListener('keydown', e => { if(e.key==='Enter') analyze(); });
 
 function exportBacklinks() {
-  const rows = [['URL From','Anchor','Domain Rank','Dofollow','First Seen']];
-  backlinksData.forEach(b => rows.push([b.url_from,b.anchor||'',b.domain_authority||0,b.dofollow?'Yes':'No',b.first_seen||'']));
+  const rows = [['URL From','Anchor','Domain Authority','Dofollow','Relevancy']];
+  backlinksData.forEach(b => rows.push([b.url_from, b.anchor||'', b.domain_authority||0, b.dofollow?'Yes':'No', relevancyScore(b.url_from, currentTarget)]));
   dl(rows,'backlinks');
 }
 function exportDomains() {
-  const rows = [['Domain','Rank','Backlinks','First Seen']];
-  domainsData.forEach(d => rows.push([d.domain,d.domain_authority||0,d.backlinks||0,d.first_seen||'']));
+  const rows = [['Domain','Domain Authority','Links to Target','Relevancy']];
+  domainsData.forEach(d => rows.push([d.domain, d.domain_authority||0, d.links_to_target||0, relevancyScore(d.domain, currentTarget)]));
   dl(rows,'domains');
 }
-function dl(rows,name){
-  const a=document.createElement('a');
-  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n'));
-  a.download='maximus-'+name+'.csv';
+function dl(rows, name) {
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(rows.map(r => r.map(v => '"'+v+'"').join(',')).join('\n'));
+  a.download = 'maximus-' + name + '.csv';
   a.click();
 }
 </script>
