@@ -41,10 +41,13 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64p
 .metric-value{font-size:28px;font-weight:800;margin-bottom:4px;}
 .metric-sub{font-size:12px;color:#9ca3af;}
 
-.tt{position:relative;display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:#e5e7eb;color:#6b7280;font-size:9px;font-weight:700;cursor:help;}
+.tt{position:relative;display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:#2563eb;color:#fff;font-size:9px;font-weight:700;cursor:help;margin-left:4px;flex-shrink:0;}
 .tt:hover .tt-box{display:block;}
-.tt-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;padding:8px 12px;border-radius:8px;white-space:nowrap;z-index:999;line-height:1.6;min-width:220px;font-weight:400;}
+.tt-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;font-size:12px;padding:10px 14px;border-radius:8px;z-index:9999;line-height:1.7;min-width:240px;font-weight:400;white-space:normal;}
 .tt-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
+th{cursor:pointer;user-select:none;}
+th:hover{background:#f0f7ff;}
+.sort-arrow{font-size:10px;margin-left:4px;color:#9ca3af;}
 
 .data-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
 .data-header{padding:14px 18px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
@@ -185,11 +188,11 @@ footer a{color:#2563eb;text-decoration:none;}
         <div style="overflow-x:auto;">
           <table>
             <thead><tr>
-              <th>Linking Page</th>
+              <th onclick="sortTable('backlinks-tbody',0,false)">Linking Page <span class="sort-arrow">↕</span></th>
               <th>Anchor Text</th>
-              <th class="r">DA <span class="tt">?<span class="tt-box">Domain Authority — Moz score 0-100.<br>Above 40 = strong link. Above 60 = very valuable.</span></span></th>
+              <th class="r" onclick="sortTable('backlinks-tbody',2,true)">DA <span class="sort-arrow">↕</span> <span class="tt">?<span class="tt-box"><b>Domain Authority (DA)</b> is Moz's score from 0-100 that predicts how well a domain ranks on Google. A link from a DA 50+ site is very valuable. DA 20-50 is decent. Below 20 is low authority. Focus on DA AND relevancy — a DA 20 niche site beats a DA 80 random site.</span></span></th>
               <th>Type</th>
-              <th>Relevancy <span class="tt">?<span class="tt-box">How relevant this linking page is to your niche.<br>Relevant links matter more than high-DA links!</span></span></th>
+              <th onclick="sortTable('backlinks-tbody',4,false)">Relevancy <span class="sort-arrow">↕</span> <span class="tt">?<span class="tt-box"><b>Relevancy Score</b> measures how related the linking page is to your niche. A relevant link from a small site beats a generic link from a big site — Google cares about context!</span></span></th>
             </tr></thead>
             <tbody id="backlinks-tbody"></tbody>
           </table>
@@ -207,10 +210,10 @@ footer a{color:#2563eb;text-decoration:none;}
         <div style="overflow-x:auto;">
           <table>
             <thead><tr>
-              <th>Domain</th>
-              <th class="r">DA</th>
-              <th class="r">Links</th>
-              <th>Relevancy</th>
+              <th onclick="sortTable('domains-tbody',0,false)">Domain <span class="sort-arrow">↕</span></th>
+              <th class="r" onclick="sortTable('domains-tbody',1,true)">DA <span class="sort-arrow">↕</span></th>
+              <th class="r" onclick="sortTable('domains-tbody',2,true)">Links <span class="sort-arrow">↕</span></th>
+              <th onclick="sortTable('domains-tbody',3,false)">Relevancy <span class="sort-arrow">↕</span></th>
             </tr></thead>
             <tbody id="domains-tbody"></tbody>
           </table>
@@ -615,6 +618,24 @@ function exportDomains() {
   domainsData.forEach(d => rows.push([d.domain, d.domain_authority||0, d.links_to_target||0, relevancyScore(d.domain, currentTarget)]));
   dl(rows,'domains');
 }
+let sortState = {};
+function sortTable(tableId, col, isNum) {
+  const tbody = document.getElementById(tableId);
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const key = tableId + col;
+  const asc = sortState[key] !== true;
+  sortState[key] = asc;
+  rows.sort((a, b) => {
+    const aVal = a.cells[col] ? a.cells[col].textContent.trim().replace(/[^0-9.]/g,'') : '';
+    const bVal = b.cells[col] ? b.cells[col].textContent.trim().replace(/[^0-9.]/g,'') : '';
+    if (isNum) return asc ? Number(aVal) - Number(bVal) : Number(bVal) - Number(aVal);
+    return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+  // Update arrows
+  document.querySelectorAll(`#${tableId}`).forEach(() => {});
+}
+
 function dl(rows, name) {
   const a = document.createElement('a');
   a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(rows.map(r => r.map(v => '"'+v+'"').join(',')).join('\n'));
