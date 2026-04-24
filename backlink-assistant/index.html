@@ -320,9 +320,9 @@ function isBasicOrPro() {
 
 function getLimit() {
   const plan = getUserPlan();
-  if (plan === 'pro') return { domains: 999, backlinks: 100, label: 'Pro' };
-  if (plan === 'basic') return { domains: 5, backlinks: 50, label: 'Basic' };
-  return { domains: 1, backlinks: 25, label: 'Free' };
+  if (plan === 'pro') return { backlinks: 100, label: 'Pro' };
+  if (plan === 'basic') return { backlinks: 50, label: 'Basic' };
+  return { backlinks: 25, label: 'Free' };
 }
 
 async function analyze() {
@@ -332,18 +332,6 @@ async function analyze() {
 
   const plan = getUserPlan();
   const limits = getLimit();
-  
-  if (plan !== 'pro') {
-    const usage = getMonthlyUsage();
-    if (usage.count >= limits.domains) {
-      const msg = plan === 'free' || plan === 'guest' 
-        ? 'You have used your 1 free backlink lookup this month.\n\nUpgrade to Basic ($5/mo) for 5 domains/month!'
-        : 'You have used all 5 Basic plan lookups this month.\n\nUpgrade to Pro ($20/mo) for unlimited domains!';
-      alert(msg);
-      window.open(BASIC_LINK, '_blank');
-      return;
-    }
-  }
 
   currentTarget = target;
   document.getElementById('analyze-btn').disabled = true;
