@@ -20,7 +20,8 @@ module.exports = async function handler(req, res) {
     const searchRes = await fetch(searchUrl);
     const searchData = await searchRes.json();
 
-    if (searchData.error) return res.status(400).json({ error: searchData.error.message });
+    console.log('Google Search response:', JSON.stringify(searchData).slice(0, 500));
+    if (searchData.error) return res.status(400).json({ error: searchData.error.message + ' | code: ' + searchData.error.code + ' | status: ' + searchData.error.status });
 
     const items = searchData.items || [];
     if (!items.length) return res.status(200).json({ results: [] });
