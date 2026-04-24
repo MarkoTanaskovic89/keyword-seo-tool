@@ -44,12 +44,21 @@ module.exports = async function handler(req, res) {
     }
 
     if (action === 'referring_domains') {
-      const result = await mozCall('linking_root_domains', {
-        target,
-        target_scope: 'root_domain',
-        page_size: 25,
-        select: ['domain_authority', 'root_domain', 'external_links_to_target']
-      });
+      let allDomains = [];
+      let nextToken2 = null;
+      for (let i = 0; i < 4; i++) {
+        const payload = {
+          target,
+          target_scope: 'root_domain',
+          select: ['domain_authority', 'root_domain', 'external_links_to_target']
+        };
+        if (nextToken2) payload.next_token = nextToken2;
+        const page = await mozCall('linking_root_domains', payload);
+        allDomains = allDomains.concat(page.results || []);
+        if (!page.next_token) break;
+        nextToken2 = page.next_token;
+      }
+      const result = { results: allDomains };
       const items = (result.results || []).map(d => ({
         domain: d.root_domain || d.domain || '',
         domain_authority: d.domain_authority || 0,
@@ -59,13 +68,23 @@ module.exports = async function handler(req, res) {
     }
 
     if (action === 'backlinks') {
-      const result = await mozCall('links', {
-        target,
-        target_scope: 'root_domain',
-        filter: 'external',
-        page_size: 25,
-        select: ['page_authority', 'domain_authority', 'source_url', 'target_url', 'anchor_text', 'nofollow']
-      });
+      // Paginate to get up to 100 backlinks
+      let allLinks = [];
+      let nextToken = null;
+      for (let i = 0; i < 4; i++) {
+        const payload = {
+          target,
+          target_scope: 'root_domain',
+          filter: 'external',
+          select: ['page_authority', 'domain_authority', 'source_url', 'target_url', 'anchor_text', 'nofollow']
+        };
+        if (nextToken) payload.next_token = nextToken;
+        const page = await mozCall('links', payload);
+        allLinks = allLinks.concat(page.results || []);
+        if (!page.next_token) break;
+        nextToken = page.next_token;
+      }
+      const result = { results: allLinks };
       const items = (result.results || []).map(b => ({
         url_from: (b.source && ('https://' + b.source.page)) || b.source_url || '',
         url_to: (b.target && ('https://' + b.target.page)) || b.target_url || '',
@@ -103,12 +122,21 @@ module.exports = async function handler(req, res) {
     }
 
     if (action === 'link_gap') {
-      const result = await mozCall('linking_root_domains', {
-        target: competitor,
-        target_scope: 'root_domain',
-        page_size: 25,
-        select: ['domain_authority', 'root_domain', 'external_links_to_target']
-      });
+      let gapDomains = [];
+      let nextToken3 = null;
+      for (let i = 0; i < 2; i++) {
+        const payload = {
+          target: competitor,
+          target_scope: 'root_domain',
+          select: ['domain_authority', 'root_domain', 'external_links_to_target']
+        };
+        if (nextToken3) payload.next_token = nextToken3;
+        const page = await mozCall('linking_root_domains', payload);
+        gapDomains = gapDomains.concat(page.results || []);
+        if (!page.next_token) break;
+        nextToken3 = page.next_token;
+      }
+      const result = { results: gapDomains };
       const items = (result.results || []).map(d => ({
         domain: d.root_domain || d.domain,
         domain_authority: d.domain_authority || 0,
