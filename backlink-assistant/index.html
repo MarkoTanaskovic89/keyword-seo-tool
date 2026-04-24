@@ -49,11 +49,11 @@ th{cursor:pointer;user-select:none;}
 th:hover{background:#f0f7ff;}
 .sort-arrow{font-size:10px;margin-left:4px;color:#9ca3af;}
 
-.data-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
+.data-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:visible;margin-bottom:1.5rem;}
 .data-header{padding:14px 18px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 .data-title{font-size:15px;font-weight:700;}
 .data-sub{font-size:13px;color:#6b7280;margin-top:3px;}
-table{width:100%;border-collapse:collapse;}
+table{width:100%;border-collapse:collapse;overflow:visible;}
 th{text-align:left;padding:10px 16px;font-size:11px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;background:#f9fafb;border-bottom:1px solid #e5e7eb;}
 th.r,td.r{text-align:right;}
 td{padding:11px 16px;font-size:14px;border-bottom:1px solid #f3f4f6;}
@@ -185,13 +185,13 @@ footer a{color:#2563eb;text-decoration:none;}
           <div><div class="data-title">Top backlinks</div><div class="data-sub" id="backlinks-sub"></div></div>
           <button class="btn-export" onclick="exportBacklinks()">Export CSV</button>
         </div>
-        <div style="overflow-x:auto;">
+        <div style="overflow-x:auto;overflow-y:visible;">
           <table>
             <thead><tr>
               <th onclick="sortTable('backlinks-tbody',0,false)">Linking Page <span class="sort-arrow">↕</span></th>
               <th>Anchor Text</th>
               <th class="r" onclick="sortTable('backlinks-tbody',2,true)">DA <span class="sort-arrow">↕</span> <span class="tt">?<span class="tt-box"><b>Domain Authority (DA)</b> is Moz's score from 0-100 that predicts how well a domain ranks on Google. A link from a DA 50+ site is very valuable. DA 20-50 is decent. Below 20 is low authority. Focus on DA AND relevancy — a DA 20 niche site beats a DA 80 random site.</span></span></th>
-              <th>Type</th>
+              <th onclick="sortTable('backlinks-tbody',3,false)">Type <span class="sort-arrow">↕</span></th>
               <th onclick="sortTable('backlinks-tbody',4,false)">Relevancy <span class="sort-arrow">↕</span> <span class="tt">?<span class="tt-box"><b>Relevancy Score</b> measures how related the linking page is to your niche. A relevant link from a small site beats a generic link from a big site — Google cares about context!</span></span></th>
             </tr></thead>
             <tbody id="backlinks-tbody"></tbody>
@@ -490,50 +490,13 @@ async function buildOutreachTargets(target, domains, competitor) {
 
   try {
     // Use Claude API to analyze niche and generate outreach strategy
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{
-          role: "user",
-          content: `Analyze this domain and create a link building outreach strategy.
-
-Domain: ${target}
-Competitor: ${competitor || 'not provided'}
-Top referring domains: ${domains.slice(0,5).map(d=>d.domain).join(', ') || 'none yet'}
-
-Based on the domain name and referring domains, figure out what niche/industry this site is in.
-
-Respond ONLY with a valid JSON object, no markdown, no backticks:
-{
-  "niche": "one sentence description of what this site does",
-  "industry": "the industry category (e.g. SEO tools, e-commerce, SaaS, etc)",
-  "listicle_keywords": ["best X tools", "top X software", "X alternatives"] (3 specific search queries),
-  "outreach_targets": [
-    {
-      "type": "listicle|blog|directory|press",
-      "title": "specific outreach target description",
-      "why": "why this is valuable",
-      "email_subject": "specific email subject line",
-      "email_body": "personalized 3-sentence email pitch"
-    }
-  ] (4 targets),
-  "quick_wins": ["3 specific quick win actions they can take this week"]
-}`
-        }]
-      })
+    const aiRes = await fetch('/api/outreach', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ target, competitor, domains })
     });
-
-    const data = await response.json();
-    const text = data.content[0].text;
-    let ai;
-    try {
-      ai = JSON.parse(text.replace(/```json|```/g, '').trim());
-    } catch(e) {
-      throw new Error('AI parse error');
-    }
+    const ai = await aiRes.json();
+    if (ai.error) throw new Error(ai.error);
 
     const typeColors = {listicle:'#2563eb', blog:'#16a34a', directory:'#7c3aed', press:'#f59e0b'};
     const typeLabels = {listicle:'📋 Listicle', blog:'✍️ Blog', directory:'📁 Directory', press:'📰 Press'};
