@@ -566,17 +566,14 @@ let emailStore = [];
 let outreachTargetsList = [];
 
 async function findAndSend(idx) {
-  const target = document.getElementById('target-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
   const resultDiv = document.getElementById('hunter-result-' + idx);
   const email = emailStore[idx];
   if (!email) return;
 
-  // Extract domain from outreach target title to search
-  resultDiv.innerHTML = '<div style="font-size:13px;color:#6b7280;padding:8px 0;">🔍 Searching for contact emails...</div>';
-
-  // Ask user for target domain
-  const targetDomain = prompt('Enter the domain you want to contact (e.g. ahrefs.com):');
+  const targetDomain = prompt('Enter the domain to find contact for (e.g. ahrefs.com):');
   if (!targetDomain) { resultDiv.innerHTML = ''; return; }
+
+  resultDiv.innerHTML = '<div style="font-size:13px;color:#6b7280;padding:8px 0;">Searching for contacts at ' + targetDomain + '...</div>';
 
   try {
     const res = await fetch('/api/hunter', {
@@ -585,39 +582,44 @@ async function findAndSend(idx) {
       body: JSON.stringify({ action: 'find_email', domain: targetDomain })
     });
     const data = await res.json();
-    if (data.error) { resultDiv.innerHTML = '<div style="color:#dc2626;font-size:13px;">❌ ' + data.error + '</div>'; return; }
+    
+    if (data.error) {
+      resultDiv.innerHTML = '<div style="color:#dc2626;font-size:13px;">Error: ' + data.error + '</div>';
+      return;
+    }
 
     if (!data.emails || data.emails.length === 0) {
-      resultDiv.innerHTML = '<div style="font-size:13px;color:#f59e0b;padding:8px;background:#fffbeb;border-radius:6px;">⚠️ No emails found for ' + targetDomain + '. Try their contact page manually.</div>';
+      resultDiv.innerHTML = '<div style="font-size:13px;color:#f59e0b;padding:8px;background:#fffbeb;border-radius:6px;">No emails found for ' + targetDomain + '. Try their contact page manually.</div>';
       return;
     }
 
     const topEmail = data.emails[0];
     const greeting = topEmail.name ? 'Hi ' + topEmail.name.split(' ')[0] + ',' : 'Hi there,';
-    const personalizedBody = email.body.replace('Hi [Name],', greeting);
+    const body = email.body.replace('Hi [Name],', greeting);
+    const subject = email.subject;
 
-    resultDiv.innerHTML = \`
-      <div style="background:#f0fdf4;border:1.5px solid #16a34a;border-radius:8px;padding:12px;font-size:13px;">
-        <div style="font-weight:700;color:#15803d;margin-bottom:8px;">✅ Found \${data.emails.length} contact\${data.emails.length>1?'s':''} at \${targetDomain}</div>
-        \${data.emails.slice(0,3).map(e => \`
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #dcfce7;">
-            <div>
-              <b>\${e.email}</b>
-              \${e.name ? '<span style="color:#6b7280;margin-left:8px;">' + e.name + '</span>' : ''}
-              \${e.position ? '<span style="color:#9ca3af;margin-left:6px;font-size:11px;">' + e.position + '</span>' : ''}
-            </div>
-            <a href="mailto:\${e.email}?subject=\${encodeURIComponent(email.subject)}&body=\${encodeURIComponent(personalizedBody)}"
-               style="padding:5px 12px;background:#2563eb;color:#fff;border-radius:5px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;">
-              ✉️ Send email
-            </a>
-          </div>\`).join('')}
-        <div style="font-size:11px;color:#9ca3af;margin-top:6px;">Confidence: \${data.emails[0].confidence}% · Powered by Hunter.io</div>
-      </div>\`;
+    let html = '<div style="background:#f0fdf4;border:1.5px solid #16a34a;border-radius:8px;padding:12px;font-size:13px;">';
+    html += '<div style="font-weight:700;color:#15803d;margin-bottom:8px;">Found ' + data.emails.length + ' contact(s) at ' + targetDomain + '</div>';
+    
+    data.emails.slice(0,3).forEach(function(e) {
+      const mailtoUrl = 'mailto:' + e.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #dcfce7;gap:8px;flex-wrap:wrap;">';
+      html += '<div><b>' + e.email + '</b>';
+      if (e.name) html += '<span style="color:#6b7280;margin-left:8px;">' + e.name + '</span>';
+      if (e.position) html += '<span style="color:#9ca3af;margin-left:6px;font-size:11px;">' + e.position + '</span>';
+      html += '</div>';
+      html += '<a href="' + mailtoUrl + '" style="padding:6px 14px;background:#2563eb;color:#fff;border-radius:5px;font-size:12px;font-weight:700;text-decoration:none;white-space:nowrap;">Send email</a>';
+      html += '</div>';
+    });
+    
+    html += '<div style="font-size:11px;color:#9ca3af;margin-top:6px;">Confidence: ' + data.emails[0].confidence + '% · Powered by Hunter.io</div>';
+    html += '</div>';
+    resultDiv.innerHTML = html;
+
   } catch(e) {
-    resultDiv.innerHTML = '<div style="color:#dc2626;font-size:13px;">❌ Error: ' + e.message + '</div>';
+    resultDiv.innerHTML = '<div style="color:#dc2626;font-size:13px;">Error: ' + e.message + '</div>';
   }
 }
-
 function copyEmail(idx) {
   if (!emailStore[idx]) return;
   const {subject, body} = emailStore[idx];
