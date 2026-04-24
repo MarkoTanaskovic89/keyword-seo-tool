@@ -155,7 +155,7 @@ footer a{color:#2563eb;text-decoration:none;}
     <div class="input-row">
       <input type="text" id="target-input" placeholder="Your domain (e.g. yourdomain.com)" />
       <input type="text" id="competitor-input" placeholder="Competitor domain (optional)" />
-      <button class="btn-primary" id="analyze-btn" onclick="analyze()">Analyze →</button>
+      <button class="btn-primary" id="analyze-btn">Analyze →</button>
     </div>
   </div>
 
@@ -607,6 +607,7 @@ ${body}`).then(() => {
 }
 
 document.getElementById('target-input').addEventListener('keydown', e => { if(e.key==='Enter') analyze(); });
+document.getElementById('analyze-btn').addEventListener('click', analyze);
 
 function exportBacklinks() {
   const rows = [['URL From','Anchor','Domain Authority','Dofollow','Relevancy']];
