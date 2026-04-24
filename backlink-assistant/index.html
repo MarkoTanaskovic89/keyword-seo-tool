@@ -292,24 +292,37 @@ function relBadge(level) {
   return `<span class="rel-score ${cls[level]}">${map[level]}</span>`;
 }
 
-function getBacklinkUsage() {
-  const today = new Date().toDateString();
-  const stored = JSON.parse(localStorage.getItem('bl_usage') || '{"date":"","count":0}');
-  if (stored.date !== today) return { date: today, count: 0 };
+function getMonthlyUsage() {
+  const month = new Date().toISOString().slice(0, 7); // YYYY-MM
+  const stored = JSON.parse(localStorage.getItem('bl_monthly') || '{"month":"","count":0}');
+  if (stored.month !== month) return { month, count: 0 };
   return stored;
 }
 
-function incrementBacklinkUsage() {
-  const usage = getBacklinkUsage();
+function incrementMonthlyUsage() {
+  const usage = getMonthlyUsage();
   usage.count++;
-  localStorage.setItem('bl_usage', JSON.stringify(usage));
+  localStorage.setItem('bl_monthly', JSON.stringify(usage));
+}
+
+function getUserPlan() {
+  const user = JSON.parse(localStorage.getItem('kp_user') || 'null');
+  if (!user) return 'guest';
+  if (user.email === 'markotanaskovic89@gmail.com' || user.email === 'markotanaskovic55@gmail.com') return 'pro';
+  if (user.plan === 'pro') return 'pro';
+  if (user.plan === 'basic' || user.plan === 'premium') return 'basic';
+  return 'free';
 }
 
 function isBasicOrPro() {
-  const user = JSON.parse(localStorage.getItem('kp_user') || 'null');
-  if (!user) return false;
-  return user.plan === 'basic' || user.plan === 'premium' || user.plan === 'pro' || 
-    user.email === 'markotanaskovic89@gmail.com' || user.email === 'markotanaskovic55@gmail.com';
+  return getUserPlan() === 'basic' || getUserPlan() === 'pro';
+}
+
+function getLimit() {
+  const plan = getUserPlan();
+  if (plan === 'pro') return { domains: 999, backlinks: 100, label: 'Pro' };
+  if (plan === 'basic') return { domains: 5, backlinks: 50, label: 'Basic' };
+  return { domains: 1, backlinks: 25, label: 'Free' };
 }
 
 async function analyze() {
@@ -317,10 +330,16 @@ async function analyze() {
   const competitor = document.getElementById('competitor-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
   if (!target) { alert('Please enter a domain to analyze.'); return; }
 
-  if (!isBasicOrPro()) {
-    const usage = getBacklinkUsage();
-    if (usage.count >= 3) {
-      alert('You have used your 3 free daily lookups.\n\nUpgrade to Basic ($5/mo) for unlimited backlink analysis!');
+  const plan = getUserPlan();
+  const limits = getLimit();
+  
+  if (plan !== 'pro') {
+    const usage = getMonthlyUsage();
+    if (usage.count >= limits.domains) {
+      const msg = plan === 'free' || plan === 'guest' 
+        ? 'You have used your 1 free backlink lookup this month.\n\nUpgrade to Basic ($5/mo) for 5 domains/month!'
+        : 'You have used all 5 Basic plan lookups this month.\n\nUpgrade to Pro ($20/mo) for unlimited domains!';
+      alert(msg);
       window.open(BASIC_LINK, '_blank');
       return;
     }
