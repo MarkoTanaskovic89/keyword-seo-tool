@@ -47,7 +47,7 @@ module.exports = async function handler(req, res) {
       const result = await mozCall('linking_root_domains', {
         target,
         target_scope: 'root_domain',
-        limit: 50,
+        limit: 500,
         select: ['domain_authority', 'root_domain', 'external_links_to_target']
       });
       const items = (result.results || []).map(d => ({
@@ -63,7 +63,7 @@ module.exports = async function handler(req, res) {
         target,
         target_scope: 'root_domain',
         filter: 'external',
-        limit: 50,
+        limit: 500,
         select: ['page_authority', 'domain_authority', 'source_url', 'target_url', 'anchor_text', 'nofollow']
       });
       const items = (result.results || []).map(b => ({
@@ -106,7 +106,7 @@ module.exports = async function handler(req, res) {
       const result = await mozCall('linking_root_domains', {
         target: competitor,
         target_scope: 'root_domain',
-        limit: 50,
+        limit: 500,
         select: ['domain_authority', 'root_domain', 'external_links_to_target']
       });
       const items = (result.results || []).map(d => ({
