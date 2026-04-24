@@ -80,14 +80,25 @@ module.exports = async function handler(req, res) {
     if (action === 'compare') {
       const result = await mozCall('url_metrics', {
         targets: [target, competitor],
-        select: ['domain_authority', 'root_domains_to_root_domain', 'external_links_to_root_domain']
+        select: ['domain_authority', 'page_authority', 'root_domains_to_root_domain', 'external_pages_to_page', 'spam_score']
       });
       const results = result.results || [];
       const m = results[0] || {};
       const c = results[1] || {};
+      console.log('Compare results:', JSON.stringify(results).slice(0,400));
       return res.status(200).json({
-        mine: { domain: target, domain_authority: m.domain_authority||0, linking_domains: m.root_domains_to_root_domain||0, backlinks: m.external_links_to_root_domain||0 },
-        competitor: { domain: competitor, domain_authority: c.domain_authority||0, linking_domains: c.root_domains_to_root_domain||0, backlinks: c.external_links_to_root_domain||0 }
+        mine: { 
+          domain: target, 
+          domain_authority: m.domain_authority||0, 
+          linking_domains: m.root_domains_to_root_domain||0, 
+          backlinks: m.external_pages_to_page||m.pages_to_page||0
+        },
+        competitor: { 
+          domain: competitor, 
+          domain_authority: c.domain_authority||0, 
+          linking_domains: c.root_domains_to_root_domain||0, 
+          backlinks: c.external_pages_to_page||c.pages_to_page||0
+        }
       });
     }
 
