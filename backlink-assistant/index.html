@@ -135,7 +135,7 @@ footer a{color:#2563eb;text-decoration:none;}
 <div class="hero">
   <div class="hero-badge">🔗 Powered by Moz API — Real Backlink Data</div>
   <h1>Backlink Assistant</h1>
-  <p>Analyze backlinks, find outreach targets, discover link gaps — and follow the exact playbook that generates $137K/month from Google.</p>
+  <p>Analyze backlinks, find outreach targets, discover link gaps — and get AI-generated personalized outreach emails for your niche.</p>
   <div class="hero-checks">
     <span>✓ Domain Authority data</span>
     <span>✓ Outreach targets</span>
@@ -220,16 +220,6 @@ footer a{color:#2563eb;text-decoration:none;}
 
     <!-- Outreach Targets -->
     <div id="tab-outreach" style="display:none;">
-      <div class="playbook-card">
-        <div class="playbook-title">🎯 The $137K Link Building Playbook</div>
-        <div class="playbook-sub">Focus on relevancy, not DR. One niche link beats a generic DR90 every time.</div>
-        <div class="playbook-steps">
-          <div class="playbook-step"><div class="step-num">Step 1</div><div class="step-title">Find listicles</div><div class="step-desc">Target "best [your category]" pages that rank top 10 — get listed there.</div></div>
-          <div class="playbook-step"><div class="step-num">Step 2</div><div class="step-title">One email, two goals</div><div class="step-desc">Each outreach email ticks both SEO and GEO (AI mentions) boxes simultaneously.</div></div>
-          <div class="playbook-step"><div class="step-num">Step 3</div><div class="step-title">20+ links/month</div><div class="step-desc">Consistency beats bursts. Build links at scale, every single month, no excuses.</div></div>
-          <div class="playbook-step"><div class="step-num">Step 4</div><div class="step-title">Update your money page</div><div class="step-desc">SERPs change constantly. The page that ranked 6 months ago needs refreshing today.</div></div>
-        </div>
-      </div>
       <div id="outreach-list"></div>
     </div>
 
@@ -416,7 +406,7 @@ async function analyze() {
     }).join('') || '<tr><td colspan="4" class="empty">No referring domains found.</td></tr>';
 
     // Outreach targets - generate from domains data + playbook
-    buildOutreachTargets(target, domainsData, competitor);
+    await buildOutreachTargets(target, domainsData, competitor);
 
     // Competitor
     if(competitor) {
@@ -491,61 +481,126 @@ async function analyze() {
   document.getElementById('analyze-btn').disabled = false;
 }
 
-function buildOutreachTargets(target, domains, competitor) {
-  const niche = target.replace(/\.[^.]+$/, '');
-  const outreachTargets = [
+async function buildOutreachTargets(target, domains, competitor) {
+  const outreachList = document.getElementById('outreach-list');
+  outreachList.innerHTML = '<div class="loading"><div class="spinner"></div><p style="margin-top:1rem;color:#6b7280;">AI is analyzing your niche and generating outreach strategy...</p></div>';
+
+  try {
+    // Use Claude API to analyze niche and generate outreach strategy
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{
+          role: "user",
+          content: `Analyze this domain and create a link building outreach strategy.
+
+Domain: ${target}
+Competitor: ${competitor || 'not provided'}
+Top referring domains: ${domains.slice(0,5).map(d=>d.domain).join(', ') || 'none yet'}
+
+Based on the domain name and referring domains, figure out what niche/industry this site is in.
+
+Respond ONLY with a valid JSON object, no markdown, no backticks:
+{
+  "niche": "one sentence description of what this site does",
+  "industry": "the industry category (e.g. SEO tools, e-commerce, SaaS, etc)",
+  "listicle_keywords": ["best X tools", "top X software", "X alternatives"] (3 specific search queries),
+  "outreach_targets": [
     {
-      type: 'listicle',
-      title: `Find "best ${niche} tools" listicles`,
-      desc: `Search Google for "best ${niche} tools" or "top ${niche} software". The sites ranking top 10 are your #1 outreach targets. Getting listed there can send hundreds of qualified visitors.`,
-      tags: ['📋 Listicle outreach', '🎯 High priority'],
-      tip: `Email pitch: "Hi [name], I found your roundup of best ${niche} tools. We just launched [your tool] and thousands of users are getting [specific result]. Would love to be considered for your list — happy to offer an exclusive discount for your readers."`
-    },
-    {
-      type: 'niche',
-      title: `Target niche blogs in your space`,
-      desc: `A link from a small but relevant blog in your niche beats a generic DR90 link every time. Focus on sites that write about ${niche}-related topics.`,
-      tags: ['✍️ Guest post', '🎯 Relevancy focus'],
-      tip: `Offer to write a guest post. Pitch a specific topic that helps their audience and naturally includes a link to your tool. One email, one relationship — tick the GEO and SEO box at the same time.`
-    },
-    {
-      type: 'competitor',
-      title: competitor ? `Steal links from ${competitor}` : 'Competitor link stealing',
-      desc: competitor ? `${competitor} has links you don't. Each of those sites already knows they need tools like yours — they're pre-qualified prospects.` : 'Enter a competitor domain above to see exactly which sites link to them but not to you.',
-      tags: competitor ? ['🕵️ Competitor intel', '⚡ Quick wins'] : ['🔍 Add competitor above'],
-      tip: competitor ? `These sites already link to competitors — they're warm prospects. Lead with: "I noticed you mentioned ${competitor} — here's why [your tool] might be a better fit for your audience..."` : 'Add a competitor domain in the search bar above to unlock this feature.'
-    },
-    {
-      type: 'pr',
-      title: 'PR + affiliate combo strategy',
-      desc: 'Work inside PR and affiliate networks. When someone Googles "best [your category]" you want to show up everywhere — organic, paid, and in AI results simultaneously.',
-      tags: ['📰 PR strategy', '🤖 AI mentions'],
-      tip: `Create a free tool, dataset, or study that journalists and bloggers want to link to. Even a simple "State of [your niche] 2026" report can generate 50+ editorial links from people citing your data.`
+      "type": "listicle|blog|directory|press",
+      "title": "specific outreach target description",
+      "why": "why this is valuable",
+      "email_subject": "specific email subject line",
+      "email_body": "personalized 3-sentence email pitch"
     }
-  ];
+  ] (4 targets),
+  "quick_wins": ["3 specific quick win actions they can take this week"]
+}`
+        }]
+      })
+    });
 
-  document.getElementById('outreach-list').innerHTML = outreachTargets.map(t => `
-    <div class="outreach-card">
-      <div class="outreach-domain">${t.title}</div>
-      <div class="outreach-meta" style="margin-bottom:8px;">${t.desc}</div>
-      <div class="outreach-tags">${t.tags.map(tag => `<span class="tag tag-outreach">${tag}</span>`).join('')}</div>
-      <div class="outreach-tip">💡 <b>How to execute:</b> ${t.tip}</div>
-    </div>`).join('');
+    const data = await response.json();
+    const text = data.content[0].text;
+    let ai;
+    try {
+      ai = JSON.parse(text.replace(/```json|```/g, '').trim());
+    } catch(e) {
+      throw new Error('AI parse error');
+    }
 
-  // Add high-DA referring domains as extra outreach targets
-  if(domains.length > 0) {
-    const topDomains = domains.filter(d => d.domain_authority >= 40).slice(0, 5);
-    if(topDomains.length > 0) {
-      document.getElementById('outreach-list').insertAdjacentHTML('beforeend', `
-        <div style="margin-top:1.5rem;margin-bottom:8px;font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Sites already linking to you (high DA — ask for more links)</div>
-        ${topDomains.map(d => `
+    const typeColors = {listicle:'#2563eb', blog:'#16a34a', directory:'#7c3aed', press:'#f59e0b'};
+    const typeLabels = {listicle:'📋 Listicle', blog:'✍️ Blog', directory:'📁 Directory', press:'📰 Press'};
+
+    outreachList.innerHTML = `
+      <div class="playbook-card" style="margin-bottom:1.5rem;">
+        <div class="playbook-title">🤖 AI Analysis: ${ai.industry}</div>
+        <div class="playbook-sub">${ai.niche}</div>
+        <div class="playbook-steps">
+          ${ai.quick_wins.map((w,i) => `<div class="playbook-step"><div class="step-num">Quick win ${i+1}</div><div class="step-desc">${w}</div></div>`).join('')}
+        </div>
+      </div>
+
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">🔍 Search these on Google to find outreach targets:</div>
+        ${ai.listicle_keywords.map(kw => `
+          <a href="https://www.google.com/search?q=${encodeURIComponent(kw)}" target="_blank" 
+             style="display:inline-block;margin:4px;padding:6px 14px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;font-size:13px;color:#2563eb;text-decoration:none;font-weight:600;">
+            🔍 ${kw} →
+          </a>`).join('')}
+      </div>
+
+      <div style="font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;margin-top:1.5rem;">📧 Personalized outreach targets & emails:</div>
+
+      ${ai.outreach_targets.map((t,i) => `
+        <div class="outreach-card" style="border-color:${typeColors[t.type]||'#2563eb'};">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <div class="outreach-domain">${t.title}</div>
+            <span class="tag tag-outreach" style="background:${typeColors[t.type]}20;color:${typeColors[t.type]}">${typeLabels[t.type]||t.type}</span>
+          </div>
+          <div class="outreach-meta">${t.why}</div>
+          <div style="background:#f9fafb;border-radius:8px;padding:12px;margin-top:10px;font-size:13px;">
+            <div style="font-weight:700;color:#374151;margin-bottom:6px;">📧 Ready-to-send email:</div>
+            <div style="color:#6b7280;margin-bottom:4px;font-size:12px;"><b>Subject:</b> ${t.email_subject}</div>
+            <div style="color:#374151;line-height:1.7;white-space:pre-line;">${t.email_body}</div>
+          </div>
+          <button onclick="copyEmail(${i})" data-subject="${t.email_subject.replace(/"/g,'&quot;')}" data-body="${t.email_body.replace(/"/g,'&quot;').replace(/
+/g,'\n')}"
+            style="margin-top:10px;padding:7px 16px;background:#2563eb;color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:700;cursor:pointer;">
+            📋 Copy email
+          </button>
+        </div>`).join('')}
+
+      ${domains.filter(d => d.domain_authority >= 40).length > 0 ? `
+        <div style="margin-top:1.5rem;margin-bottom:8px;font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">💪 High-DA sites already linking to you — ask for more!</div>
+        ${domains.filter(d => d.domain_authority >= 40).slice(0,3).map(d => `
           <div class="outreach-card" style="border-color:#16a34a;">
             <div class="outreach-domain"><a href="https://${d.domain}" target="_blank" style="color:#1a1a1a;text-decoration:none;">${d.domain}</a> <span style="font-size:12px;color:#16a34a;font-weight:600;">DA ${d.domain_authority}</span></div>
-            <div class="outreach-meta">Already links to you — ask them to link to more of your pages or mention you in new content.</div>
-            <div class="outreach-tip">💡 They already like you! Reach out to deepen the relationship: offer exclusive content, data, or a partnership.</div>
-          </div>`).join('')}`);
-    }
+            <div class="outreach-meta">Already links to you — deepen the relationship!</div>
+            <div class="outreach-tip">💡 They already like you. Pitch them a guest post, exclusive data, or ask them to mention you in new content they publish.</div>
+          </div>`).join('')}` : ''}`;
+
+  } catch(e) {
+    outreachList.innerHTML = `<div style="background:#fff;border-left:4px solid #f59e0b;border-radius:8px;padding:1rem 1.25rem;font-size:14px;">
+      ⚠️ AI analysis unavailable. <b>Manual strategy:</b> Search Google for "best [your product category] tools" and reach out to the top 10 results asking to be included.
+    </div>`;
   }
+}
+
+function copyEmail(idx) {
+  const btn = document.querySelectorAll('[data-subject]')[idx];
+  const subject = btn.getAttribute('data-subject');
+  const body = btn.getAttribute('data-body').replace(/\n/g, '
+');
+  navigator.clipboard.writeText(`Subject: ${subject}
+
+${body}`).then(() => {
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = '📋 Copy email', 2000);
+  });
 }
 
 document.getElementById('target-input').addEventListener('keydown', e => { if(e.key==='Enter') analyze(); });
