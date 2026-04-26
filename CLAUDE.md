@@ -9,6 +9,18 @@ Deployed via: **Vercel** — auto-deploys on every push to `main`
 
 ---
 
+## Access & ownership rule — Claude does everything directly
+
+**Never ask the user to manually run migrations, update configs, or touch any service dashboard.** Always ask for the credentials/access needed and do it directly. If access is missing, ask for it once — then store it in context and never ask again for the same project.
+
+Services used and what to ask for if access is needed:
+- **Supabase SQL migrations** → need `SUPABASE_PROJECT_REF` (project ID from dashboard URL) + Supabase personal access token
+- **Vercel env vars** → need Vercel personal access token + team/project slug
+- **DNS / domain** → ask for provider + credentials if needed
+- **LemonSqueezy / Stripe** → API keys already in Vercel env vars; ask if direct dashboard changes needed
+
+---
+
 ## Deployment rule — ALWAYS push live
 
 **After every change, always commit and push to `main`.** Do not stop at local edits.
