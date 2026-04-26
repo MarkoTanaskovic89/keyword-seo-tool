@@ -1,11 +1,55 @@
+const PLAN_LIMITS = { free: 3, basic: 1000, pro: 10000 };
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const SERPER_KEY = process.env.SERPER_API_KEY;
   const MOZ_TOKEN = process.env.MOZ_API_TOKEN;
+  const SUPABASE_URL = process.env.SUPABASE_URL;
+  const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+  const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  // --- Auth & plan enforcement ---
+  const token = (req.headers.authorization || '').replace('Bearer ', '').trim();
+  if (!token) {
+    return res.status(401).json({ error: 'Please sign in to use the SERP Analyzer.', code: 'unauthenticated' });
+  }
+
+  // Verify token and get user email
+  const userRes = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    headers: { 'Authorization': `Bearer ${token}`, 'apikey': SUPABASE_ANON_KEY }
+  });
+  const userData = await userRes.json();
+  if (!userData.email) {
+    return res.status(401).json({ error: 'Session expired. Please sign in again.', code: 'unauthenticated' });
+  }
+  const email = userData.email;
+
+  // Get plan + usage from users table
+  const dbRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email)}&select=plan,serp_checks_used,serp_checks_month`,
+    { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}` } }
+  );
+  const dbData = await dbRes.json();
+  const user = Array.isArray(dbData) ? dbData[0] : {};
+
+  const plan = user.plan || 'free';
+  const limit = PLAN_LIMITS[plan] || PLAN_LIMITS.free;
+  const currentMonth = new Date().toISOString().slice(0, 7); // e.g. "2026-04"
+  const checksUsed = user.serp_checks_month === currentMonth ? (user.serp_checks_used || 0) : 0;
+
+  if (checksUsed >= limit) {
+    return res.status(429).json({
+      error: `You've used all ${limit} SERP check${limit === 1 ? '' : 's'} this month on the ${plan} plan. Upgrade to get more.`,
+      code: 'limit_reached',
+      limit,
+      used: checksUsed,
+      plan
+    });
+  }
 
   const SKIP_DOMAINS = [
     'reddit.com', 'youtube.com', 'youtu.be', 'quora.com', 'wikipedia.org',
@@ -167,7 +211,22 @@ Respond ONLY with valid JSON:
       console.log('AI error:', e.message);
     }
 
-    return res.status(200).json({ keyword, results, gapAnalysis });
+    // Increment usage counter
+    await fetch(
+      `${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(email)}`,
+      {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ serp_checks_used: checksUsed + 1, serp_checks_month: currentMonth })
+      }
+    );
+
+    return res.status(200).json({ keyword, results, gapAnalysis, usage: { used: checksUsed + 1, limit, plan } });
 
   } catch(error) {
     console.error('SERP error:', error);

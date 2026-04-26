@@ -132,6 +132,8 @@ footer a{color:#2563eb;text-decoration:none;}
     <p style="margin-top:1rem;color:#6b7280;" id="loading-text">Fetching top 10 Google results...</p>
   </div>
 
+  <div id="error-banner" style="display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;font-size:14px;color:#991b1b;"></div>
+
   <div id="results-section" style="display:none;">
     <div id="gap-section"></div>
     <div class="results-card">
@@ -160,15 +162,29 @@ let resultsData = [];
 document.getElementById('analyze-btn').addEventListener('click', analyze);
 document.getElementById('keyword-input').addEventListener('keydown', e => { if(e.key === 'Enter') analyze(); });
 
+function showError(html) {
+  const el = document.getElementById('error-banner');
+  el.innerHTML = html;
+  el.style.display = 'block';
+  document.getElementById('results-section').style.display = 'none';
+}
+
+function clearError() {
+  document.getElementById('error-banner').style.display = 'none';
+}
+
 async function analyze() {
   const keyword = document.getElementById('keyword-input').value.trim();
   const domain = document.getElementById('domain-input').value.trim().replace(/^https?:\/\//, '').replace(/\/$/, '');
   if (!keyword) { alert('Please enter a keyword.'); return; }
 
+  const token = localStorage.getItem('maximus_token') || '';
+
   document.getElementById('analyze-btn').disabled = true;
   document.getElementById('results-section').style.display = 'none';
   document.getElementById('loading').style.display = 'block';
   document.getElementById('loading-text').textContent = 'Fetching top 10 Google results...';
+  clearError();
 
   try {
     setTimeout(() => { document.getElementById('loading-text').textContent = 'Analyzing competitor pages...'; }, 3000);
@@ -177,17 +193,26 @@ async function analyze() {
 
     const res = await fetch('/api/serp', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
       body: JSON.stringify({ keyword, your_domain: domain })
     });
     const data = await res.json();
+
+    if (res.status === 401 || data.code === 'unauthenticated') {
+      showError('🔒 Please <a href="/keyword-tool" style="color:#991b1b;font-weight:700;">sign in</a> to use the SERP Analyzer.');
+      return;
+    }
+    if (res.status === 429 || data.code === 'limit_reached') {
+      showError('⚠️ ' + data.error + ' <a href="/#pricing" style="color:#991b1b;font-weight:700;">View plans →</a>');
+      return;
+    }
     if (data.error) throw new Error(data.error);
 
     resultsData = data.results || [];
     renderResults(data, keyword);
 
   } catch(e) {
-    alert('Error: ' + e.message);
+    showError('Something went wrong: ' + e.message);
   }
   document.getElementById('loading').style.display = 'none';
   document.getElementById('analyze-btn').disabled = false;
@@ -208,7 +233,11 @@ function wc(n) {
 
 function renderResults(data, keyword) {
   document.getElementById('results-title').textContent = 'Top 10 results for "' + keyword + '"';
-  document.getElementById('results-sub').textContent = 'Sorted by Google ranking position. Click column headers to sort.';
+  const usage = data.usage;
+  const subText = usage
+    ? 'Sorted by Google ranking position. · ' + usage.used + ' of ' + usage.limit + ' SERP checks used this month (' + usage.plan + ' plan)'
+    : 'Sorted by Google ranking position.';
+  document.getElementById('results-sub').textContent = subText;
 
   // Gap analysis card
   const gap = data.gapAnalysis;
