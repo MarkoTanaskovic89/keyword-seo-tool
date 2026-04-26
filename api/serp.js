@@ -4,9 +4,14 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const GOOGLE_KEY = process.env.GOOGLE_SEARCH_API_KEY;
-  const SEARCH_ENGINE_ID = '022a643942c6e431d';
+  const SERPER_KEY = process.env.SERPER_API_KEY;
   const MOZ_TOKEN = process.env.MOZ_API_TOKEN;
+
+  const SKIP_DOMAINS = [
+    'reddit.com', 'youtube.com', 'youtu.be', 'quora.com', 'wikipedia.org',
+    'pinterest.com', 'facebook.com', 'twitter.com', 'x.com', 'instagram.com',
+    'tiktok.com', 'linkedin.com', 'amazon.com', 'ebay.com', 'etsy.com'
+  ];
 
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch(e) {} }
@@ -15,15 +20,24 @@ module.exports = async function handler(req, res) {
   if (!keyword) return res.status(400).json({ error: 'Keyword required' });
 
   try {
-    // Step 1: Google Custom Search - get top 10
-    const searchUrl = `https://www.googleapis.com/customsearch/v1?key=${GOOGLE_KEY}&cx=${SEARCH_ENGINE_ID}&q=${encodeURIComponent(keyword)}&num=10`;
-    const searchRes = await fetch(searchUrl);
-    const searchData = await searchRes.json();
+    // Step 1: Serper.dev - get top results, filter out social/aggregator noise
+    const serpRes = await fetch('https://google.serper.dev/search', {
+      method: 'POST',
+      headers: { 'X-API-KEY': SERPER_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ q: keyword, num: 20, gl: 'us', hl: 'en' })
+    });
+    const serpData = await serpRes.json();
 
-    console.log('Google Search response:', JSON.stringify(searchData).slice(0, 500));
-    if (searchData.error) return res.status(400).json({ error: searchData.error.message + ' | code: ' + searchData.error.code + ' | status: ' + searchData.error.status });
+    if (serpData.error) return res.status(400).json({ error: serpData.error });
 
-    const items = searchData.items || [];
+    const allItems = (serpData.organic || []).map(r => ({ link: r.link, title: r.title, snippet: r.snippet }));
+    const items = allItems.filter(item => {
+      try {
+        const domain = new URL(item.link).hostname.replace('www.', '');
+        return !SKIP_DOMAINS.some(skip => domain.endsWith(skip));
+      } catch(e) { return false; }
+    }).slice(0, 10);
+
     if (!items.length) return res.status(200).json({ results: [] });
 
     // Step 2: Get DA for all domains via Moz
@@ -124,7 +138,7 @@ module.exports = async function handler(req, res) {
           'anthropic-version': '2023-06-01'
         },
         body: JSON.stringify({
-          model: 'claude-opus-4-5',
+          model: 'claude-haiku-4-5-20251001',
           max_tokens: 800,
           messages: [{
             role: 'user',
