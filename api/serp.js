@@ -28,7 +28,10 @@ module.exports = async function handler(req, res) {
     });
     const serpData = await serpRes.json();
 
-    if (serpData.error) return res.status(400).json({ error: serpData.error });
+    if (!serpRes.ok || serpData.error || serpData.message) {
+      const msg = serpData.error || serpData.message || `Serper API error (${serpRes.status})`;
+      return res.status(400).json({ error: msg });
+    }
 
     const allItems = (serpData.organic || []).map(r => ({ link: r.link, title: r.title, snippet: r.snippet }));
     const items = allItems.filter(item => {
