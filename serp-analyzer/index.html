@@ -79,12 +79,43 @@ header{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 2rem;height:64p
 .metric-pill .tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#1a1a1a;}
 .metric-pill:hover .tip{visibility:visible;opacity:1;}
 
-.da-bar{width:60px;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;display:inline-block;vertical-align:middle;margin-left:4px;}
-.da-fill{height:100%;border-radius:3px;}
-
 .you-badge{font-size:11px;font-weight:700;background:#2563eb;color:#fff;padding:2px 8px;border-radius:10px;margin-left:8px;}
-
 .btn-export{padding:7px 14px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;}
+
+/* Error banner for non-auth errors */
+.error-banner{display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;font-size:14px;color:#991b1b;}
+
+/* Auth modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;padding:2.5rem;width:100%;max-width:420px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+.modal-close{position:absolute;top:16px;right:18px;font-size:24px;cursor:pointer;color:#9ca3af;background:none;border:none;line-height:1;padding:4px;}
+.modal-close:hover{color:#374151;}
+.modal-icon{width:52px;height:52px;background:#eff6ff;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 1.25rem;}
+.modal h2{font-size:22px;font-weight:800;text-align:center;margin-bottom:6px;}
+.modal-sub{font-size:14px;color:#6b7280;text-align:center;margin-bottom:1.5rem;line-height:1.5;}
+.modal-tabs{display:flex;background:#f3f4f6;border-radius:10px;padding:4px;margin-bottom:1.5rem;gap:4px;}
+.modal-tab{flex:1;padding:8px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:#6b7280;transition:all .15s;}
+.modal-tab.active{background:#fff;color:#1a1a1a;box-shadow:0 1px 4px rgba(0,0,0,.1);}
+.btn-google{width:100%;height:46px;border:1.5px solid #e5e7eb;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;gap:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:1rem;transition:border-color .15s,box-shadow .15s;}
+.btn-google:hover{border-color:#9ca3af;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+.divider{display:flex;align-items:center;gap:10px;margin-bottom:1rem;color:#9ca3af;font-size:13px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e5e7eb;}
+.modal input[type=email],.modal input[type=password]{width:100%;height:46px;padding:0 14px;font-size:15px;border:1.5px solid #d1d5db;border-radius:10px;margin-bottom:12px;outline:none;display:block;}
+.modal input:focus{border-color:#2563eb;}
+.modal-btn{width:100%;height:46px;font-size:15px;font-weight:700;background:#2563eb;color:#fff;border:none;border-radius:10px;cursor:pointer;margin-bottom:1rem;}
+.modal-btn:hover{background:#1d4ed8;}
+.modal-btn:disabled{background:#9ca3af;cursor:not-allowed;}
+.modal-error{font-size:13px;color:#dc2626;background:#fef2f2;border-radius:8px;padding:10px 12px;margin-bottom:12px;display:none;}
+.modal-switch{font-size:14px;color:#6b7280;text-align:center;}
+.modal-switch a{color:#2563eb;cursor:pointer;font-weight:600;}
+.modal-switch a:hover{text-decoration:underline;}
+
+/* Upgrade modal */
+.upgrade-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;padding:1rem;}
+.upgrade-modal.open{display:flex;}
+.upgrade-card{background:#fff;border-radius:20px;padding:2.5rem;width:100%;max-width:420px;position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.2);text-align:center;}
+.upgrade-card .modal-close{position:absolute;top:16px;right:18px;}
 
 footer{text-align:center;padding:2rem;font-size:14px;color:#9ca3af;border-top:1px solid #e5e7eb;margin-top:2rem;}
 footer a{color:#2563eb;text-decoration:none;}
@@ -93,6 +124,7 @@ footer a{color:#2563eb;text-decoration:none;}
   .input-row{flex-direction:column;}
   .gap-grid{grid-template-columns:repeat(2,1fr);}
   .result-metrics{gap:5px;}
+  .modal{padding:1.75rem;}
 }
 </style>
 </head>
@@ -132,7 +164,7 @@ footer a{color:#2563eb;text-decoration:none;}
     <p style="margin-top:1rem;color:#6b7280;" id="loading-text">Fetching top 10 Google results...</p>
   </div>
 
-  <div id="error-banner" style="display:none;background:#fee2e2;border:1px solid #fca5a5;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;font-size:14px;color:#991b1b;"></div>
+  <div id="error-banner" class="error-banner"></div>
 
   <div id="results-section" style="display:none;">
     <div id="gap-section"></div>
@@ -156,22 +188,149 @@ footer a{color:#2563eb;text-decoration:none;}
   <a href="https://www.markotanaskovic.com/blog/privacy-policy" target="_blank">Privacy Policy</a>
 </footer>
 
+<!-- Auth modal -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAuthModal()">&#215;</button>
+    <div class="modal-icon">🔍</div>
+    <h2>Sign in to analyze</h2>
+    <p class="modal-sub">Free account includes 3 SERP checks. No credit card needed.</p>
+
+    <div class="modal-tabs">
+      <button class="modal-tab active" id="tab-login" onclick="switchTab('login')">Sign in</button>
+      <button class="modal-tab" id="tab-signup" onclick="switchTab('signup')">Create account</button>
+    </div>
+
+    <button class="btn-google" onclick="signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continue with Google
+    </button>
+
+    <div class="divider">or</div>
+
+    <div class="modal-error" id="auth-error"></div>
+
+    <div id="form-login">
+      <input type="email" id="login-email" placeholder="Email address" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <button class="modal-btn" id="login-btn" onclick="doLogin()">Sign in</button>
+      <div class="modal-switch">Don't have an account? <a onclick="switchTab('signup')">Sign up free</a></div>
+    </div>
+
+    <div id="form-signup" style="display:none;">
+      <input type="email" id="signup-email" placeholder="Email address" />
+      <input type="password" id="signup-password" placeholder="Password (min 6 characters)" />
+      <button class="modal-btn" id="signup-btn" onclick="doSignup()">Create free account</button>
+      <div class="modal-switch">Already have an account? <a onclick="switchTab('login')">Sign in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- Limit reached modal -->
+<div class="upgrade-modal" id="upgrade-modal">
+  <div class="upgrade-card">
+    <button class="modal-close" onclick="closeUpgradeModal()">&#215;</button>
+    <div style="font-size:48px;margin-bottom:1rem;">⚡</div>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:8px;">You've hit your limit</h2>
+    <p class="modal-sub" id="upgrade-msg" style="margin-bottom:1.5rem;"></p>
+    <a href="/#pricing" style="display:block;width:100%;padding:13px;background:#2563eb;color:#fff;border-radius:10px;font-size:15px;font-weight:700;text-decoration:none;margin-bottom:10px;">Upgrade my plan →</a>
+    <button onclick="closeUpgradeModal()" style="width:100%;padding:11px;background:#f3f4f6;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#374151;">Maybe later</button>
+  </div>
+</div>
+
 <script>
 let resultsData = [];
 
+// Handle Google OAuth redirect callback
+(function() {
+  const hash = window.location.hash;
+  if (hash.includes('access_token')) {
+    const params = new URLSearchParams(hash.substring(1));
+    const token = params.get('access_token');
+    if (token) {
+      localStorage.setItem('maximus_token', token);
+      history.replaceState(null, '', window.location.pathname);
+    }
+  }
+})();
+
 document.getElementById('analyze-btn').addEventListener('click', analyze);
 document.getElementById('keyword-input').addEventListener('keydown', e => { if(e.key === 'Enter') analyze(); });
+document.getElementById('auth-modal').addEventListener('click', e => { if(e.target === document.getElementById('auth-modal')) closeAuthModal(); });
+document.getElementById('upgrade-modal').addEventListener('click', e => { if(e.target === document.getElementById('upgrade-modal')) closeUpgradeModal(); });
 
-function showError(html) {
+function openAuthModal(tab) {
+  switchTab(tab || 'login');
+  document.getElementById('auth-modal').classList.add('open');
+}
+function closeAuthModal() { document.getElementById('auth-modal').classList.remove('open'); }
+function openUpgradeModal(msg) {
+  document.getElementById('upgrade-msg').textContent = msg;
+  document.getElementById('upgrade-modal').classList.add('open');
+}
+function closeUpgradeModal() { document.getElementById('upgrade-modal').classList.remove('open'); }
+
+function switchTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('form-login').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('form-signup').style.display = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('auth-error').style.display = 'none';
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function signInWithGoogle() {
+  const redirectTo = encodeURIComponent(window.location.href.split('#')[0]);
+  window.location.href = 'https://vvthryegcweoqzidrpnf.supabase.co/auth/v1/authorize?provider=google&redirect_to=' + redirectTo;
+}
+
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  if (!email || !password) { showAuthError('Please fill in all fields.'); return; }
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true; btn.textContent = 'Signing in...';
+  try {
+    const res = await fetch('/api/auth', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'login', email, password }) });
+    const data = await res.json();
+    if (data.error) { showAuthError(data.error); return; }
+    localStorage.setItem('maximus_token', data.token);
+    closeAuthModal();
+    analyze();
+  } catch(e) { showAuthError('Something went wrong. Please try again.'); }
+  finally { btn.disabled = false; btn.textContent = 'Sign in'; }
+}
+
+async function doSignup() {
+  const email = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-password').value;
+  if (!email || !password) { showAuthError('Please fill in all fields.'); return; }
+  if (password.length < 6) { showAuthError('Password must be at least 6 characters.'); return; }
+  const btn = document.getElementById('signup-btn');
+  btn.disabled = true; btn.textContent = 'Creating account...';
+  try {
+    const res = await fetch('/api/auth', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ action:'signup', email, password, gdpr_consent: true }) });
+    const data = await res.json();
+    if (data.error) { showAuthError(data.error); return; }
+    localStorage.setItem('maximus_token', data.token);
+    closeAuthModal();
+    analyze();
+  } catch(e) { showAuthError('Something went wrong. Please try again.'); }
+  finally { btn.disabled = false; btn.textContent = 'Create free account'; }
+}
+
+function showError(msg) {
   const el = document.getElementById('error-banner');
-  el.innerHTML = html;
+  el.textContent = msg;
   el.style.display = 'block';
   document.getElementById('results-section').style.display = 'none';
 }
-
-function clearError() {
-  document.getElementById('error-banner').style.display = 'none';
-}
+function clearError() { document.getElementById('error-banner').style.display = 'none'; }
 
 async function analyze() {
   const keyword = document.getElementById('keyword-input').value.trim();
@@ -199,11 +358,15 @@ async function analyze() {
     const data = await res.json();
 
     if (res.status === 401 || data.code === 'unauthenticated') {
-      showError('🔒 Please <a href="/keyword-tool" style="color:#991b1b;font-weight:700;">sign in</a> to use the SERP Analyzer.');
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('analyze-btn').disabled = false;
+      openAuthModal('login');
       return;
     }
     if (res.status === 429 || data.code === 'limit_reached') {
-      showError('⚠️ ' + data.error + ' <a href="/#pricing" style="color:#991b1b;font-weight:700;">View plans →</a>');
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('analyze-btn').disabled = false;
+      openUpgradeModal(data.error);
       return;
     }
     if (data.error) throw new Error(data.error);
@@ -227,7 +390,6 @@ function daColor(da) {
 
 function wc(n) {
   if (!n) return '—';
-  if (n >= 2000) return n.toLocaleString() + ' words';
   return n.toLocaleString() + ' words';
 }
 
@@ -239,7 +401,6 @@ function renderResults(data, keyword) {
     : 'Sorted by Google ranking position.';
   document.getElementById('results-sub').textContent = subText;
 
-  // Gap analysis card
   const gap = data.gapAnalysis;
   if (gap) {
     document.getElementById('gap-section').innerHTML =
@@ -258,7 +419,6 @@ function renderResults(data, keyword) {
       '</div>';
   }
 
-  // Results list
   document.getElementById('results-list').innerHTML = data.results.map(r => {
     const posClass = r.position === 1 ? 'pos1' : r.position <= 3 ? 'top3' : '';
     const da = r.domain_authority;
